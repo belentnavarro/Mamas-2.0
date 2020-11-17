@@ -23,7 +23,7 @@ class Person {
     private $lastLogin;
     private $active;
     
-    function __construct($dni, $nombre, $suername, $email, $password, $profilePhoto, $registerDate, $lastLogin, $active) {
+    function __construct($dni, $name, $surname, $email, $password, $profilePhoto, $registerDate, $lastLogin, $active) {
         $this->dni = $dni;
         $this->name = $name;
         $this->surname = $surname;
@@ -129,7 +129,7 @@ class Person {
     }
     
     function __toString() {
-        $cadena = 'Persona [DNI: '. $dni . ' Nombre ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email . 
+        $cadena = 'Persona [DNI: '. $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email . 
                 'Foto de perfil: ' . $this->profilePhoto . 'Se registro el ' . $this->registerDate . ' y su último login fue: ' . $this->lastLogin . '. Activo: ' . $this->active . ' Roles:  \n';
         foreach($this->rols as $rol){
             $cadena = $cadena . ' - ' . $asignatura . '</br>';

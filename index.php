@@ -49,18 +49,18 @@ and open the template in the editor.
                             <img src="Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <form class="text-center p-5" action="Controller/controller.php">
+                            <form name="login" class="text-center p-5" action="Controller/controller_access.php" method="POST">
 
                                 <p class="h4 mb-4">Iniciar sesión</p>
 
                                 <!-- Correo -->
-                                <input type="email" class="form-control mb-4" placeholder="E-mail" name="correo">
+                                <input type="email" class="form-control mb-4" placeholder="E-mail" name="email">
 
                                 <!-- Password -->
-                                <input type="password" class="form-control mb-4" placeholder="Password" name="correo">
+                                <input type="password" class="form-control mb-4" placeholder="Password" name="password">
 
                                 <!-- Inicio de sesion -->
-                                <button class="btn btn--g-medium btn-block my-4" type="submit" value="iniciar_sesion">Iniciar sesion</button>
+                                <button class="btn btn--g-medium btn-block my-4" type="submit" name="login" value="login">Iniciar sesion</button>
                             </form>
                         </div>
                     </div>

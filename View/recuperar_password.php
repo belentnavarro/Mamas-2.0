@@ -39,7 +39,7 @@ and open the template in the editor.
             </div>
         </div>
 
-        <!-- Login -->
+        <!-- Recuperar contraseña -->
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-7">
@@ -49,20 +49,26 @@ and open the template in the editor.
                             <img src="../Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <form class="text-center p-5" action="../Controller/controller.php">
+                            <form name="recuperar_contraseña" class="text-center p-5" action="../Controller/controller_access.php" method="POST">
 
                                 <p class="h4 mb-4">Recuperar contraseña</p>
                                 <!-- Correo -->
-                                <input type="email" class="form-control mb-4" placeholder="Introduce tu correo" name="correo">
+                                <input type="email" class="form-control mb-4" placeholder="Introduce tu correo" name="email">
 
-                                <!-- Inicio de sesion -->
-                                <button class="btn btn--g-medium btn-block my-4" type="submit" value="recuperar_contraseña">Recuperar contraseña</button>
+                                <!-- Boton para recuperar la contraseña -->
+                                <button class="btn btn--g-medium btn-block my-4" type="submit" name="forgot_password" value="forgot_password">Recuperar contraseña</button>
                             </form>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <!-- Enlaces para recuperar la contraseña y crear nueva cuenta -->
-                        <div class="col-6">
+                                                <div class="col-6">
+                            <svg class="bi" width="20" height="20" fill="currentColor">
+                            <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
+                            </svg>
+                            <a href="../index.php" class="text--o-light"><small>Volver al inicio de sesión</small></a>                        
+                        </div>
+                        <div class="col-6 text-right">
                             <a href="../View/registro.php" class="text--o-light"><small>Crear una nueva cuenta</small></a>
                         </div>
                     </div>

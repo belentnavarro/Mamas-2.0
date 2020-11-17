@@ -39,7 +39,7 @@ and open the template in the editor.
             </div>
         </div>
 
-        <!-- Login -->
+        <!-- Registro -->
         <div class="container mb-5">
             <div class="row justify-content-center align-items-center">
                 <div class="col-7">
@@ -49,36 +49,36 @@ and open the template in the editor.
                             <img src="../Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <form class="text-center p-5" action="Controller/controller.php">
+                            <form name="registro" class="text-center p-5" action="../Controller/controller_access.php" method="POST" enctype="multipart/form-data">
                                 
                                 <p class="h4 mb-4">Registro</p>
 
-                                <!-- Correo -->
+                                <!-- DNI -->
                                 <input type="text" class="form-control mb-4" placeholder="DNI" name="dni">
 
                                 <!-- Nombre -->
-                                <input type="text" class="form-control mb-4" placeholder="Nombre" name="nombre">
+                                <input type="text" class="form-control mb-4" placeholder="Nombre" name="name">
 
                                 <!-- Apellido -->
-                                <input type="email" class="form-control mb-4" placeholder="Apellido" name="apellido">
+                                <input type="text" class="form-control mb-4" placeholder="Apellido" name="surname">
 
                                 <!-- Correo -->
-                                <input type="email" class="form-control mb-4" placeholder="E-mail" name="correo">
+                                <input type="email" class="form-control mb-4" placeholder="E-mail" name="email">
 
                                 <!-- Password -->
-                                <input type="password" class="form-control mb-4" placeholder="Password" name="correo">
+                                <input type="password" class="form-control mb-4" placeholder="Password" name="password">
                                 
-                                <!-- Password -->
-                                <input type="file" class="form-control-file mb-4" name="correo">
+                                <!-- Imagen de perfil -->
+                                <input type="file" class="form-control-file mb-4" name="profile_img">
 
-                                <!-- Inicio de sesion -->
-                                <button class="btn btn--g-medium btn-block my-4" type="submit" value="iniciar_sesion">Registrar</button>
+                                <!-- Botón de registroi -->
+                                <button class="btn btn--g-medium btn-block my-4" type="submit" name="register_user" value="register_user">Registrar</button>
 
                             </form>
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <!-- Enlaces para recuperar la contraseña y crear nueva cuenta -->
+                        <!-- Enlaces para recuperar la contraseña y volver al inicio-->
                         <div class="col-6">
                             <svg class="bi" width="20" height="20" fill="currentColor">
                             <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
