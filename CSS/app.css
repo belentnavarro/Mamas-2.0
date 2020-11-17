@@ -1,0 +1,79 @@
+/* 
+    Created on : 16-nov-2020, 19:40:37
+    Author     : belentnavarro
+*/
+
+/*** Definicion de variables ***/
+:root {
+    /* Colores */
+  --g-dark: #16594A;
+  --g-medium: #12928E;
+  --g-light: #97CECC;
+  --o-dark: #C4421A;
+  --o-light: #F98f45;
+  
+  /* Tipografía para titulares */
+  --font-family-poppins: Poppins, Roboto, Arial, sans-serif;
+  
+  /* Tipografía textos */
+  --font-family-raleway: Raleway, Roboto, Arial, sans-serif;
+}
+
+/* Colores de Fondo*/
+.bg--g-dark {
+    background-color: var(--g-dark);
+}
+
+.bg--g-medium {
+    background-color: var(--g-medium);
+}
+
+.bg--g-light {
+    background-color: var(--g-light);
+}
+
+.bg--o-dark {
+    background-color: var(--o-dark);
+}
+
+.bg--o-light {
+    background-color: var(--o-light);
+}
+
+/* Colores de texto */
+.text--g-dark {
+    color: var(--g-dark);
+}
+
+.text--g-medium {
+    color: var(--g-medium);
+}
+
+.text--g-light {
+    color: var(--g-light);
+}
+
+.text--o-dark {
+    color: var(--o-dark);
+}
+
+.text--o-light {
+    color: var(--o-light);
+}
+
+/* Familias tipográficas */
+.ff-poppins {
+    font-family: var(--font-family-poppins);
+}
+
+.ff-raleway {
+    font-family: var(--font-family-raleway);
+}
+
+/*** Estilos generales ***/
+body {
+    font-family: var(--font-family-raleway);
+    /* Se estable la media de 1 rem en 16px */
+    font-size: 16px;
+}
+
