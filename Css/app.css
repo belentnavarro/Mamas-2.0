@@ -1,0 +1,107 @@
+/* 
+    Created on : 16-nov-2020, 19:40:37
+    Author     : belentnavarro
+*/
+
+/*** Definicion de variables ***/
+:root {
+    /* Colores */
+  --g-dark: #16594A;
+  --g-medium: #12928E;
+  --g-light: #97CECC;
+  --o-dark: #C4421A;
+  --o-light: #F98f45;
+  
+  /* Tipografía para titulares */
+  --font-family-poppins: Poppins, Roboto, Arial, sans-serif;
+  
+  /* Tipografía texto */
+  --font-family-raleway: Raleway, Roboto, Arial, sans-serif;
+}
+
+/* Colores de Fondo*/
+.bg--g-dark {
+    background-color: var(--g-dark);
+}
+
+.bg--g-medium {
+    background-color: var(--g-medium);
+}
+
+.bg--g-light {
+    background-color: var(--g-light);
+}
+
+.bg--o-dark {
+    background-color: var(--o-dark);
+}
+
+.bg--o-light {
+    background-color: var(--o-light);
+}
+
+/* Colores de texto */
+.text--g-dark {
+    color: var(--g-dark);
+}
+
+.text--g-medium {
+    color: var(--g-medium);
+    transition: all linear 0.2s;
+}
+
+.text--g-medium:hover {
+    color: var(--g-dark)
+}
+
+.text--g-light {
+    color: var(--g-light);
+}
+
+.text--o-dark {
+    color: var(--o-dark);
+}
+
+.text--o-light {
+    color: var(--o-light);
+}
+
+.text--o-light:hover {
+    color: var(--o-dark);
+}
+
+/* Familias tipográficas */
+.ff-poppins {
+    font-family: var(--font-family-poppins);
+}
+
+.ff-raleway {
+    font-family: var(--font-family-raleway);
+}
+
+/*** Estilos generales ***/
+body {
+    font-family: var(--font-family-raleway);
+    /* Se estable la media de 1 rem en 16px */
+    font-size: 16px;
+    background-image: url(../Img/bg_0022.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-poppins)
+}
+
+.btn--g-medium{
+    color: #FFFFFF;
+    background: var(--g-medium);
+    border-color: var(--g-medium);
+}
+
+.btn--g-medium:hover {
+    color: #FFFFFF;
+    background: var(--g-dark);
+    border-color: var(--g-medium);
+}
+
