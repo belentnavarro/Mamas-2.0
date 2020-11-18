@@ -2,6 +2,7 @@
 
 // Includes y requires
 require_once '../Model/Person.php';
+require_once '../Model/PersonDAO.php';
 
 // Inicio sesion
 session_start();
@@ -36,9 +37,13 @@ if (isset($_REQUEST['register_user'])) {
 
     // Muevo la imagen a la ruta
     move_uploaded_file($_FILES['profile_img']['tmp_name'], $img_directory . $img_name);
+    
+    // Hago la insercción a la BDD
+    PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name);
+    
+    // Envio a la pagina de usuario inactivo
+    header('Location: ../View/usuario_inactivo.php');
 
-    $p = new Person($dni, $name, $surname, $email, $password, $img_name);
-    print($p);
 }
 
 // Boton solicitar nueva contraseña

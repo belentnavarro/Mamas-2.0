@@ -27,9 +27,9 @@ class Person {
         $this->name = $name;
         $this->surname = $surname;
         $this->email = $email;
-        $this->rols = array();
         $this->password = $password;
         $this->profilePhoto = $profilePhoto;
+        $this->rols = array();
         $this->active = 0;
     }
     
