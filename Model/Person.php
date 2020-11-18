@@ -19,11 +19,10 @@ class Person {
     private $rols;
     private $password;
     private $profilePhoto;
-    private $registerDate;
-    private $lastLogin;
     private $active;
     
-    function __construct($dni, $name, $surname, $email, $password, $profilePhoto, $registerDate, $lastLogin, $active) {
+    // Metodo constructor
+    function __construct($dni, $name, $surname, $email, $password, $profilePhoto) {
         $this->dni = $dni;
         $this->name = $name;
         $this->surname = $surname;
@@ -31,11 +30,10 @@ class Person {
         $this->rols = array();
         $this->password = $password;
         $this->profilePhoto = $profilePhoto;
-        $this->registerDate = $registerDate;
-        $this->lastLogin = $lastLogin;
-        $this->active = $active;
+        $this->active = 0;
     }
     
+    // Métodos getter
     function getDni() {
         return $this->dni;
     }
@@ -64,18 +62,11 @@ class Person {
         return $this->profilePhoto;
     }
 
-    function getRegisterDate() {
-        return $this->registerDate;
-    }
-
-    function getLastLogin() {
-        return $this->lastLogin;
-    }
-
     function getActive() {
         return $this->active;
     }
 
+    // Métodos setter
     function setName($name) {
         $this->name = $name;
     }
@@ -100,14 +91,6 @@ class Person {
         $this->profilePhoto = $profilePhoto;
     }
 
-    function setRegisterDate($registerDate) {
-        $this->registerDate = $registerDate;
-    }
-
-    function setLastLogin($lastLogin) {
-        $this->lastLogin = $lastLogin;
-    }
-
     function setActive($active) {
         $this->active = $active;
     }
@@ -130,7 +113,7 @@ class Person {
     
     function __toString() {
         $cadena = 'Persona [DNI: '. $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email . 
-                'Foto de perfil: ' . $this->profilePhoto . 'Se registro el ' . $this->registerDate . ' y su último login fue: ' . $this->lastLogin . '. Activo: ' . $this->active . ' Roles:  \n';
+                'Foto de perfil: ' . $this->profilePhoto . '. Activo: ' . $this->active . ' Roles:  \n';
         foreach($this->rols as $rol){
             $cadena = $cadena . ' - ' . $asignatura . '</br>';
         }
