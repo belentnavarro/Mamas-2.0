@@ -27,7 +27,7 @@ and open the template in the editor.
 
         <!--Favicon-->
         <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
-        
+
         <title>Recuperar password</title>
     </head>
     <body>
@@ -65,7 +65,7 @@ and open the template in the editor.
                     </div>
                     <div class="row mt-3">
                         <!-- Enlaces para recuperar la contraseña y crear nueva cuenta -->
-                                                <div class="col-6">
+                        <div class="col-6">
                             <svg class="bi" width="20" height="20" fill="currentColor">
                             <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
                             </svg>

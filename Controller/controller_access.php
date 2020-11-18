@@ -10,19 +10,22 @@ session_start();
 // Botón de login
 if (isset($_REQUEST['login'])) {
     // Recupero los valores del login
-    $correo = $_REQUEST['correo'];
+    $email = $_REQUEST['email'];
     $password = $_REQUEST['password'];
     // Guardo en la sesion el correo del usuario
-    $_SESSION['correoUsuario'] = $correo;
+    $_SESSION['userEmail'] = $email;
 
-    if (GestionBDD::login($correo, $password)) {
-        // Rescatamos el rol de usuario para guardarlo
-        $rol = GestionBDD::obtenerRol($correo);
+    if (PersonDAO::login($email, $password)) {
+        // Rescatamos el dni del usuario
+        $userDni = PersonDAO::getDni($email);
+        $_SESSION['userDni'] = $userDni;
         // Guardo el rol en la sesion
-        $_SESSION['rolUsuario'] = $rol;
-        header('Location: ../vistas/tareas.php');
+        $_SESSION['userRol'] = PersonDAO::getRol($userDni);
+        print($userDni);
+        print($_SESSION['userRol']);
+        //header('Location: ../vistas/tareas.php');
     } else {
-        header('Location: ../vistas/error_login.php');
+        header('Location: ../View/login_incorrecto.php');
     }
 }
 
@@ -63,7 +66,7 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
 
         // Envio a la pagina de usuario inactivo
-        header('Location: ../View/usuario_inactivo.php');
+        header('Location: ../View/exito_registro.php');
 
     } else {
         // Captcha inválido
