@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 17-11-2020 a las 14:10:00
+-- Tiempo de generación: 17-11-2020 a las 18:39:11
 -- Versión del servidor: 8.0.22-0ubuntu0.20.04.2
 -- Versión de PHP: 7.4.3
 
@@ -36,16 +36,17 @@ CREATE TABLE `people` (
   `passwd` varchar(60) NOT NULL,
   `profilePhoto` varchar(60) NOT NULL,
   `registerDate` date NOT NULL,
-  `lastLogin` date NOT NULL
+  `lastLogin` date NOT NULL,
+  `active` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `people`
 --
 
-INSERT INTO `people` (`dni`, `name`, `surname`, `email`, `passwd`, `profilePhoto`, `registerDate`, `lastLogin`) VALUES
-('1A', 'Luis', 'Quesada Romero', 'info@luisquesadadesign.com', 'hola1A', '', '2020-11-17', '2020-11-17'),
-('2B', 'Belén', 'Trujillo Navarro', 'belentnavarro@gmail.com', 'hola2B', '', '2020-11-17', '2020-11-17');
+INSERT INTO `people` (`dni`, `name`, `surname`, `email`, `passwd`, `profilePhoto`, `registerDate`, `lastLogin`, `active`) VALUES
+('1A', 'Luis', 'Quesada Romero', 'info@luisquesadadesign.com', 'hola1A', '', '2020-11-17', '2020-11-17', 0),
+('2B', 'Belén', 'Trujillo Navarro', 'belentnavarro@gmail.com', 'hola2B', '', '2020-11-17', '2020-11-17', 0);
 
 -- --------------------------------------------------------
 
