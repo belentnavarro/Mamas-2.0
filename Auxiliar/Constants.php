@@ -11,7 +11,7 @@
  *
  * @author belentnavarro
  */
-class Constantes {
+class Constants {
     public static $DDBB = 'mamas-2.0'; // Nombre de la BBDD.
     public static $USER = 'belentnavarro'; // Usuario para acceder a ella.
     public static $PASSWORD = 'Chubaca2020'; // Contraseña para acceder a ella.
