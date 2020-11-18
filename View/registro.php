@@ -26,9 +26,22 @@ and open the template in the editor.
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700;900&display=swap" rel="stylesheet">
 
         <title>Registro nuevo usuario</title>
+        
+        <script src='https://www.google.com/recaptcha/api.js?render=6LcSW-QZAAAAAFj42hbZpWrFG8m-xbgL4qL2QUgv'> </script>
+    
+        <script>
+            grecaptcha.ready(function(){
+                grecaptcha.execute('6LcSW-QZAAAAAFj42hbZpWrFG8m-xbgL4qL2QUgv', {action: 'registro'})
+                    .then(function(token){
+                    document.getElementById('recaptchaResponse').value=token;
+               }); 
+            });
+        </script>
     </head>
     <body>
-
+        <?php
+        session_start();
+        ?>
 
         <!-- Cabecera -->
         <div class="container header-body text-center my-5">
@@ -71,9 +84,19 @@ and open the template in the editor.
                                 <!-- Imagen de perfil -->
                                 <input type="file" class="form-control-file mb-4" name="profile_img">
 
+                                <!--reCaptcha v3 -->
+                                <input type="hidden" name="recaptchaResponse" id="recaptchaResponse"/>
+                                <?php 
+                                if(isset($_SESSION['mensaje-captcha'])){
+                                    ?>
+                                    <span class="text-left text--g-dark"><?php echo $_SESSION['mensaje-captcha']; ?></span>
+                                    <?php
+                                        unset($_SESSION['mensaje-captcha']);
+                                }
+                                ?>
+                                    
                                 <!-- Botón de registroi -->
                                 <button class="btn btn--g-medium btn-block my-4" type="submit" name="register_user" value="register_user">Registrar</button>
-
                             </form>
                         </div>
                     </div>
