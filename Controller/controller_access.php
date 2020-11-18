@@ -10,12 +10,20 @@ session_start();
 // Botón de login
 if (isset($_REQUEST['login'])) {
     // Recupero los valores del login
-    $email = $_REQUEST['email'];
+    $correo = $_REQUEST['correo'];
     $password = $_REQUEST['password'];
     // Guardo en la sesion el correo del usuario
-    $_SESSION['userEmail'] = $email;
-    print($email);
-    print($password);
+    $_SESSION['correoUsuario'] = $correo;
+
+    if (GestionBDD::login($correo, $password)) {
+        // Rescatamos el rol de usuario para guardarlo
+        $rol = GestionBDD::obtenerRol($correo);
+        // Guardo el rol en la sesion
+        $_SESSION['rolUsuario'] = $rol;
+        header('Location: ../vistas/tareas.php');
+    } else {
+        header('Location: ../vistas/error_login.php');
+    }
 }
 
 // Botón registro
@@ -48,8 +56,14 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         // Ruta para guardar las imagenes
         $img_directory = '../Img/img_profile_users/';
 
-        // Muevo la imagen a la ruta
-        move_uploaded_file($_FILES['profile_img']['tmp_name'], $img_directory . $img_name);
+    // Muevo la imagen a la ruta
+    move_uploaded_file($_FILES['profile_img']['tmp_name'], $img_directory . $img_name);
+    
+    // Hago la insercción a la BDD
+    PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
+    
+    // Envio a la pagina de usuario inactivo
+    header('Location: ../View/usuario_inactivo.php');
 
         // Hago la insercción a la BDD
         PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name);

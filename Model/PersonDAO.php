@@ -78,14 +78,14 @@ class PersonDAO {
     }
 
     // Método para insertar un nuevo registro
-    static function insertPerson($dni, $name, $surname, $email, $password, $profilePhoto) {
+    static function insertPerson($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
         // Preparo la sentencia SQL
-        $query = 'INSERT INTO people (dni, name, surname, email, password, profilePhoto) VALUES (?,?,?,?,?,?);';
+        $query = 'INSERT INTO people (dni, name, surname, email, password, profilePhoto, active, rol) VALUES (?,?,?,?,?,?,?,?);';
         $stmt = GestionBDD::$conexion->prepare($query);
-        $stmt->bind_param("ssssss", $val1, $val2, $val3, $val4, $val5, $val6);
+        $stmt->bind_param("ssssssii", $val1, $val2, $val3, $val4, $val5, $val6, $val7, $val8);
 
         // Valores de la sentencia
         $val1 = strtolower($dni);
@@ -94,10 +94,48 @@ class PersonDAO {
         $val4 = strtolower($email);
         $val5 = $password;
         $val6 = $profilePhoto;
+        $val7 = $active;
+        $val8 = $rol;
 
         // Ejecuto y cierro la conexion
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
+    
+    // Método para recuperar una persona de la BDD
+    static function obtenerPersona($correo) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT * FROM people WHERE correo = ?';
+        $stmt = self::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+
+        // Valores de la sentencia
+        $val1 = $correo;
+
+        // Creo una persona para devolver lo que venga en la consulta
+        $persona = null;
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        // Vincular las variables de resultados
+        $stmt->bind_result($dni, $name, $surname, $email, $password);
+
+        // Devuelvo null o la persona que venga en la consulta
+        if ($stmt->fetch()) {
+            $persona = new Persona($nombre, $apellido, $correo, $password, $rol);
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        self::$conexion->close();
+
+        // Devuelvo la persona o null
+        return $persona;
+    }
+    
 
 }
