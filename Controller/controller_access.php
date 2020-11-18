@@ -10,23 +10,42 @@ session_start();
 
 // Botón de login
 if (isset($_REQUEST['login'])) {
-    // Recupero los valores del login
-    $email = $_REQUEST['email'];
-    $password = $_REQUEST['password'];
-    // Guardo en la sesion el correo del usuario
-    $_SESSION['userEmail'] = $email;
+    // Comprobación reCaptcha v3
+    // Construyendo el POST request
+    $recaptchaURL = 'https://www.google.com/recaptcha/api/siteverify';
+    $recaptchaSecret = '6LchkOQZAAAAAG2wQ5HML903c3RT6pEXfwSO9zHz';
+    $recaptchaResponse = $_POST['recaptchaResponse'];
 
-    if (PersonDAO::login($email, $password)) {
-        // Rescatamos el dni del usuario
-        $userDni = PersonDAO::getDni($email);
-        $_SESSION['userDni'] = $userDni;
-        // Guardo el rol en la sesion
-        $_SESSION['userRol'] = PersonDAO::getRol($userDni);
-        print($userDni);
-        print($_SESSION['userRol']);
-        //header('Location: ../vistas/tareas.php');
+    // Haciendo el requiest y decodoficándolo
+    $recaptcha = file_get_contents($recaptchaURL . '?secret=' . $recaptchaSecret . '&response=' . $recaptchaResponse);
+    $recaptcha = json_decode($recaptcha);
+
+    // Verificación de que el usuario es humano
+    if ($recaptcha->success == true && $recaptcha->score >= 0.6) {
+        // Recupero los valores del login
+        $email = $_REQUEST['email'];
+        $password = $_REQUEST['password'];
+        // Guardo en la sesion el correo del usuario
+        $_SESSION['userEmail'] = $email;
+
+        if (PersonDAO::login($email, $password)) {
+            // Rescatamos el dni del usuario
+            $userDni = PersonDAO::getDni($email);
+            $_SESSION['userDni'] = $userDni;
+            // Guardo el rol en la sesion
+            $_SESSION['userRol'] = PersonDAO::getRol($userDni);
+            print($userDni);
+            print($_SESSION['userRol']);
+            header('Location: ../View/home.php');
+        } else {
+            header('Location: ../View/login_incorrecto.php');
+        }
     } else {
-        header('Location: ../View/login_incorrecto.php');
+        // Captcha inválido
+        $_SESSION['mensaje-captcha'] = 'Error al validar su identidad. ¿Es usted un robot?';
+
+        // Envio a la página de inicio con mensaaje de error
+        header('Location: ../index.php');
     }
 }
 

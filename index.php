@@ -29,6 +29,17 @@ and open the template in the editor.
         <link rel="icon" type="image/png" href="Img/logo/favicon-birrete.png">
 
         <title>Inicio</title>
+        
+        <script src='https://www.google.com/recaptcha/api.js?render=6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d'> </script>
+    
+        <script>
+            grecaptcha.ready(function(){
+                grecaptcha.execute('6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d', {action: 'registro'})
+                    .then(function(token){
+                    document.getElementById('recaptchaResponse').value=token;
+               }); 
+            });
+        </script>
     </head>
     <body>
 
@@ -64,6 +75,15 @@ and open the template in the editor.
 
                                 <!-- Inicio de sesion -->
                                 <button class="btn btn--g-medium btn-block my-4" type="submit" name="login" value="login">Iniciar sesion</button>
+                            
+                                <?php 
+                                if(isset($_SESSION['mensaje-captcha'])){
+                                    ?>
+                                    <span class="text-left text--g-dark"><?php echo $_SESSION['mensaje-captcha']; ?></span>
+                                    <?php
+                                     unset($_SESSION['mensaje-captcha']);
+                                }
+                                ?>
                             </form>
                         </div>
                     </div>
