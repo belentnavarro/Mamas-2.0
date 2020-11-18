@@ -12,6 +12,7 @@
  * @author belentnavarro
  */
 class Person {
+
     private $dni;
     private $name;
     private $surname;
@@ -20,7 +21,7 @@ class Person {
     private $password;
     private $profilePhoto;
     private $active;
-    
+
     // Metodo constructor
     function __construct($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active) {
         $this->dni = $dni;
@@ -32,7 +33,7 @@ class Person {
         $this->rol = $rol;
         $this->active = $active;
     }
-    
+
     // Métodos getter
     function getDni() {
         return $this->dni;
@@ -61,7 +62,7 @@ class Person {
     function getProfilePhoto() {
         return $this->profilePhoto;
     }
-    
+
     function getRol() {
         return $this->rol;
     }
@@ -105,8 +106,26 @@ class Person {
 
     // Método toString
     function __toString() {
-        $cadena = 'Persona [DNI: '. $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email . 
-                'Foto de perfil: ' . $this->profilePhoto . '. Activo: ' . $this->active . ' Rol: ' . $this-rol;
+        $cadena = 'Persona [DNI: ' . $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email .
+                'Foto de perfil: ' . $this->profilePhoto . '. Activo: ' . $this->active . ' Rol: ' . $this - rol;
         return $cadena;
     }
+
+    // Método para generar una nuevo contraseña
+    public static function newPass() {
+
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&()*+,-./:;<=>?';
+
+        function generate_string($input, $strength = 16) {
+            $input_length = strlen($input);
+            $random_string = '';
+            for ($i = 0; $i < $strength; $i++) {
+                $random_character = $input[mt_rand(0, $input_length - 1)];
+                $random_string .= $random_character;
+            }
+            return $random_string;
+        }
+        return generate_string($permitted_chars, 10);
+    }
+
 }
