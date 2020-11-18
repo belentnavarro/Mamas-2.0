@@ -44,7 +44,7 @@ class PersonDAO {
         // Devuelvo si es o no correcto el login
         return $correcto;
     }
-    
+
     // Método para recuperar el dni
     static function getDni($email) {
         // Abro la conexion
@@ -79,7 +79,7 @@ class PersonDAO {
         // Devuelvo el rol o null
         return $userDni;
     }
-    
+
     // Método para recuperar el dni
     static function getRol($dni) {
         // Abro la conexion
@@ -114,23 +114,22 @@ class PersonDAO {
         // Devuelvo el rol o null
         return $userRol;
     }
-    
 
     // Método para saber si existe un registro por el correo
-    static function existsPerson($correo) {
+    static function existsPersonEmail($email) {
         // Abro la conexion
-        GestionBDD::nuevaConexcion();
+        GestionBDD::conectarBDD();
 
         // Variable para devolver valor
-        $existe = false;
+        $exists = false;
 
         // Preparo la sentencia SQL
-        $query = 'SELECT * FROM people WHERE correo = ?';
+        $query = 'SELECT * FROM people WHERE email = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
 
         // Valores de la sentencia
-        $val1 = $correo;
+        $val1 = $email;
 
         // Ejecuto y guardo el resultado
         $stmt->execute();
@@ -138,41 +137,48 @@ class PersonDAO {
 
         // Devuelvo true o fase en funcion si trae o no filas la consulta
         if ($result->num_rows > 0) {
-            $existe = true;
+            $exists = true;
         }
 
         // Cierro la sentencia y la consulta
         $stmt->close();
         GestionBDD::cerrarBDD();
         // Develvo si existe o no
-        return $existe;
+        return $exists;
     }
 
-    // Método para insertar un nuevo registro
-    static function insertPerson($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active) {
+    // Método para saber si existe un registro por el correo
+    static function existsPersonDni($dni) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
+        // Variable para devolver valor
+        $exists = false;
+
         // Preparo la sentencia SQL
-        $query = 'INSERT INTO people (dni, name, surname, email, password, profilePhoto, active, rol) VALUES (?,?,?,?,?,?,?,?);';
+        $query = 'SELECT * FROM people WHERE dni = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
-        $stmt->bind_param("ssssssii", $val1, $val2, $val3, $val4, $val5, $val6, $val7, $val8);
+        $stmt->bind_param("s", $val1);
 
         // Valores de la sentencia
-        $val1 = strtolower($dni);
-        $val2 = strtolower($name);
-        $val3 = strtolower($surname);
-        $val4 = strtolower($email);
-        $val5 = $password;
-        $val6 = $profilePhoto;
-        $val7 = $active;
-        $val8 = $rol;
+        $val1 = $dni;
 
-        // Ejecuto y cierro la conexion
+        // Ejecuto y guardo el resultado
         $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Devuelvo true o fase en funcion si trae o no filas la consulta
+        if ($result->num_rows > 0) {
+            $exists = true;
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
         GestionBDD::cerrarBDD();
+        // Develvo si existe o no
+        return $exists;
     }
-    
+
     // Método para recuperar una persona de la BDD
     static function getPerson($email) {
         // Abro la conexion
@@ -207,6 +213,49 @@ class PersonDAO {
         // Devuelvo la persona o null
         return $person;
     }
-    
+
+    // Método para insertar un nuevo registro
+    static function insertPerson($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'INSERT INTO people (dni, name, surname, email, password, profilePhoto, active, rol) VALUES (?,?,?,?,?,?,?,?);';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("ssssssii", $val1, $val2, $val3, $val4, $val5, $val6, $val7, $val8);
+
+        // Valores de la sentencia
+        $val1 = strtolower($dni);
+        $val2 = strtolower($name);
+        $val3 = strtolower($surname);
+        $val4 = strtolower($email);
+        $val5 = $password;
+        $val6 = $profilePhoto;
+        $val7 = $active;
+        $val8 = $rol;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
+    // Actualizo el password con el email
+    static function updatePassEmail($newPass, $email) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = "UPDATE people SET password = ? WHERE email = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("ss", $val1, $val2);
+
+        // Valores de la sentencia
+        $val1 = $newPass;
+        $val2 = $email;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
 
 }
