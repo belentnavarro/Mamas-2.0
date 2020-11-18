@@ -27,7 +27,7 @@ and open the template in the editor.
         <!--Favicon-->
         <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
         
-        <title>Usuario registrado</title>
+        <title>Error registro</title>
     </head>
     <body>
         <!--Cabecera -->
@@ -49,9 +49,9 @@ and open the template in the editor.
                             <img src="../Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <p class="h4 mb-4">Usuario registrado</p>
-                            <p>Acabas de registrarte con éxito en el sistema, por favor inicia sesión con tus datos.</p>
-                            <p>Gracias por registrarte en nuestra aplicación.</p>
+                            <p class="h4 mb-4">Error registro</p>
+                            <p>Ha habido un error al registrar el usuario en el sistema, el correo electrónico ya está siendo usado.</p>
+                            <p>GPor favor, inicia sesión con su correo y contraseña o vuelva a registrarse con un nuevo correo.</p>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -61,6 +61,9 @@ and open the template in the editor.
                                 <use xlink:href="../Icons/bootstrap-icons.svg#arrwo-left-short"/>
                             </svg>
                             <a href="../index.php" class="text--o-light"><small>Volver al inicio</small></a>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="registro.php" class="text--o-light"><small>Crear una nueva cuenta</small></a>
                         </div>
                     </div>
                 </div>
@@ -83,3 +86,4 @@ and open the template in the editor.
         <script type="text/javascript" src="../Js/app.js"></script>
     </body>
 </html>
+
