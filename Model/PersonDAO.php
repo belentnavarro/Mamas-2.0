@@ -12,7 +12,7 @@ require_once 'Person.php';
 class PersonDAO {
 
     // Método para realizar el login
-    static function login($correo, $password) {
+    static function login($email, $password) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
@@ -20,12 +20,12 @@ class PersonDAO {
         $correcto = false;
 
         // Preparo la sentencia SQL
-        $query = 'SELECT * FROM people WHERE correo = ? AND password = ?';
+        $query = 'SELECT * FROM people WHERE email = ? AND password = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("ss", $val1, $val2);
 
         // Valores de la sentencia
-        $val1 = $correo;
+        $val1 = $email;
         $val2 = $password;
 
         // Ejecuto y guardo el resultado
@@ -44,6 +44,77 @@ class PersonDAO {
         // Devuelvo si es o no correcto el login
         return $correcto;
     }
+    
+    // Método para recuperar el dni
+    static function getDni($email) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Variable para devolver el rol
+        $userDni = null;
+
+        // Preparo la sentencia SQL
+        $query = "SELECT dni FROM people WHERE email = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+
+        // Valores de la sentencia
+        $val1 = $email;
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        // Vincular las variables de resultados
+        $stmt->bind_result($dni);
+
+        // Devuelvo null o la persona que venga en la consulta
+        while ($stmt->fetch()) {
+            $userDni = $dni;
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        GestionBDD::cerrarBDD();
+
+        // Devuelvo el rol o null
+        return $userDni;
+    }
+    
+    // Método para recuperar el dni
+    static function getRol($dni) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Variable para devolver el rol
+        $userRol = null;
+
+        // Preparo la sentencia SQL
+        $query = "SELECT rol FROM people WHERE dni = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+
+        // Valores de la sentencia
+        $val1 = $dni;
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        // Vincular las variables de resultados
+        $stmt->bind_result($rol);
+
+        // Devuelvo null o la persona que venga en la consulta
+        while ($stmt->fetch()) {
+            $userRol = $rol;
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        GestionBDD::cerrarBDD();
+
+        // Devuelvo el rol o null
+        return $userRol;
+    }
+    
 
     // Método para saber si existe un registro por el correo
     static function existsPerson($correo) {
@@ -103,7 +174,7 @@ class PersonDAO {
     }
     
     // Método para recuperar una persona de la BDD
-    static function obtenerPersona($correo) {
+    static function getPerson($email) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
@@ -122,11 +193,11 @@ class PersonDAO {
         $stmt->execute();
 
         // Vincular las variables de resultados
-        $stmt->bind_result($dni, $name, $surname, $email, $password);
+        $stmt->bind_result($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
 
         // Devuelvo null o la persona que venga en la consulta
         if ($stmt->fetch()) {
-            $persona = new Persona($nombre, $apellido, $correo, $password, $rol);
+            $person = new Person($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
         }
 
         // Cierro la sentencia y la consulta
@@ -134,7 +205,7 @@ class PersonDAO {
         self::$conexion->close();
 
         // Devuelvo la persona o null
-        return $persona;
+        return $person;
     }
     
 

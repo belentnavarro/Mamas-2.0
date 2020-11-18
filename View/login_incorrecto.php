@@ -26,7 +26,7 @@ and open the template in the editor.
 
         <!--Favicon-->
         <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
-        
+
         <title>Login incorrecto</title>
     </head>
     <body>
@@ -38,7 +38,7 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        
+
         <!--Exito registro-->
         <div class="container">
             <div class="row justify-content-center align-items-center">
@@ -57,7 +57,7 @@ and open the template in the editor.
                         <!--Enlace para volver al inicio-->
                         <div class="col-6">
                             <svg class="bi" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#arrwo-left-short"/>
+                            <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
                             </svg>
                             <a href="../index.php" class="text--o-light"><small>Volver al inicio</small></a>
                         </div>
@@ -65,7 +65,7 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        
+
         <!-- jQuery -->
         <script type="text/javascript" src="../Js/jquery.min.js"></script>
 
