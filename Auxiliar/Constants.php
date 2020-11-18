@@ -12,8 +12,8 @@
  * @author belentnavarro
  */
 class Constants {
-    public static $DDBB = 'mamas-2.0'; // Nombre de la BBDD.
-    public static $USER = 'belentnavarro'; // Usuario para acceder a ella.
+    public static $DDBB = 'mamas-2_0'; // Nombre de la BBDD.
+    public static $USER = 'luis'; // Usuario para acceder a ella.
     public static $PASSWORD = 'Chubaca2020'; // Contraseña para acceder a ella.
     
     public static $PEOPLE = 'people'; // Tabla con todos los datos de los usuarios de la aplicación.
