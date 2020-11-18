@@ -16,21 +16,21 @@ class Person {
     private $name;
     private $surname;
     private $email;
-    private $rols;
+    private $rol;
     private $password;
     private $profilePhoto;
     private $active;
     
     // Metodo constructor
-    function __construct($dni, $name, $surname, $email, $password, $profilePhoto) {
+    function __construct($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active) {
         $this->dni = $dni;
         $this->name = $name;
         $this->surname = $surname;
         $this->email = $email;
         $this->password = $password;
         $this->profilePhoto = $profilePhoto;
-        $this->rols = array();
-        $this->active = 0;
+        $this->rol = $rol;
+        $this->active = $active;
     }
     
     // Métodos getter
@@ -60,6 +60,10 @@ class Person {
 
     function getProfilePhoto() {
         return $this->profilePhoto;
+    }
+    
+    function getRol() {
+        return $this->rol;
     }
 
     function getActive() {
@@ -95,29 +99,14 @@ class Person {
         $this->active = $active;
     }
 
-    function addRol($rol){
-        $this->rols[] = $rol;
+    function setRol($rol): void {
+        $this->rol = $rol;
     }
-    
-    function deleteRol($rol){
-        foreach($this->rols as $pos => $aux){
-            if($rol == $aux){
-                unset($this->rols[$pos]);
-            }
-        }
-    }
-    
-    function getTotalRols(){
-        return count($this->rols);
-    }
-    
+
+    // Método toString
     function __toString() {
         $cadena = 'Persona [DNI: '. $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email . 
-                'Foto de perfil: ' . $this->profilePhoto . '. Activo: ' . $this->active . ' Roles:  \n';
-        foreach($this->rols as $rol){
-            $cadena = $cadena . ' - ' . $asignatura . '</br>';
-        }
-        
+                'Foto de perfil: ' . $this->profilePhoto . '. Activo: ' . $this->active . ' Rol: ' . $this-rol;
         return $cadena;
     }
 }
