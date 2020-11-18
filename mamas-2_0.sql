@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 17-11-2020 a las 18:39:11
+-- Tiempo de generación: 18-11-2020 a las 09:40:47
 -- Versión del servidor: 8.0.22-0ubuntu0.20.04.2
 -- Versión de PHP: 7.4.3
 
@@ -33,20 +33,18 @@ CREATE TABLE `people` (
   `name` varchar(30) NOT NULL,
   `surname` varchar(60) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `passwd` varchar(60) NOT NULL,
+  `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `profilePhoto` varchar(60) NOT NULL,
-  `registerDate` date NOT NULL,
-  `lastLogin` date NOT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `people`
 --
 
-INSERT INTO `people` (`dni`, `name`, `surname`, `email`, `passwd`, `profilePhoto`, `registerDate`, `lastLogin`, `active`) VALUES
-('1A', 'Luis', 'Quesada Romero', 'info@luisquesadadesign.com', 'hola1A', '', '2020-11-17', '2020-11-17', 0),
-('2B', 'Belén', 'Trujillo Navarro', 'belentnavarro@gmail.com', 'hola2B', '', '2020-11-17', '2020-11-17', 0);
+INSERT INTO `people` (`dni`, `name`, `surname`, `email`, `password`, `profilePhoto`, `active`) VALUES
+('1A', 'Luis', 'Quesada Romero', 'info@luisquesadadesign.com', 'hola1A', '', 0),
+('2B', 'Belén', 'Trujillo Navarro', 'belentnavarro@gmail.com', 'hola2B', '', 0);
 
 -- --------------------------------------------------------
 
@@ -64,8 +62,8 @@ CREATE TABLE `personRol` (
 --
 
 INSERT INTO `personRol` (`idRol`, `dniPerson`) VALUES
-(0, '1A'),
-(1, '2B');
+(0, '2B'),
+(1, '1A');
 
 -- --------------------------------------------------------
 
@@ -83,9 +81,10 @@ CREATE TABLE `rols` (
 --
 
 INSERT INTO `rols` (`id`, `description`) VALUES
-(0, 'administrador'),
-(1, 'profesor'),
-(2, 'alumno');
+(0, 'usuario'),
+(1, 'administrador'),
+(2, 'profesor'),
+(3, 'alumno');
 
 --
 -- Índices para tablas volcadas
