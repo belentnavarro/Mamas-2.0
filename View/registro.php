@@ -25,6 +25,9 @@ and open the template in the editor.
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700;900&display=swap" rel="stylesheet">
 
+        <!--Favicon-->
+        <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
+        
         <title>Registro nuevo usuario</title>
         
         <script src='https://www.google.com/recaptcha/api.js?render=6LcSW-QZAAAAAFj42hbZpWrFG8m-xbgL4qL2QUgv'> </script>
