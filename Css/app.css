@@ -105,3 +105,8 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--g-medium);
 }
 
+.sidebar{
+    min-width: 220px;
+    max-width: 220px;
+    transition: all linear 0.2s;  
+}
