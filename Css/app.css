@@ -105,8 +105,24 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--g-medium);
 }
 
-.sidebar{
-    min-width: 220px;
-    max-width: 220px;
+
+/* Estructura general del home y paginas derivadas */
+#dashboard {
+    width: 100%;
+}
+#sidebar{
+    min-width: 230px;
+    max-width: 230px;
     transition: all linear 0.2s;  
+}
+
+#sidebar nav {
+    position: fixed;
+}
+
+#content {
+    width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    transition: all linear 0.2s;
 }
