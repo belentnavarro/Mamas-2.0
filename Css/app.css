@@ -105,3 +105,6 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--g-medium);
 }
 
+/* Diseño campos de formualarios para errores y correctos los reutilizaremos en
+ * todos los furmularios
+ */

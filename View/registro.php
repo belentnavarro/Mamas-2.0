@@ -27,17 +27,17 @@ and open the template in the editor.
 
         <!--Favicon-->
         <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
-        
+
         <title>Registro nuevo usuario</title>
-        
-        <script src='https://www.google.com/recaptcha/api.js?render=6LcSW-QZAAAAAFj42hbZpWrFG8m-xbgL4qL2QUgv'> </script>
-    
+
+        <script src='https://www.google.com/recaptcha/api.js?render=6LcSW-QZAAAAAFj42hbZpWrFG8m-xbgL4qL2QUgv'></script>
+
         <script>
-            grecaptcha.ready(function(){
+            grecaptcha.ready(function () {
                 grecaptcha.execute('6LcSW-QZAAAAAFj42hbZpWrFG8m-xbgL4qL2QUgv', {action: 'registro'})
-                    .then(function(token){
-                    document.getElementById('recaptchaResponse').value=token;
-               }); 
+                        .then(function (token) {
+                            document.getElementById('recaptchaResponse').value = token;
+                        });
             });
         </script>
     </head>
@@ -65,39 +65,61 @@ and open the template in the editor.
                             <img src="../Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <form name="registro" class="text-center p-5" action="../Controller/controller_access.php" method="POST" enctype="multipart/form-data">
-                                
+                            <form name="registro" class="text-center p-5 needs-validation" action="../Controller/controller_access.php" method="POST" enctype="multipart/form-data" novalidate>
+
                                 <p class="h4 mb-4">Registro</p>
 
                                 <!-- DNI -->
-                                <input type="text" class="form-control mb-4" placeholder="DNI" name="dni">
-
-                                <!-- Nombre -->
-                                <input type="text" class="form-control mb-4" placeholder="Nombre" name="name">
-
-                                <!-- Apellido -->
-                                <input type="text" class="form-control mb-4" placeholder="Apellido" name="surname">
+                                <input type="text" class="form-control mb-1" placeholder="DNI" name="dni" id="dni" required required aria-describedby="dniError"
+                                       pattern="[0-9]{8}[A-Za-z]{1}">
+                                <div class="invalid-feedback text-left" id="dniError">
+                                    Mensaje de error
+                                </div>
 
                                 <!-- Correo -->
-                                <input type="email" class="form-control mb-4" placeholder="E-mail" name="email">
+                                <input type="email" class="form-control mb-1 mt-4 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
+                                       minlength="5" maxlength="20" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
+                                <div class="invalid-feedback text-left" id="emailError">
+                                    Mensaje de error
+                                </div>
 
                                 <!-- Password -->
-                                <input type="password" class="form-control mb-4" placeholder="Password" name="password">
-                                
+                                <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Password" name="password" id="password" required aria-describedby="emailPassword"
+                                       minlength="8" maxlength="10" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}">
+                                <div class="invalid-feedback mb-4 text-left"  id="passwordError">
+                                    Mensaje de error
+                                </div>
+
+                                <!-- Nombre -->
+                                <input type="text" class="form-control mb-1 mt-4" placeholder="Nombre" name="name" id="name" required aria-describedby="nameError"
+                                       minlength="3" maxlength="20" pattern="[A-Z]{1}[a-z]+">
+                                <div class="invalid-feedback mb-4 text-left"  id="nameError">
+                                    Mensaje de error
+                                </div>
+
+                                <!-- Apellido -->
+                                <input type="text" class="form-control mb-1 mt-4" placeholder="Apellido" name="surname" id="surname" required aria-describedby="surnameError"
+                                       minlength="3" maxlength="20" pattern="[A-Z]{1}[a-z]+">
+                                <div class="invalid-feedback mb-4 text-left"  id="surnameError">
+                                    Mensaje de error
+                                </div>
+
                                 <!-- Imagen de perfil -->
-                                <input type="file" class="form-control-file mb-4" name="profile_img">
+                                <input type="file" class="form-control-file mt-4" name="profile_img" accept="image/png, image/jpeg" id="profileImg">
+                                <div class="invalid-feedback mb-4 text-left"  id="profileImgError">
+                                </div>
 
                                 <!--reCaptcha v3 -->
                                 <input type="hidden" name="recaptchaResponse" id="recaptchaResponse"/>
-                                <?php 
-                                if(isset($_SESSION['mensaje-captcha'])){
+                                <?php
+                                if (isset($_SESSION['mensaje-captcha'])) {
                                     ?>
                                     <span class="text-left text--g-dark"><?php echo $_SESSION['mensaje-captcha']; ?></span>
                                     <?php
-                                        unset($_SESSION['mensaje-captcha']);
+                                    unset($_SESSION['mensaje-captcha']);
                                 }
                                 ?>
-                                    
+
                                 <!-- Botón de registroi -->
                                 <button class="btn btn--g-medium btn-block my-4" type="submit" name="register_user" value="register_user">Registrar</button>
                             </form>
@@ -112,7 +134,7 @@ and open the template in the editor.
                             <a href="../index.php" class="text--o-light"><small>Volver al inicio de sesión</small></a>                        
                         </div>
                         <div class="col-6 text-right">
-                            <a href="View/password_olvidado.php" class="text--o-light"><small>¿Se te olvidó tu contraseña?</small></a>
+                            <a href="password_olvidado.php" class="text--o-light"><small>¿Se te olvidó tu contraseña?</small></a>
                         </div>
                     </div>
                 </div>
@@ -134,5 +156,6 @@ and open the template in the editor.
 
         <!-- APP JS -->
         <script type="text/javascript" src="../Js/app.js"></script>
+        <script type="text/javascript" src="../Js/validationRegistro.js"></script>
     </body>
 </html>
