@@ -52,11 +52,15 @@ and open the template in the editor.
                             <img src="../Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <form name="recuperar_contraseña" class="text-center p-5" action="../Controller/controller_access.php" method="POST">
+                            <form name="recuperar_contraseña" class="text-center p-5 needs-validation" action="../Controller/controller_access.php" method="POST" novalidate>
 
                                 <p class="h4 mb-4">Recuperar contraseña</p>
                                 <!-- Correo -->
-                                <input type="email" class="form-control mb-4" placeholder="Introduce tu correo" name="email">
+                                <input type="email" class="form-control mb-1 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
+                                       minlength="5" maxlength="20" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
+                                <div class="invalid-feedback text-left" id="emailError">
+                                    Mensaje de error
+                                </div>
 
                                 <!-- Boton para recuperar la contraseña -->
                                 <button class="btn btn--g-medium btn-block my-4" type="submit" name="forgot_password" value="forgot_password">Recuperar contraseña</button>
@@ -94,5 +98,6 @@ and open the template in the editor.
 
         <!-- APP JS -->
         <script type="text/javascript" src="../Js/app.js"></script>
+        <script type="text/javascript" src="../Js/validationRecuperacionPass.js"></script>
     </body>
 </html>

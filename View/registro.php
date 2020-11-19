@@ -134,7 +134,7 @@ and open the template in the editor.
                             <a href="../index.php" class="text--o-light"><small>Volver al inicio de sesión</small></a>                        
                         </div>
                         <div class="col-6 text-right">
-                            <a href="password_olvidado.php" class="text--o-light"><small>¿Se te olvidó tu contraseña?</small></a>
+                            <a href="recuperar_password.php" class="text--o-light"><small>¿Se te olvidó tu contraseña?</small></a>
                         </div>
                     </div>
                 </div>
