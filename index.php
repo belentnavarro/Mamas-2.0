@@ -24,20 +24,20 @@ and open the template in the editor.
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;900&display=swap" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700;900&display=swap" rel="stylesheet">
-        
+
         <!--Favicon-->
         <link rel="icon" type="image/png" href="Img/logo/favicon-birrete.png">
 
         <title>Inicio</title>
-        
-        <script src='https://www.google.com/recaptcha/api.js?render=6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d'> </script>
-    
+
+        <script src='https://www.google.com/recaptcha/api.js?render=6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d'></script>
+
         <script>
-            grecaptcha.ready(function(){
+            grecaptcha.ready(function () {
                 grecaptcha.execute('6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d', {action: 'login'})
-                    .then(function(token){
-                    document.getElementById('recaptchaResponse').value=token;
-               }); 
+                        .then(function (token) {
+                            document.getElementById('recaptchaResponse').value = token;
+                        });
             });
         </script>
     </head>
@@ -65,26 +65,34 @@ and open the template in the editor.
                             <img src="Img/logo/birrete_1.png" alt="logo">
                         </div>
                         <div class="card-body">
-                            <form name="login" class="text-center p-5" action="Controller/controller_access.php" method="POST">
+                            <!-- Forumulario -->
+                            <form name="login" class="text-center p-5 needs-validation" action="Controller/controller_access.php" method="POST" novalidate>
 
                                 <p class="h4 mb-4">Iniciar sesión</p>
 
                                 <!-- Correo -->
-                                <input type="email" class="form-control mb-4" placeholder="E-mail" name="email">
-
+                                <input type="email" class="form-control mb-1 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
+                                       minlength="5" maxlength="20" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
+                                <div class="invalid-feedback text-left" id="emailError">
+                                    Mensaje de error
+                                </div>
                                 <!-- Password -->
-                                <input type="password" class="form-control mb-4" placeholder="Password" name="password">
+                                <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Password" name="password" id="password" required aria-describedby="emailPassword"
+                                       minlength="8" maxlength="10" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}">
+                                <div class="invalid-feedback mb-4 text-left"  id="passwordError">
+                                    Mensaje de error
+                                </div>
 
                                 <!-- Inicio de sesion -->
                                 <button class="btn btn--g-medium btn-block my-4" type="submit" name="login" value="login">Iniciar sesion</button>
-                            
+
                                 <input type="hidden" name="recaptchaResponse" id="recaptchaResponse"/>
-                                <?php 
-                                if(isset($_SESSION['mensaje-captcha'])){
+                                <?php
+                                if (isset($_SESSION['mensaje-captcha'])) {
                                     ?>
                                     <span class="text-left text--g-dark"><?php echo $_SESSION['mensaje-captcha']; ?></span>
                                     <?php
-                                     unset($_SESSION['mensaje-captcha']);
+                                    unset($_SESSION['mensaje-captcha']);
                                 }
                                 ?>
                             </form>
@@ -118,5 +126,6 @@ and open the template in the editor.
 
         <!-- APP JS -->
         <script type="text/javascript" src="Js/app.js"></script>
+        <script type="text/javascript" src="Js/validationLogin.js"></script>
     </body>
 </html>
