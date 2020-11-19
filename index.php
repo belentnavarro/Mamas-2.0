@@ -34,7 +34,7 @@ and open the template in the editor.
     
         <script>
             grecaptcha.ready(function(){
-                grecaptcha.execute('6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d', {action: 'registro'})
+                grecaptcha.execute('6LchkOQZAAAAAJMQMvfYZ9WpQ6U0qdddvzAUgv_d', {action: 'login'})
                     .then(function(token){
                     document.getElementById('recaptchaResponse').value=token;
                }); 
@@ -42,7 +42,9 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-
+        <?php
+        session_start();
+        ?>
 
         <!-- Cabecera -->
         <div class="container header-body text-center my-5">
@@ -76,6 +78,7 @@ and open the template in the editor.
                                 <!-- Inicio de sesion -->
                                 <button class="btn btn--g-medium btn-block my-4" type="submit" name="login" value="login">Iniciar sesion</button>
                             
+                                <input type="hidden" name="recaptchaResponse" id="recaptchaResponse"/>
                                 <?php 
                                 if(isset($_SESSION['mensaje-captcha'])){
                                     ?>
