@@ -32,7 +32,7 @@ if (isset($_REQUEST['login'])) {
 
             // Compruebo si el usuario esta inactivo
             $userDni = PersonDAO::getDni($email);
-            if (PersonDAO::activePersonDni($userDni) == 0) {
+            if (PersonDAO::isActivePersonDni($userDni) == 0) {
                 header('Location: ../View/usuario_inactivo.php');
             } else {
                 // Guardo el dni en la sesion
