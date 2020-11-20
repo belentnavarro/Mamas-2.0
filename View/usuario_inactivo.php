@@ -25,6 +25,9 @@ and open the template in the editor.
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700;900&display=swap" rel="stylesheet">
 
+        <!--Favicon-->
+        <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
+        
         <title>Usuario inactivo</title>
     </head>
     <body>
@@ -62,7 +65,7 @@ and open the template in the editor.
                             <svg class="bi" width="20" height="20" fill="currentColor">
                             <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
                             </svg>
-                            <a href="../index.php.php" class="text--o-light"><small>Volver al inicio</small></a>
+                            <a href="../index.php" class="text--o-light"><small>Volver al inicio</small></a>
                         </div>
                     </div>
                 </div>

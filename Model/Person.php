@@ -12,30 +12,29 @@
  * @author belentnavarro
  */
 class Person {
+
     private $dni;
     private $name;
     private $surname;
     private $email;
-    private $rols;
+    private $rol;
     private $password;
     private $profilePhoto;
-    private $registerDate;
-    private $lastLogin;
     private $active;
-    
-    function __construct($dni, $name, $surname, $email, $password, $profilePhoto, $registerDate, $lastLogin, $active) {
+
+    // Metodo constructor
+    function __construct($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active) {
         $this->dni = $dni;
         $this->name = $name;
         $this->surname = $surname;
         $this->email = $email;
-        $this->rols = array();
         $this->password = $password;
         $this->profilePhoto = $profilePhoto;
-        $this->registerDate = $registerDate;
-        $this->lastLogin = $lastLogin;
+        $this->rol = $rol;
         $this->active = $active;
     }
-    
+
+    // Métodos getter
     function getDni() {
         return $this->dni;
     }
@@ -64,18 +63,15 @@ class Person {
         return $this->profilePhoto;
     }
 
-    function getRegisterDate() {
-        return $this->registerDate;
-    }
-
-    function getLastLogin() {
-        return $this->lastLogin;
+    function getRol() {
+        return $this->rol;
     }
 
     function getActive() {
         return $this->active;
     }
 
+    // Métodos setter
     function setName($name) {
         $this->name = $name;
     }
@@ -100,41 +96,36 @@ class Person {
         $this->profilePhoto = $profilePhoto;
     }
 
-    function setRegisterDate($registerDate) {
-        $this->registerDate = $registerDate;
-    }
-
-    function setLastLogin($lastLogin) {
-        $this->lastLogin = $lastLogin;
-    }
-
     function setActive($active) {
         $this->active = $active;
     }
 
-    function addRol($rol){
-        $this->rols[] = $rol;
+    function setRol($rol): void {
+        $this->rol = $rol;
     }
-    
-    function deleteRol($rol){
-        foreach($this->rols as $pos => $aux){
-            if($rol == $aux){
-                unset($this->rols[$pos]);
-            }
-        }
-    }
-    
-    function getTotalRols(){
-        return count($this->rols);
-    }
-    
+
+    // Método toString
     function __toString() {
-        $cadena = 'Persona [DNI: '. $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email . 
-                'Foto de perfil: ' . $this->profilePhoto . 'Se registro el ' . $this->registerDate . ' y su último login fue: ' . $this->lastLogin . '. Activo: ' . $this->active . ' Roles:  \n';
-        foreach($this->rols as $rol){
-            $cadena = $cadena . ' - ' . $asignatura . '</br>';
-        }
-        
+        $cadena = 'Persona [DNI: ' . $this->dni . ' Nombre: ' . $this->name . ' ' . $this->surname . '. Email: ' . $this->email .
+                'Foto de perfil: ' . $this->profilePhoto . '. Activo: ' . $this->active . ' Rol: ' . $this - rol;
         return $cadena;
     }
+
+    // Método para generar una nuevo contraseña
+    public static function newPass() {
+
+        $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&()*+,-./:;<=>?';
+
+        function generate_string($input, $strength = 16) {
+            $input_length = strlen($input);
+            $random_string = '';
+            for ($i = 0; $i < $strength; $i++) {
+                $random_character = $input[mt_rand(0, $input_length - 1)];
+                $random_string .= $random_character;
+            }
+            return $random_string;
+        }
+        return generate_string($permitted_chars, 10);
+    }
+
 }
