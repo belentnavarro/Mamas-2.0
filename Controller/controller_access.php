@@ -101,6 +101,9 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         // Hago la insercción a la BDD
         PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
 
+        // Le doy el rol de usuario por defecto
+        PersonDAO::insertRol(0, $dni);
+        
         // Envio a la pagina de usuario inactivo
         header('Location: ../View/exito_registro.php');
     } else {
