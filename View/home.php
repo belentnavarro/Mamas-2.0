@@ -40,8 +40,19 @@ and open the template in the editor.
         // Inicio sesión
         session_start();
 
-        // Recupero el rol del usuario
+        // Recupero datos de la sesion
+        $userEmail = $_SESSION['userEmail'];
         $userRol = $_SESSION['userRol'];
+        
+        //Recupero los datos del usuario
+        $datJSON = PersonDAO::getPersonJSON($userEmail);
+        var_dump($datJSON);
+        // Decodifico el JSON
+        $objs = json_decode($datJSON, true);
+        print_r($objs);
+        foreach ($objs as $o){
+            echo $o['dni'];
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">

@@ -39,8 +39,6 @@ if (isset($_REQUEST['login'])) {
                 $_SESSION['userDni'] = $userDni;
                 // Guardo el rol en la sesion
                 $_SESSION['userRol'] = PersonDAO::getRol($userDni);
-                print($userDni);
-                print($_SESSION['userRol']);
                 header('Location: ../View/home.php');
             }
         } else {
