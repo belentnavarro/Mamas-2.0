@@ -178,9 +178,41 @@ class PersonDAO {
         // Develvo si existe o no
         return $exists;
     }
+    
+    // Método para saber si un usuario esta activo
+    static function activePersonDni($dni) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Variable para devolver valor
+        $activeU;
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT active FROM people WHERE dni = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+
+        // Valores de la sentencia
+        $val1 = $dni;
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+        $stmt->bind_result($active);
+
+        // Guardo el valor de la consulta
+        if ($stmt->fetch()) {
+            $activeU = $active;
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        GestionBDD::cerrarBDD();
+        // Develvo si existe o no
+        return $activeU;
+    }
 
     // Método para recuperar una persona de la BDD
-    static function getPerson($email) {
+    static function getPersonJSON($email) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
@@ -211,7 +243,7 @@ class PersonDAO {
         self::$conexion->close();
 
         // Devuelvo la persona o null
-        return $person;
+        return $persona;
     }
 
     // Método para insertar un nuevo registro

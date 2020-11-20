@@ -29,14 +29,20 @@ if (isset($_REQUEST['login'])) {
         $_SESSION['userEmail'] = $email;
 
         if (PersonDAO::login($email, $password)) {
-            // Rescatamos el dni del usuario
+
+            // Compruebo si el usuario esta inactivo
             $userDni = PersonDAO::getDni($email);
-            $_SESSION['userDni'] = $userDni;
-            // Guardo el rol en la sesion
-            $_SESSION['userRol'] = PersonDAO::getRol($userDni);
-            print($userDni);
-            print($_SESSION['userRol']);
-            header('Location: ../View/home.php');
+            if (PersonDAO::activePersonDni($userDni) == 0) {
+                header('Location: ../View/usuario_inactivo.php');
+            } else {
+                // Guardo el dni en la sesion
+                $_SESSION['userDni'] = $userDni;
+                // Guardo el rol en la sesion
+                $_SESSION['userRol'] = PersonDAO::getRol($userDni);
+                print($userDni);
+                print($_SESSION['userRol']);
+                header('Location: ../View/home.php');
+            }
         } else {
             header('Location: ../View/login_incorrecto.php');
         }

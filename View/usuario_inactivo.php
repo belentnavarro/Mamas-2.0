@@ -65,7 +65,7 @@ and open the template in the editor.
                             <svg class="bi" width="20" height="20" fill="currentColor">
                             <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
                             </svg>
-                            <a href="../index.php.php" class="text--o-light"><small>Volver al inicio</small></a>
+                            <a href="../index.php" class="text--o-light"><small>Volver al inicio</small></a>
                         </div>
                     </div>
                 </div>
