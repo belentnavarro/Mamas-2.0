@@ -59,6 +59,14 @@ and open the template in the editor.
                     <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt"class="profile logo rounded-circle mb-5" width="150"/>
                     <ul class="list-unstyled components mb-5">
                         <li class="border-bottom">
+                            <a href="home.php">
+                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                <use xlink:href="../Icons/bootstrap-icons.svg#house"/>
+                                </svg>
+                                Home
+                            </a>
+                        </li>
+                        <li class="border-bottom">
                             <a href="#">
                                 <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                 <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
@@ -83,7 +91,7 @@ and open the template in the editor.
                             </a>
                             <ul class="collapse list-unstyled ml-4" id="examSubmenu">
                                 <li>
-                                    <a href="#">
+                                    <a href="crud_exam.php">
                                         <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-plus"/>
                                         </svg>
@@ -96,6 +104,14 @@ and open the template in the editor.
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-check"/>
                                         </svg>
                                         Corregir examen
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="crud_preguntas.php">
+                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                        <use xlink:href="../Icons/bootstrap-icons.svg#question-square"/>
+                                        </svg>
+                                        BDD Preguntas
                                     </a>
                                 </li>
                             </ul>
