@@ -73,35 +73,31 @@ and open the template in the editor.
                                 <input type="text" class="form-control mb-1" placeholder="DNI" name="dni" id="dni" required required aria-describedby="dniError"
                                        pattern="[0-9]{8}[A-Za-z]{1}">
                                 <div class="invalid-feedback text-left" id="dniError">
-                                    Mensaje de error
+
                                 </div>
 
                                 <!-- Correo -->
                                 <input type="email" class="form-control mb-1 mt-4 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
                                        minlength="5" maxlength="60" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
                                 <div class="invalid-feedback text-left" id="emailError">
-                                    Mensaje de error
                                 </div>
 
                                 <!-- Password -->
                                 <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Password" name="password" id="password" required aria-describedby="emailPassword"
                                        minlength="8" maxlength="10" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}">
                                 <div class="invalid-feedback mb-4 text-left"  id="passwordError">
-                                    Mensaje de error
                                 </div>
 
                                 <!-- Nombre -->
                                 <input type="text" class="form-control mb-1 mt-4" placeholder="Nombre" name="name" id="name" required aria-describedby="nameError"
                                        minlength="3" maxlength="20" pattern="[A-Z]{1}[a-z]+">
                                 <div class="invalid-feedback mb-4 text-left"  id="nameError">
-                                    Mensaje de error
                                 </div>
 
                                 <!-- Apellido -->
                                 <input type="text" class="form-control mb-1 mt-4" placeholder="Apellido" name="surname" id="surname" required aria-describedby="surnameError"
                                        minlength="3" maxlength="20" pattern="[A-Z]{1}[a-z]+">
                                 <div class="invalid-feedback mb-4 text-left"  id="surnameError">
-                                    Mensaje de error
                                 </div>
 
                                 <!-- Imagen de perfil -->

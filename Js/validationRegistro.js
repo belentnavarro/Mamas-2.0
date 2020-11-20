@@ -15,6 +15,7 @@ const surname = document.getElementById('surname');
 const surnameError = document.getElementById('surnameError');
 
 const profileImg = document.getElementById('profileImg');
+const profileImgError = document.getElementById('profileImgError');
 
 // Funcion para controlar los errores de los campos
 (function () {
@@ -34,7 +35,7 @@ const profileImg = document.getElementById('profileImg');
                     showSurnameError();
                     showDniError();
                 }
-                if (validityImg(profileImg)) {
+                if (!validityImg(profileImg)) {
                     event.stopPropagation();
                     event.preventDefault();
                 }
@@ -129,10 +130,11 @@ function validityImg(img) {
     if (img.files.length > 0) {
         var fileName = img.files[0].name;
         var fileSize = img.files[0].size;
-        console.log(fileSize);
 
         if (fileSize > 200000) {
             profileImgError.textContent = `La imagen no puede ser mayor a 2 MB`;
+            profileImgError.style.display = "block";
+            return false;
         } else {
             // recuperamos la extensión del archivo
             var ext = fileName.split('.').pop();
@@ -146,15 +148,20 @@ function validityImg(img) {
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
+                    return true;
                     break;
                 default:
                     profileImgError.textContent = `El archivo no tiene la extensión adecuada`;
+                    profileImgError.style.display = "block";
+                    return false;
             }
         }
+    } else {
+        return true;
     }
 }
 
 // Al carga la nueva imagen limpio el error si lo hay para no confundir al usuario
 profileImg.addEventListener("change", function () {
-    profileImgError.textContent = ``;
+    profileImgError.style.display = "none";
 });

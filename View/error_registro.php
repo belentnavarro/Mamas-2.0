@@ -50,8 +50,8 @@ and open the template in the editor.
                         </div>
                         <div class="card-body">
                             <p class="h4 mb-4">Error registro</p>
-                            <p>Ha habido un error al registrar el usuario en el sistema, el correo electrónico ya está siendo usado.</p>
-                            <p>GPor favor, inicia sesión con su correo y contraseña o vuelva a registrarse con un nuevo correo.</p>
+                            <p>Ha habido un error al registrar el usuario en el sistema, el correo electrónico o el dni ya está siendo usado.</p>
+                            <p>Por favor, inicia sesión con su correo y contraseña o vuelva a registrarse con un nuevo correo.</p>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -63,7 +63,7 @@ and open the template in the editor.
                             <a href="../index.php" class="text--o-light"><small>Volver al inicio</small></a>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="registro.php" class="text--o-light"><small>Crear una nueva cuenta</small></a>
+                            <a href="recuperar_password.php" class="text--o-light"><small>Recuperar contraseña</small></a>
                         </div>
                     </div>
                 </div>
