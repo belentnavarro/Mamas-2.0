@@ -178,7 +178,7 @@ class PersonDAO {
         // Develvo si existe o no
         return $exists;
     }
-    
+
     // Método para saber si un usuario esta activo
     static function isActivePersonDni($dni) {
         // Abro la conexion
@@ -236,15 +236,15 @@ class PersonDAO {
         GestionBDD::conectarBDD();
 
         // Preparo la sentencia SQL
-        $query = 'SELECT * FROM ' . Constants::$PEOPLE . ' WHERE correo = ?';
-        $stmt = self::$conexion->prepare($query);
+        $query = 'SELECT * FROM people WHERE email = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
 
         // Valores de la sentencia
-        $val1 = $correo;
+        $val1 = $email;
 
         // Creo una persona para devolver lo que venga en la consulta
-        $persona = null;
+        $person = array();
 
         // Ejecuto y guardo el resultado
         $stmt->execute();
@@ -253,16 +253,30 @@ class PersonDAO {
         $stmt->bind_result($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
 
         // Devuelvo null o la persona que venga en la consulta
+        //$row = $stmt->fetch_array(MYSQLI_ASSOC);
         if ($stmt->fetch()) {
-            $person = new Person($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
+            $person[0] = array(
+                'dni' => $dni,
+                'name' => $name,
+                'surname' => $surname,
+                'email' => $email,
+                'password' => $password,
+                'profilePhoto' => $profilePhoto,
+                'rol' => $rol,
+                'active' => $active,
+            );
         }
+
+
+
 
         // Cierro la sentencia y la consulta
         $stmt->close();
-        self::$conexion->close();
+        GestionBDD::cerrarBDD();
 
-        // Devuelvo la persona o null
-        return $persona;
+        // Devuelvo la persona o null y codifico en JSON 
+        $json_string = json_encode($person);
+        return $json_string;
     }
     
     // Método para recuperar todas las personas de la BD
