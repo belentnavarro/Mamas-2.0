@@ -110,14 +110,24 @@ h1, h2, h3, h4, h5, h6 {
 #dashboard {
     width: 100%;
 }
+
 #sidebar{
-    min-width: 230px;
-    max-width: 230px;
+    min-width: 280px;
+    max-width: 280px;
     transition: all linear 0.2s;  
 }
 
-#sidebar nav {
-    position: fixed;
+#sidebar li {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#sidebar a {
+    color: #ffffff;
+}
+
+#sidebar.active {
+    margin-left: -280px;
 }
 
 #content {
@@ -125,4 +135,30 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     min-height: 100vh;
     transition: all linear 0.2s;
+}
+
+/* Utilidades */
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all .15s ease;
+}
+
+.bg-gradient-default {
+    background: linear-gradient(87deg, var(--g-dark) 0, var(--g-medium) 100%) !important;
+}
+
+.opacity-8 {
+    opacity: 0.8;
+}
+
+/* Imagenes de fondo de los header de las paginas */
+/* Pagina pefil */
+.header-home {
+    background-image: url(../Img/bg_001.jpg);
+    background-size: cover; 
+    background-position: center center;
 }

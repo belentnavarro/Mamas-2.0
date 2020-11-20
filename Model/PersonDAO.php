@@ -290,4 +290,23 @@ class PersonDAO {
         GestionBDD::cerrarBDD();
     }
 
+        // Método para insertar un nuevo registro
+    static function insertRol($idRol, $dniPerson) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'INSERT INTO personRol (idRol, dniPerson) VALUES (?,?);';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("ss", $val1, $val2);
+
+        // Valores de la sentencia
+        $val1 = $idRol;
+        $val2 = strtolower($dniPerson);
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+    
 }
