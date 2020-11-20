@@ -58,7 +58,7 @@ and open the template in the editor.
                             </a>
                         </li>
                         <li class="border-bottom">
-                            <a href="#">
+                            <a href="crud_admin_usuarios.php">
                                 <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                 <use xlink:href="../Icons/bootstrap-icons.svg#people"/>
                                 </svg>
