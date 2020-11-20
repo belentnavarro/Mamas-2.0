@@ -74,13 +74,11 @@ and open the template in the editor.
                                 <input type="email" class="form-control mb-1 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
                                        minlength="5" maxlength="20" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
                                 <div class="invalid-feedback text-left" id="emailError">
-                                    Mensaje de error
                                 </div>
                                 <!-- Password -->
                                 <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Password" name="password" id="password" required aria-describedby="emailPassword"
                                        minlength="8" maxlength="10" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}">
                                 <div class="invalid-feedback mb-4 text-left"  id="passwordError">
-                                    Mensaje de error
                                 </div>
 
                                 <!-- Inicio de sesion -->

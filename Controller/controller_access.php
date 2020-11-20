@@ -98,14 +98,19 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
             move_uploaded_file($_FILES['profile_img']['tmp_name'], $img_directory . $img_name);
         }
 
-        // Hago la insercción a la BDD
-        PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
+        // Compruebo que el email no este ya en la base de datos
+        if(PersonDAO::existsPersonEmail($email) == $email || PersonDAO::existsPersonDni($dni) == $dni) {
+            header('Location: ../View/error_registro.php');
+        } else {
+            // Hago la insercción a la BDD
+            PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
 
-        // Le doy el rol de usuario por defecto
-        PersonDAO::insertRol(0, $dni);
-        
-        // Envio a la pagina de usuario inactivo
-        header('Location: ../View/exito_registro.php');
+            // Le doy el rol de usuario por defecto
+            PersonDAO::insertRol(0, $dni);
+
+            // Envio a la pagina de usuario inactivo
+            header('Location: ../View/exito_registro.php');
+        }
     } else {
         // Captcha inválido
         $_SESSION['mensaje-captcha'] = 'Error al validar su identidad. ¿Es usted un robot?';
