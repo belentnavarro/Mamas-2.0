@@ -67,10 +67,10 @@ and open the template in the editor.
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="bg--o-dark text-white">
                 <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/<?=$usuario->getProfilePhoto()?>" alt="alt" class="profile logo rounded-circle mb-5"/>
+                    <img src="../Img/img_profile_users/<?=$usuario->getProfilePhoto()?>" alt="alt" class="profile logo rounded-circle mb-5" width="150"/>
                     <ul class="list-unstyled components mb-5">
                         <li class="border-bottom">
-                            <a href="#">
+                            <a href="ver_perfil.php">
                                 <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                 <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
                                 </svg>

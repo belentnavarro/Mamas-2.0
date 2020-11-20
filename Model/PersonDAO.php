@@ -401,6 +401,7 @@ class PersonDAO {
         GestionBDD::cerrarBDD();
     }
 
+    // Método para actualizar el rol
     static function updateRol($idRol, $dniPerson) {
         // Abro la conexión
         GestionBDD::conectarBDD();
@@ -415,6 +416,51 @@ class PersonDAO {
         $val2 = $dniPerson;
 
         // Ejecuto y cierro la conexión
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
+    // Actualiza el perfil del usuario desde el propio perfil, sin modificar la imagen de perfil
+    static function updatePersonNoImg($name, $surname, $email, $password, $dni) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = "UPDATE " . Constants::$PEOPLE . " SET name = ?, surname = ?, email = ?, password = ? WHERE dni = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("sssss", $val1, $val2, $val3, $val4, $val5);
+
+        // Valores de la sentencia
+        $val1 = $name;
+        $val2 = $surname;
+        $val3 = $email;
+        $val4 = $password;
+        $val5 = $dni;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
+    // Actualiza el perfil del usuario desde el propio perfil, modificando la imagen de perfil
+    static function updatePersonImg($name, $surname, $email, $password, $img_name, $dni) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = "UPDATE " . Constants::$PEOPLE . " SET name = ?, surname = ?, email = ?, password = ?, profilePhoto = ? WHERE dni = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("ssssss", $val1, $val2, $val3, $val4, $val5, $val6);
+
+        // Valores de la sentencia
+        $val1 = $name;
+        $val2 = $surname;
+        $val3 = $email;
+        $val4 = $password;
+        $val5 = $img_name;
+        $val6 = $dni;
+
+        // Ejecuto y cierro la conexion
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
