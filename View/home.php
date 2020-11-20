@@ -43,22 +43,29 @@ and open the template in the editor.
         // Recupero datos de la sesion
         $userEmail = $_SESSION['userEmail'];
         $userRol = $_SESSION['userRol'];
-        
+
         //Recupero los datos del usuario
         $datJSON = PersonDAO::getPersonJSON($userEmail);
-        
+
         // Decodifico el JSON y saco el usuario del array
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
-         
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="bg--o-dark text-white">
                 <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/<?=$usuario->getProfilePhoto()?>" alt="alt"class="profile logo rounded-circle mb-5" width="150"/>
+                    <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt"class="profile logo rounded-circle mb-5" width="150"/>
                     <ul class="list-unstyled components mb-5">
+                        <li class="border-bottom">
+                            <a href="home.php">
+                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                <use xlink:href="../Icons/bootstrap-icons.svg#house"/>
+                                </svg>
+                                Home
+                            </a>
+                        </li>
                         <li class="border-bottom">
                             <a href="ver_perfil.php">
                                 <svg class="bi mr-2" width="20" height="20" fill="currentColor">
@@ -84,7 +91,7 @@ and open the template in the editor.
                             </a>
                             <ul class="collapse list-unstyled ml-4" id="examSubmenu">
                                 <li>
-                                    <a href="#">
+                                    <a href="crud_exam.php">
                                         <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-plus"/>
                                         </svg>
@@ -97,6 +104,14 @@ and open the template in the editor.
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-check"/>
                                         </svg>
                                         Corregir examen
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="crud_preguntas.php">
+                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                        <use xlink:href="../Icons/bootstrap-icons.svg#question-square"/>
+                                        </svg>
+                                        BDD Preguntas
                                     </a>
                                 </li>
                             </ul>
@@ -183,7 +198,7 @@ and open the template in the editor.
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="display-2 text-white">Hello, <?=ucfirst($usuario->getName())?>!!</h1>
+                                <h1 class="display-2 text-white">Hello, <?= ucfirst($usuario->getName()) ?>!!</h1>
                                 <p class="text-white mt-0">Esta es tu agenda para hoy, actualiza tu trabajo en un solo click!</p>
                             </div>
                         </div>
