@@ -23,7 +23,7 @@ class GestionBDD {
         if(mysqli_connect_errno(self::$conexion)){
             print "Fallo al conectar a MySQL: " . mysqli_connect_error();
         } else {
-            print "Conexión realizada con éxito.";
+            //print "Conexión realizada con éxito.";
         }
     }
     

@@ -124,7 +124,7 @@ class PersonDAO {
         $exists = false;
 
         // Preparo la sentencia SQL
-        $query = 'SELECT * FROM " . Constants::$PEOPLE . " WHERE email = ?';
+        $query = 'SELECT * FROM ' . Constants::$PEOPLE . ' WHERE email = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
 
@@ -156,7 +156,7 @@ class PersonDAO {
         $exists = false;
 
         // Preparo la sentencia SQL
-        $query = 'SELECT * FROM " . Constants::$PEOPLE . " WHERE dni = ?';
+        $query = 'SELECT * FROM ' . Constants::$PEOPLE . ' WHERE dni = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
 
@@ -178,7 +178,7 @@ class PersonDAO {
         // Develvo si existe o no
         return $exists;
     }
-    
+
     // Método para saber si un usuario esta activo
     static function isActivePersonDni($dni) {
         // Abro la conexion
@@ -210,41 +210,41 @@ class PersonDAO {
         // Develvo si existe o no
         return $activeU;
     }
-    
+
     // Metodo para activar o desactivar a un usuario
-    static function activePersonDni($dni, $active){
+    static function activePersonDni($dni, $active) {
         // Abro la conexión
         GestionBDD::conectarBDD();
-        
+
         // Preparo la sentencia SQL
         $query = 'UPDATE ' . Constants::$PEOPLE . ' SET active = ? WHERE dni = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("is", $val1, $val2);
-        
+
         // Valores de la sentencia
         $val1 = $active;
         $val2 = $dni;
-        
+
         // Ejecuto y cierro la conexión
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
 
     // Método para recuperar una persona de la BDD
-    static function getPerson($email) {
+    static function getPersonJSON($email) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
         // Preparo la sentencia SQL
-        $query = 'SELECT * FROM ' . Constants::$PEOPLE . ' WHERE correo = ?';
-        $stmt = self::$conexion->prepare($query);
+        $query = 'SELECT * FROM people WHERE email = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
 
         // Valores de la sentencia
-        $val1 = $correo;
+        $val1 = $email;
 
         // Creo una persona para devolver lo que venga en la consulta
-        $persona = null;
+        $person = array();
 
         // Ejecuto y guardo el resultado
         $stmt->execute();
@@ -252,79 +252,88 @@ class PersonDAO {
         // Vincular las variables de resultados
         $stmt->bind_result($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
 
-        // Devuelvo null o la persona que venga en la consulta
         if ($stmt->fetch()) {
-            $person = new Person($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
+            $person[0] = array(
+                'dni' => $dni,
+                'name' => $name,
+                'surname' => $surname,
+                'email' => $email,
+                'password' => $password,
+                'profilePhoto' => $profilePhoto,
+                'rol' => $rol,
+                'active' => $active,
+            );
         }
 
         // Cierro la sentencia y la consulta
         $stmt->close();
-        self::$conexion->close();
+        GestionBDD::cerrarBDD();
 
-        // Devuelvo la persona o null
-        return $persona;
+        // Devuelvo la persona o null y codifico en JSON 
+        $json_string = json_encode($person);
+        return $json_string;
     }
-    
+
     // Método para recuperar todas las personas de la BD
-    static function getAll(){
+    static function getAll() {
         // Abro la conexión
         GestionBDD::conectarBDD();
-        
+
         // Variable para devolver las personas
         $people = array();
-        
+
         // Preparo la sentencia SQL
         $query = 'SELECT * FROM ' . Constants::$PEOPLE;
-        
+
         // Ejecuto y guardo el resultado
-        if($result = GestionBDD::$conexion->query($query)){
-            while($row = $result->fetch_array()){
+        if ($result = GestionBDD::$conexion->query($query)) {
+            while ($row = $result->fetch_array()) {
                 $people[] = new Person($row['dni'], $row['name'], $row['surname'], $row['email'], $row['password'], $row['profilePhoto'], $row['rol'], $row['active']);
             }
-            
+
             // Libero el resultado
             $result->free();
         }
-        
+
         GestionBDD::cerrarBDD();
-        
+
         // Devuelvo los usuarios
         return $people;
     }
-    
+
     // Método para recuperar todas las personas de la BD JSON
-    static function getAllJSON(){
+    static function getAllJSON() {
         // Abro la conexión
         GestionBDD::conectarBDD();
-        
+
         // Variable para devolver las personas
         $people = array();
-        
+
         // Preparo la consulta
         $query = 'SELECT * FROM ' . Constants::$PEOPLE;
-        
+
         //Ejecuto y guardo el resultado
-        if($result = GestionBDD::$conexion->query($query)){
-            while($row = $result->fetch_array()){
+        if ($result = GestionBDD::$conexion->query($query)) {
+            while ($row = $result->fetch_array()) {
                 $people[] = array('dni' => $row['dni'],
-                                    'name' => $row['name'],
-                                    'surname' => $row['surname'],
-                                    'email' => $row['email'],
-                                    'password' => $row['password'],
-                                    'profilePhoto' => $row['profilePhoto'],
-                                    'rol' => $row['rol'],
-                                    'active' => $row['active']);
+                    'name' => $row['name'],
+                    'surname' => $row['surname'],
+                    'email' => $row['email'],
+                    'password' => $row['password'],
+                    'profilePhoto' => $row['profilePhoto'],
+                    'rol' => $row['rol'],
+                    'active' => $row['active']);
             }
-            
+
             // Libero el resultado
             $result->free();
         }
-        
+
         GestionBDD::cerrarBDD();
-        
+
         // Codifico los datos en JSON
         $json_string = json_encode($people);
-        
+
         // Devuelvo los datos codificados
         $json_string;
     }
@@ -373,7 +382,7 @@ class PersonDAO {
         GestionBDD::cerrarBDD();
     }
 
-        // Método para insertar un nuevo rol
+    // Método para insertar un nuevo rol
     static function insertRol($idRol, $dniPerson) {
         // Abro la conexion
         GestionBDD::conectarBDD();
@@ -391,23 +400,23 @@ class PersonDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
-    static function updateRol($idRol, $dniPerson){
+
+    static function updateRol($idRol, $dniPerson) {
         // Abro la conexión
         GestionBDD::conectarBDD();
-        
+
         // Preparo la sentencia SQL
         $query = 'UPDATE ' . Constants::$PEOPLE . ' SET idRol = ? WHERE dniPerson = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("is", $val1, $val2);
-        
+
         // Valores de la sentencia
         $val1 = $idRol;
         $val2 = $dniPerson;
-        
+
         // Ejecuto y cierro la conexión
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
+
 }

@@ -42,6 +42,15 @@ and open the template in the editor.
 
         // Recupero el rol del usuario
         $userRol = $_SESSION['userRol'];
+        $userEmail = $_SESSION['userEmail'];
+        
+        //Recupero los datos del usuario
+        $datJSON = PersonDAO::getPersonJSON($userEmail);
+        
+        // Decodifico el JSON y saco el usuario del array
+        $objs = json_decode($datJSON, true);
+        $o = $objs[0];
+        $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
         
         // Recupero los usuarios de la BD
         //$usersAux = PersonDAO::getAllJSON();
@@ -58,7 +67,7 @@ and open the template in the editor.
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="bg--o-dark text-white">
                 <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/dAPJ.png" alt="alt"class="profile logo rounded-circle mb-5"/>
+                    <img src="../Img/img_profile_users/<?=$usuario->getProfilePhoto()?>" alt="alt" class="profile logo rounded-circle mb-5"/>
                     <ul class="list-unstyled components mb-5">
                         <li class="border-bottom">
                             <a href="#">
@@ -172,13 +181,13 @@ and open the template in the editor.
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <nav class="navbar navbar-expand-lg navbar-light bg--g-light  justify-content-between">
+                                <nav class="navbar navbar-expand-lg justify-content-between shadow-none">
                                     <button type="button" id="sidebarCollapse" class="btn btn--g-medium py-1 px-2">
                                         <svg class="bi" width="30" height="30" fill="currentColor">
                                         <use xlink:href="../Icons/bootstrap-icons.svg#list"/>
                                         </svg>
                                     </button>
-                                    <h1 class="text-white font-weight-bolder">mamas 2.0</h1>
+                                    <h1 class="text-white font-weight-bolder bg--o-light px-1 rounded">mamas 2.0</h1>
                                 </nav>
                             </div>
                         </div>
