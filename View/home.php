@@ -47,7 +47,7 @@ and open the template in the editor.
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="bg--o-dark text-white">
                 <div class="p-4 pt-5">
-                    <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a>
+                    <img src="../Img/img_profile_users/dAPJ.png" alt="alt"class="profile logo rounded-circle mb-5"/>
                     <ul class="list-unstyled components mb-5">
                         <li class="border-bottom">
                             <a href="#">
@@ -55,6 +55,14 @@ and open the template in the editor.
                                 <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
                                 </svg>
                                 Mi perfil
+                            </a>
+                        </li>
+                        <li class="border-bottom">
+                            <a href="#">
+                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                <use xlink:href="../Icons/bootstrap-icons.svg#people"/>
+                                </svg>
+                                Usuarios
                             </a>
                         </li>
                         <li class="border-bottom">
@@ -126,7 +134,7 @@ and open the template in the editor.
                             </ul>
                         </li>
                         <li class="border-bottom">
-                            <a href="../Contoller/controller.php?cerrar=1">
+                            <a href="../Controller/controller_home.php?cerrar=1">
                                 <svg class="bi mr-2" width="22" height="22" fill="currentColor">
                                 <use xlink:href="../Icons/bootstrap-icons.svg#arrow-right-circle"/>
                                 </svg>
@@ -142,18 +150,34 @@ and open the template in the editor.
                 </div>
             </nav>
 
-            <!-- Page Content  -->
-            <div id="content" class="p-4 p-md-5">
+            <!-- Contenido página  -->
+            <div id="content">
 
-                <div class="container-fluid">
-                    <nav class="navbar navbar-expand-lg navbar-light bg--g-light  justify-content-between">
-                        <button type="button" id="sidebarCollapse" class="btn btn--g-medium py-1 px-2">
-                            <svg class="bi" width="30" height="30" fill="currentColor">
-                            <use xlink:href="../Icons/bootstrap-icons.svg#list"/>
-                            </svg>
-                        </button>
-                        <h1 class="text-white font-weight-bolder">mamas 2.0</h1>
-                    </nav>
+                <!-- Header contenido-->
+                <div class="header-home d-flex align-items-center position-relative pt-4">
+                    <!-- Mask -->
+                    <span class="mask bg-gradient-default opacity-8"></span>
+                    <!-- Header container -->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <nav class="navbar navbar-expand-lg navbar-light bg--g-light  justify-content-between">
+                                    <button type="button" id="sidebarCollapse" class="btn btn--g-medium py-1 px-2">
+                                        <svg class="bi" width="30" height="30" fill="currentColor">
+                                        <use xlink:href="../Icons/bootstrap-icons.svg#list"/>
+                                        </svg>
+                                    </button>
+                                    <h1 class="text-white font-weight-bolder">mamas 2.0</h1>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="display-2 text-white">Hello!</h1>
+                                <p class="text-white mt-0">Esta es tu agenda para hoy, actualiza tu trabajo en un solo click!</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="container-fluid">
