@@ -46,19 +46,18 @@ and open the template in the editor.
         
         //Recupero los datos del usuario
         $datJSON = PersonDAO::getPersonJSON($userEmail);
-        var_dump($datJSON);
-        // Decodifico el JSON
+        
+        // Decodifico el JSON y saco el usuario del array
         $objs = json_decode($datJSON, true);
-        print_r($objs);
-        foreach ($objs as $o){
-            echo $o['dni'];
-        }
+        $o = $objs[0];
+        $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
+         
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="bg--o-dark text-white">
                 <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/dAPJ.png" alt="alt"class="profile logo rounded-circle mb-5"/>
+                    <img src="../Img/img_profile_users/<?=$usuario->getProfilePhoto()?>" alt="alt"class="profile logo rounded-circle mb-5"/>
                     <ul class="list-unstyled components mb-5">
                         <li class="border-bottom">
                             <a href="#">
@@ -172,19 +171,19 @@ and open the template in the editor.
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <nav class="navbar navbar-expand-lg navbar-light bg--g-light  justify-content-between">
+                                <nav class="navbar navbar-expand-lg justify-content-between shadow-none p-0">
                                     <button type="button" id="sidebarCollapse" class="btn btn--g-medium py-1 px-2">
                                         <svg class="bi" width="30" height="30" fill="currentColor">
                                         <use xlink:href="../Icons/bootstrap-icons.svg#list"/>
                                         </svg>
                                     </button>
-                                    <h1 class="text-white font-weight-bolder">mamas 2.0</h1>
+                                    <h1 class="text-white font-weight-bolder bg--o-light px-1 rounded">mamas 2.0</h1>
                                 </nav>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="display-2 text-white">Hello!</h1>
+                                <h1 class="display-2 text-white">Hello, <?=ucfirst($usuario->getName())?>!!</h1>
                                 <p class="text-white mt-0">Esta es tu agenda para hoy, actualiza tu trabajo en un solo click!</p>
                             </div>
                         </div>
