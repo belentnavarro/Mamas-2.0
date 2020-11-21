@@ -50,7 +50,7 @@ and open the template in the editor.
         // Decodifico el JSON y saco el usuario del array
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
-        $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
+        $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
         ?>
 
         <div class="wrapper d-flex align-items-stretch">

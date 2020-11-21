@@ -50,7 +50,7 @@ and open the template in the editor.
         // Decodifico el JSON y saco el usuario del array
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
-        $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
+        $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
 
         // Recupero todos los usuarios
         $datJSON = PersonDAO::getAllJSON();
@@ -61,7 +61,7 @@ and open the template in the editor.
         // Decodifico el JSON y saco los usuarios del array
         $objs = json_decode($datJSON, true);
         foreach ($objs as $o) {
-            $users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
+            $users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
         }
         ?>
 
@@ -305,6 +305,36 @@ and open the template in the editor.
                                     Gestor de usuarios
                                 </div>
                                 <div class="card-body">
+                                    <?php
+                                        if(isset($_SESSION['feedback-edit-user'])) {
+                                        ?>
+                                        <div class="row align-items-center">
+                                            <div class="invalid-feedback mb-4 text-left"  value="<?php echo $_SESSION['feedback-edit-user']; ?>"></div>
+                                        </div>
+                                        <?php
+                                        }
+                                        unset($_SESSION['feedback-edit-user']);
+                                        ?>
+                                    <?php
+                                        if(isset($_SESSION['feedback-active-user'])) {
+                                        ?>
+                                        <div class="row align-items-center">
+                                            <div class="invalid-feedback mb-4 text-left"  value="<?php echo $_SESSION['feedback-active-user']; ?>"></div>
+                                        </div>
+                                        <?php
+                                        }
+                                        unset($_SESSION['feedback-active-user']);
+                                        ?>
+                                    <?php
+                                        if(isset($_SESSION['feedback-delete-user'])) {
+                                        ?>
+                                        <div class="row align-items-center">
+                                            <div class="invalid-feedback mb-4 text-left"  value="<?php echo $_SESSION['feedback-delete-user']; ?>"></div>
+                                        </div>
+                                        <?php
+                                        }
+                                        unset($_SESSION['feedback-delete-user']);
+                                        ?>
                                     <div class="row border-bottom font-weight-bolder mb-4 pb-0">
                                         <div class="col">
                                             <p>DNI  </p>
@@ -379,26 +409,23 @@ and open the template in the editor.
                                                     </div> 
                                                     <div class="col-3 mb-2">
                                                         <?php
-                                                        if($user->getRol() == 0){
+                                                        if($user->getActive() == 0){
                                                         ?>
-                                                        <option value="usuario" selected>Alumno</option>
-                                                        <option value="profesor">Profesor</option>
-                                                        <option value="administrador">Administrador</option>
+                                                        <button type="submit" class="btn btn--g-medium flex-grow-1" name="active_user" value="active_user">
+                                                            <svg class="bi" width="22" height="22" fill="currentColor">
+                                                            <use xlink:href="../Icons/bootstrap-icons.svg#person-check-fill"/>
+                                                            </svg>
+                                                        </button>
                                                         <?php
-                                                        } else if ($user->getRol() == 1){
+                                                        } else if ($user->getActive() == 1) {
                                                         ?>
-                                                        <option value="usuario">Alumno</option>
-                                                        <option value="profesor" selected>Profesor</option>
-                                                        <option value="administrador">Administrador</option>
+                                                        <button type="submit" class="btn btn--o-dark flex-grow-1" name="active_user" value="inactive_user">
+                                                            <svg class="bi" width="22" height="22" fill="currentColor">
+                                                            <use xlink:href="../Icons/bootstrap-icons.svg#person-dash-fill"/>
+                                                            </svg>
+                                                        </button>
                                                         <?php
-                                                        } else if ($user->getRol() == 2){
-                                                        ?>
-                                                        ?>
-                                                        <option value="usuario" selected>Alumno</option>
-                                                        <option value="profesor">Profesor</option>
-                                                        <option value="administrador" selected>Administrador</option>
-                                                        <?php
-                                                        }
+                                                        } 
                                                         ?>
                                                         <button type="submit" class="btn btn-success flex-grow-1" name="edit_user" value="edit_user">
                                                             <svg class="bi" width="22" height="22" fill="currentColor">
