@@ -5,9 +5,6 @@ const emailError = document.getElementById('emailError');
 const password = document.getElementById('password');
 const passwordError = document.getElementById('passwordError');
 
-const dni = document.getElementById('dni');
-const dniError = document.getElementById('dniError');
-
 const name = document.getElementById('name');
 const nameError = document.getElementById('nameError');
 
@@ -33,7 +30,6 @@ const profileImgError = document.getElementById('profileImgError');
                     showPasswordError();
                     showNameError();
                     showSurnameError();
-                    showDniError();
                 }
                 if (!validityImg(profileImg)) {
                     event.stopPropagation();
@@ -56,20 +52,6 @@ function showEmailError() {
     } else if (email.validity.tooShort) {
         // Si los datos son demasiado cortos
         emailError.textContent = 'El correo electrónico debe tener al menos ${ email.minLength } caracteres; ha introducido ${ email.value.length }.';
-    }
-}
-
-// Función para mostrar los errores del email
-function showDniError() {
-    if (dni.validity.valueMissing) {
-        // Si el campo está vacío
-        dniError.textContent = 'Debe introducir un Dni valido';
-    } else if (dni.validity.patternMismatch) {
-        // Si el password no sigue el patrón
-        dniError.textContent = 'El Dni introducido no es valido';
-    } else if (dni.validity.tooShort) {
-        // Si los datos son demasiado cortos
-        dniError.textContent = 'El correo electrónico debe tener 8 numero y una letra';
     }
 }
 
@@ -120,7 +102,6 @@ function showSurnameError() {
         // No coincide con el patron
         surnameError.textContent = `El apellido debe empezar con mayusculas seguida de minusculas y no terminar en espacios`;
     }
-
 }
 
 // Función para validar el tipo y el tamaño de la imagen
