@@ -24,7 +24,7 @@ if(isset($_REQUEST['add_user'])){
    } else if ($opc_rol == 'administrador'){
        $rol = 2;
    }
-   $img_name = 'dAPG.png';
+   $profilePhoto = 'dAPG.png';
    
    // Compruebo que el email no este ya en la base de datos
    if(PersonDAO::existsPersonDni($dni) || PersonDAO::existsPersonEmail($email)){
