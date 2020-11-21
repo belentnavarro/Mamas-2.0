@@ -28,6 +28,7 @@ if (isset($_REQUEST['login'])) {
         // Guardo en la sesion el correo del usuario
         $_SESSION['userEmail'] = $email;
 
+        // Compruebo login correcto
         if (PersonDAO::login($email, $password)) {
 
             // Compruebo si el usuario esta inactivo
@@ -73,6 +74,8 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         $surname = $_REQUEST['surname'];
         $email = $_REQUEST['email'];
         $password = $_REQUEST['password'];
+        // Encripto la contraseña
+        $passwordE = password_hash($password, PASSWORD_DEFAULT);
         $rol = 0;
         $active = 0;
         // Datos de la imagen
