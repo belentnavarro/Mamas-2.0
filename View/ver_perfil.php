@@ -67,7 +67,7 @@ and open the template in the editor.
                             </a>
                         </li>
                         <li class="border-bottom">
-                            <a href="ver_perfil.php">
+                            <a href="#">
                                 <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                 <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
                                 </svg>
@@ -198,16 +198,78 @@ and open the template in the editor.
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="display-2 text-white">Hello, <?= ucfirst($usuario->getName()) ?>!!</h1>
-                                <p class="text-white mt-0">Esta es tu agenda para hoy, actualiza tu trabajo en un solo click!</p>
+                                <h1 class="display-2 text-white">Perfil de <?= ucfirst($usuario->getName()) ?>!!</h1>
+                                <p class="text-white mt-0">Desde aquí podrás modificar tu perfil de una forma sencilla.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="container-fluid">
-                    <div class="row">
-                        contenido
+                <!-- Perfil -->
+                <div class="container-fluid mt-4">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-10">
+                            <div class="card mb-0 shadow">
+                                <div class="card-header bg--o-light text-center">
+                                    <h2 class="text-white font-weight-bolder">Editar perfil</h2>
+                                </div>
+                                <div class="card-body">
+                                    <form name="registro" class="text-center p-5 needs-validation" action="../Controller/controller_user.php" method="POST" enctype="multipart/form-data" novalidate>
+
+                                        <div>
+                                            <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt" class="profile logo rounded-circle mb-5" id="imgProfileU" width="150"/>
+                                        </div>
+
+                                        <!-- DNI -->
+                                        <input type="text" class="form-control mb-1" name="dni" value="<?= $usuario->getDni() ?>" disabled>
+
+                                        <!-- Correo -->
+                                        <input type="email" class="form-control mb-1 mt-4 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
+                                               minlength="5" maxlength="60" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*"
+                                               value="<?= $usuario->getEmail() ?>">
+                                        <div class="invalid-feedback text-left" id="emailError">
+                                        </div>
+
+                                        <!-- Password -->
+                                        <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Password" name="password" id="password" required aria-describedby="emailPassword"
+                                               minlength="8" maxlength="10" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}"
+                                               value="<?= $usuario->getPassword() ?>">
+                                        <div class="invalid-feedback mb-4 text-left"  id="passwordError">
+                                        </div>
+
+                                        <!-- Nombre -->
+                                        <input type="text" class="form-control mb-1 mt-4" placeholder="Nombre" name="name" id="name" required aria-describedby="nameError"
+                                               minlength="3" maxlength="20" pattern="[A-Z]{1}[a-z]+"
+                                               value="<?= ucfirst($usuario->getName()) ?>">
+                                        <div class="invalid-feedback mb-4 text-left"  id="nameError">
+                                        </div>
+
+                                        <!-- Apellido -->
+                                        <input type="text" class="form-control mb-1 mt-4" placeholder="Apellido" name="surname" id="surname" required aria-describedby="surnameError"
+                                               minlength="3" maxlength="20" pattern="[A-Z]{1}[a-z]+"
+                                               value="<?= ucfirst($usuario->getSurname()) ?>">
+                                        <div class="invalid-feedback mb-4 text-left"  id="surnameError">
+                                        </div>
+
+                                        <!-- Imagen de perfil -->
+                                        <input type="file" class="form-control-file mt-4" name="profile_img" accept="image/png, image/jpeg" id="profileImg" onchange="previewImg(event)">
+                                        <div class="invalid-feedback mb-4 text-left"  id="profileImgError">
+                                        </div>
+
+                                        <!-- Botón de registroi -->
+                                        <button class="btn btn--g-medium btn-block my-4" type="submit" name="update_profile" value="update_profile">Modificar perfil</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-6">
+                                    <svg class="bi" width="20" height="20" fill="currentColor">
+                                    <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
+                                    </svg>
+                                    <a href="tareas.php" class="text--o-light"><small>Volver al inicio</small></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -227,6 +289,7 @@ and open the template in the editor.
 
         <!-- APP JS -->
         <script type="text/javascript" src="../Js/app.js"></script>
+        <script type="text/javascript" src="../Js/validationUpdateProfile.js"></script>
     </body>
 </html>
 

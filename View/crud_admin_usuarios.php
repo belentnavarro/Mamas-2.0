@@ -43,34 +43,43 @@ and open the template in the editor.
         // Recupero el rol del usuario
         $userRol = $_SESSION['userRol'];
         $userEmail = $_SESSION['userEmail'];
-        
+
         //Recupero los datos del usuario
         $datJSON = PersonDAO::getPersonJSON($userEmail);
-        
+
         // Decodifico el JSON y saco el usuario del array
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
-        
-        // Recupero los usuarios de la BD
-        //$usersAux = PersonDAO::getAllJSON();
-        //$usersList = json_decode($usersAux, true);
-        $users = PersonDAO::getAll();
 
-//        $users = array();
-//        foreach($usersList as $auxUser){
-//            $users[] = new Person($auxUser['dni'], $auxUser['name'], $auxUser['surname'], $auxUser['email'], $auxUser['password'], $auxUser['profilePhoto'], $auxUser['rol'], $auxUser['active']);
-//        }
-        
+        // Recupero todos los usuarios
+        $datJSON = PersonDAO::getAllJSON();
+
+        // Variable para guardar los usuarios
+        $users = array();
+
+        // Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($datJSON, true);
+        foreach ($objs as $o) {
+            $users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
             <nav id="sidebar" class="bg--o-dark text-white">
                 <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/<?=$usuario->getProfilePhoto()?>" alt="alt" class="profile logo rounded-circle mb-5"/>
+                    <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt" class="profile logo rounded-circle mb-5" width="150"/>
                     <ul class="list-unstyled components mb-5">
                         <li class="border-bottom">
-                            <a href="#">
+                            <a href="home.php">
+                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                <use xlink:href="../Icons/bootstrap-icons.svg#house"/>
+                                </svg>
+                                Home
+                            </a>
+                        </li>
+                        <li class="border-bottom">
+                            <a href="ver_perfil.php">
                                 <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                 <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
                                 </svg>
@@ -94,7 +103,7 @@ and open the template in the editor.
                             </a>
                             <ul class="collapse list-unstyled ml-4" id="examSubmenu">
                                 <li>
-                                    <a href="#">
+                                    <a href="crud_exam.php">
                                         <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-plus"/>
                                         </svg>
@@ -107,6 +116,14 @@ and open the template in the editor.
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-check"/>
                                         </svg>
                                         Corregir examen
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="crud_preguntas.php">
+                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
+                                        <use xlink:href="../Icons/bootstrap-icons.svg#question-square"/>
+                                        </svg>
+                                        BDD Preguntas
                                     </a>
                                 </li>
                             </ul>
@@ -232,23 +249,24 @@ and open the template in the editor.
                                             <p>Acciones</p>
                                         </div>
                                     </div>
-                                    
+
                                     <form action="../Controller/controller_crud_admin_usuarios.php" method="POST" name="add_user">
                                         <div class="row align-items-center">
                                             <div class="col mb-2">
-                                                <input type="text" name="dni" class="form-control" placeholder="DNI"/>
+                                                <input type="text" name="dni" class="form-control mb-1" placeholder="DNI" pattern="[0-9]{8}[A-Za-z]{1}" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="name" class="form-control" placeholder="Nombre"/>
+                                                <input type="text" name="name" class="form-control mb-1" placeholder="Nombre" minlength="3" maxlength="20" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="surname" class="form-control" placeholder="Apellido"/>
+                                                <input type="text" name="surname" class="form-control mb-1" placeholder="Apellido" minlength="3" maxlength="20" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="email" class="form-control" placeholder="Correo"/>
+                                                <input type="text" name="email" class="form-control mb-1" placeholder="Correo" 
+                                                       pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" minlength="5" maxlength="60" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="password" class="form-control" placeholder="Contraseña"/>
+                                                <input type="text" name="password" class="form-control mb-1" placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}" minlength="8" maxlength="10" required/>
                                             </div>
                                             <div class="col mb-2">
                                                 <select class="custom-select" name="rol" required>
@@ -265,6 +283,16 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
+                                        <?php
+                                        if(isset($_SESSION['feedback-add-user'])){
+                                        ?>
+                                        <div class="row align-items-center">
+                                            <div class="invalid-feedback mb-4 text-left"  value="<?php echo $_SESSION['mensaje']; ?>"></div>
+                                        </div>
+                                        <?php
+                                        }
+                                        unset($_SESSION['feedback-add-user']);
+                                        ?>
                                     </form>   
                                 </div>
                             </div>
@@ -300,31 +328,56 @@ and open the template in the editor.
                                             <p>Acciones</p>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Listar usuarios -->
                                     <section class="scrollbar">
-                                        <?php 
-                                        foreach($users as $user){
-                                        ?>
-                                        <form action="../Controller/controller_crud_admin_usuarios.php" method="POST" name="crud_admin_usuario">
-                                            <div class="row align-items-center">
-                                                <div class="col mb-2">
-                                                    <input readonly type="text" name="dni" class="form-control" value="<?php echo strtoupper($user->getDni()); ?>">
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <input type="text" name="name" class="form-control" value="<?php echo ucfirst($user->getName()); ?>">
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <input type="text" name="surname" class="form-control" value="<?php echo ucfirst($user->getSurname()); ?>">
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <input type="text" name="email" class="form-control" value="<?php echo $user->getEmail() ?>">
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <input type="text" name="password" class="form-control" value="<?php echo $user->getPassword() ?>">
-                                                </div>
-                                                <div class="col mb-2">
-                                                    <select class="custom-select" name="rol" required>
+                                        <?php
+                                        foreach ($users as $user) {
+                                            ?>
+                                            <form action="../Controller/controller_crud_admin_usuarios.php" method="POST" name="crud_admin_usuario">
+                                                <div class="row align-items-center">
+                                                    <div class="col mb-2">
+                                                        <input readonly type="text" name="dni" class="form-control" value="<?php echo strtoupper($user->getDni()); ?>">
+                                                    </div>
+                                                    <div class="col mb-2">
+                                                        <input type="text" name="name" class="form-control" value="<?php echo ucfirst($user->getName()); ?>">
+                                                    </div>
+                                                    <div class="col mb-2">
+                                                        <input type="text" name="surname" class="form-control" value="<?php echo ucfirst($user->getSurname()); ?>">
+                                                    </div>
+                                                    <div class="col mb-2">
+                                                        <input type="text" name="email" class="form-control" value="<?php echo $user->getEmail() ?>">
+                                                    </div>
+                                                    <div class="col mb-2">
+                                                        <input type="text" name="password" class="form-control" value="<?php echo $user->getPassword() ?>">
+                                                    </div>
+                                                    <div class="col mb-2">
+                                                        <select class="custom-select" name="rol" required>
+                                                            <?php
+                                                            if ($user->getRol() == 0) {
+                                                                ?>
+                                                                <option value="usuario" selected>Alumno</option>
+                                                                <option value="profesor">Profesor</option>
+                                                                <option value="administrador">Administrador</option>
+                                                                <?php
+                                                            } else if ($user->getRol() == 1) {
+                                                                ?>
+                                                                <option value="usuario">Alumno</option>
+                                                                <option value="profesor" selected>Profesor</option>
+                                                                <option value="administrador">Administrador</option>
+                                                                <?php
+                                                            } else if ($user->getRol() == 2) {
+                                                                ?>
+                                                                ?>
+                                                                <option value="usuario" selected>Alumno</option>
+                                                                <option value="profesor">Profesor</option>
+                                                                <option value="administrador" selected>Administrador</option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div> 
+                                                    <div class="col-3 mb-2">
                                                         <?php
                                                         if($user->getRol() == 0){
                                                         ?>
@@ -347,42 +400,20 @@ and open the template in the editor.
                                                         <?php
                                                         }
                                                         ?>
-                                                    </select>
-                                                </div> 
-                                                <div class="col-3 mb-2">
-                                                    <?php
-                                                    if($user->getActive() == 0){
-                                                    ?>
-                                                    <button type="submit" class="btn bg--o-light flex-grow-1 mr-2" name="active_user" value="active_user">
-                                                        <svg class="bi" width="22" height="22" fill="currentColor">
-                                                        <use xlink:href="../Icons/bootstrap-icons.svg#person-check"/>
-                                                        </svg>
-                                                    </button>
-                                                    <?php
-                                                    } else if($user->getActive() == 1){
-                                                    ?>
-                                                    <button type="submit" class="btn bg--o-dark flex-grow-1 mr-2" name="active_user" value="inactive_user">
-                                                        <svg class="bi" width="22" height="22" fill="currentColor">
-                                                        <use xlink:href="../Icons/bootstrap-icons.svg#person-dash"/>
-                                                        </svg>
-                                                    </button>
-                                                    <?php
-                                                    } 
-                                                    ?>
-                                                    <button type="submit" class="btn btn-success flex-grow-1" name="edit_user" value="edit_user">
-                                                        <svg class="bi" width="22" height="22" fill="currentColor">
-                                                        <use xlink:href="../Icons/bootstrap-icons.svg#pencil-square"/>
-                                                        </svg>
-                                                    </button>
-                                                    <button type="submit" class="btn btn-danger flex-grow-1" name="delete_user" value="delete_user">
-                                                        <svg class="bi" width="22" height="22" fill="currentColor">
-                                                        <use xlink:href="../Icons/bootstrap-icons.svg#person-x"/>
-                                                        </svg>
-                                                    </button>
+                                                        <button type="submit" class="btn btn-success flex-grow-1" name="edit_user" value="edit_user">
+                                                            <svg class="bi" width="22" height="22" fill="currentColor">
+                                                            <use xlink:href="../Icons/bootstrap-icons.svg#pencil-square"/>
+                                                            </svg>
+                                                        </button>
+                                                        <button type="submit" class="btn btn-danger flex-grow-1" name="delete_user" value="delete_user">
+                                                            <svg class="bi" width="22" height="22" fill="currentColor">
+                                                            <use xlink:href="../Icons/bootstrap-icons.svg#person-x"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                        <?php
+                                            </form>
+                                            <?php
                                         }
                                         ?>
                                     </section>    
@@ -395,7 +426,7 @@ and open the template in the editor.
                             <svg class="bi" width="20" height="20" fill="currentColor">
                             <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
                             </svg>
-                            <a href="home.php" class="text-info"><small>Volver al inicio</small></a>
+                            <a href="home.php" class="text--o-dark"><small>Volver al inicio</small></a>
                         </div>
                     </div>
                 </div>
