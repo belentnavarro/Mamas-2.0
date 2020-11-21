@@ -362,6 +362,24 @@ class PersonDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
+    
+    // Metodo para eliminar un usuario
+    static function deletePerson($dni){
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+        
+        // Preparo la sentencia SQL
+        $query = 'DELETE FROM ' . Constants::$PEOPLE . ' WHERE dni = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+        
+        // Valores de la sentencia
+        $val1 = $dni;
+        
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
 
     // Actualizo el password con el email
     static function updatePassEmail($newPass, $email) {
@@ -402,12 +420,12 @@ class PersonDAO {
     }
 
     // Método para actualizar el rol
-    static function updateRol($idRol, $dniPerson) {
+    static function updateRolPerson($idRol, $dniPerson) {
         // Abro la conexión
         GestionBDD::conectarBDD();
 
         // Preparo la sentencia SQL
-        $query = 'UPDATE ' . Constants::$PEOPLE . ' SET idRol = ? WHERE dniPerson = ?';
+        $query = 'UPDATE ' . Constants::$PEOPLE . ' SET rol = ? WHERE dni = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("is", $val1, $val2);
 
@@ -420,8 +438,40 @@ class PersonDAO {
         GestionBDD::cerrarBDD();
     }
     
+    static function updateRol($idRol, $dniPerson){
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'UPDATE ' . Constants::$PERSONROL . ' SET idRol = ? WHERE dniPerson = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("is", $val1, $val2);
+
+        // Valores de la sentencia
+        $val1 = $idRol;
+        $val2 = $dniPerson;
+
+        // Ejecuto y cierro la conexión
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+    
+    // Método para borrar el rol del usuario
     static function deleteRol($dniPersson){
+        // Abro la conexión
+        GestionBDD::conectarBDD();
         
+        // Preparo la sentencia SQL
+        $query = 'DELTE FROM ' . Constants::$PERSONROL . ' WHERE dniPerson = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+        
+        // Valores de la sentencia
+        $val1 = $dniPerson;
+
+        // Ejecuto y cierro la conexión
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
     }
 
     // Actualiza el perfil del usuario desde el propio perfil, sin modificar la imagen de perfil
@@ -445,7 +495,7 @@ class PersonDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-
+    
     // Actualiza el perfil del usuario desde el propio perfil, modificando la imagen de perfil
     static function updatePersonImg($name, $surname, $email, $password, $img_name, $dni) {
         // Abro la conexion
