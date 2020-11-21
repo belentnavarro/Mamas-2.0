@@ -45,6 +45,42 @@ class PersonDAO {
         return $correcto;
     }
 
+    // Método para realizar el login
+    static function loginHash($email, $password) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Variable para controlar el login correcto
+        $correcto = false;
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT email, password FROM ' . Constants::$PEOPLE . ' WHERE email = ?;';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+
+        // Valores de la sentencia
+        $val1 = $email;
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+        $stmt->bind_result($email, $passwordE);
+        $row = $stmt->fetch();
+
+        // Si hay resultados y es correcta la comprobación devuelvo true
+        if (!empty($row)) {
+            if (password_verify($password, $row['passwordE'])) {
+                $correcto = true;
+            }
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        GestionBDD::cerrarBDD();
+
+        // Devuelvo si es o no correcto el login
+        return $correcto;
+    }
+
     // Método para recuperar el dni
     static function getDni($email) {
         // Abro la conexion
@@ -457,12 +493,12 @@ class PersonDAO {
     }
     
     // Método para borrar el rol del usuario
-    static function deleteRol($dniPersson){
+    static function deleteRol($dniPerson){
         // Abro la conexión
         GestionBDD::conectarBDD();
         
         // Preparo la sentencia SQL
-        $query = 'DELTE FROM ' . Constants::$PERSONROL . ' WHERE dniPerson = ?';
+        $query = 'DELETE FROM ' . Constants::$PERSONROL . ' WHERE dniPerson = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
         
