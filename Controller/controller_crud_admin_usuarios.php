@@ -10,9 +10,9 @@ session_start();
 // Botón para añadir un usuario
 if(isset($_REQUEST['add_user'])){
     // Recupero los datos del formulario
-   $dni = $_REQUEST['dni'];
-   $name = $_REQUEST['name'];
-   $surname = $_REQUEST['surname'];
+   $dni = strtolower($_REQUEST['dni']);
+   $name = strtolower($_REQUEST['name']);
+   $surname = strtolower($_REQUEST['surname']);
    $email = $_REQUEST['email'];
    $password = $_REQUEST['password'];
    $active = 0;
@@ -49,9 +49,10 @@ if(isset($_REQUEST['add_user'])){
 // Botón para editar un usuario
 if(isset($_REQUEST['edit_user'])){
     // Recupero los datos del formulario
-    $name = $_REQUEST['name'];
-    $surname = $_REQUEST['surname'];
-    $email = $_REQUEST['email'];
+    $dni = strtolower($_REQUEST['dni']);
+    $name = strtolower($_REQUEST['name']);
+    $surname = strtolower($_REQUEST['surname']);
+    $email = strtolower($_REQUEST['email']);
     $password = $_REQUEST['password'];
     $opc_rol = $_REQUEST['rol'];
     if($opc_rol == 'usuario'){
@@ -81,7 +82,7 @@ if(isset($_REQUEST['edit_user'])){
 // Botón para activar/inactivar un usuario
 if(isset($_REQUEST['active_user'])){
     // Recupero el DNI del usuario 
-    $dni = $_REQUEST['dni'];
+    $dni = strtolower($_REQUEST['dni']);
     
     //Recupero la opción del usuario
     $opc_active = $_REQUEST['active_user'];
@@ -110,7 +111,7 @@ if(isset($_REQUEST['active_user'])){
 // Botón para eliminar un usuario
 if(isset($_REQUEST['delete_user'])){
     // Recupero el DNI del usuario
-    $dni = $_REQUEST['dni'];
+    $dni = strtolower($_REQUEST['dni']);
     
     if(PersonDAO::existsPersonDni($dni)) {        
         // Borro el rol de la tabla de asignaciones
