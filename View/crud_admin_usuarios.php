@@ -52,15 +52,17 @@ and open the template in the editor.
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
 
-        // Recupero los usuarios de la BD
-        //$usersAux = PersonDAO::getAllJSON();
-        //$usersList = json_decode($usersAux, true);
-        $users = PersonDAO::getAll();
+        // Recupero todos los usuarios
+        $datJSON = PersonDAO::getAllJSON();
 
-//        $users = array();
-//        foreach($usersList as $auxUser){
-//            $users[] = new Person($auxUser['dni'], $auxUser['name'], $auxUser['surname'], $auxUser['email'], $auxUser['password'], $auxUser['profilePhoto'], $auxUser['rol'], $auxUser['active']);
-//        }
+        // Variable para guardar los usuarios
+        $users = array();
+
+        // Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($datJSON, true);
+        foreach ($objs as $o) {
+            $users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['active'], $o['rol']);
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
@@ -251,19 +253,20 @@ and open the template in the editor.
                                     <form action="../Controller/controller_crud_admin_usuarios.php" method="POST" name="add_user">
                                         <div class="row align-items-center">
                                             <div class="col mb-2">
-                                                <input type="text" name="dni" class="form-control" placeholder="DNI"/>
+                                                <input type="text" name="dni" class="form-control mb-1" placeholder="DNI" pattern="[0-9]{8}[A-Za-z]{1}" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="name" class="form-control" placeholder="Nombre"/>
+                                                <input type="text" name="name" class="form-control mb-1" placeholder="Nombre" minlength="3" maxlength="20" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="surname" class="form-control" placeholder="Apellido"/>
+                                                <input type="text" name="surname" class="form-control mb-1" placeholder="Apellido" minlength="3" maxlength="20" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="email" class="form-control" placeholder="Correo"/>
+                                                <input type="text" name="email" class="form-control mb-1" placeholder="Correo" 
+                                                       pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" minlength="5" maxlength="60" required/>
                                             </div>
                                             <div class="col mb-2">
-                                                <input type="text" name="password" class="form-control" placeholder="Contraseña"/>
+                                                <input type="text" name="password" class="form-control mb-1" placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}" minlength="8" maxlength="10" required/>
                                             </div>
                                             <div class="col mb-2">
                                                 <select class="custom-select" name="rol" required>
@@ -280,6 +283,16 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
+                                        <?php
+                                        if(isset($_SESSION['feedback-add-user'])){
+                                        ?>
+                                        <div class="row align-items-center">
+                                            <div class="invalid-feedback mb-4 text-left"  value="<?php echo $_SESSION['mensaje']; ?>"></div>
+                                        </div>
+                                        <?php
+                                        }
+                                        unset($_SESSION['feedback-add-user']);
+                                        ?>
                                     </form>   
                                 </div>
                             </div>
@@ -366,22 +379,25 @@ and open the template in the editor.
                                                     </div> 
                                                     <div class="col-3 mb-2">
                                                         <?php
-                                                        if ($user->getActive() == 0) {
-                                                            ?>
-                                                            <button type="submit" class="btn bg--o-light flex-grow-1 mr-2" name="active_user" value="active_user">
-                                                                <svg class="bi" width="22" height="22" fill="currentColor">
-                                                                <use xlink:href="../Icons/bootstrap-icons.svg#person-check"/>
-                                                                </svg>
-                                                            </button>
-                                                            <?php
-                                                        } else if ($user->getActive() == 1) {
-                                                            ?>
-                                                            <button type="submit" class="btn bg--o-dark flex-grow-1 mr-2" name="active_user" value="inactive_user">
-                                                                <svg class="bi" width="22" height="22" fill="currentColor">
-                                                                <use xlink:href="../Icons/bootstrap-icons.svg#person-dash"/>
-                                                                </svg>
-                                                            </button>
-                                                            <?php
+                                                        if($user->getRol() == 0){
+                                                        ?>
+                                                        <option value="usuario" selected>Alumno</option>
+                                                        <option value="profesor">Profesor</option>
+                                                        <option value="administrador">Administrador</option>
+                                                        <?php
+                                                        } else if ($user->getRol() == 1){
+                                                        ?>
+                                                        <option value="usuario">Alumno</option>
+                                                        <option value="profesor" selected>Profesor</option>
+                                                        <option value="administrador">Administrador</option>
+                                                        <?php
+                                                        } else if ($user->getRol() == 2){
+                                                        ?>
+                                                        ?>
+                                                        <option value="usuario" selected>Alumno</option>
+                                                        <option value="profesor">Profesor</option>
+                                                        <option value="administrador" selected>Administrador</option>
+                                                        <?php
                                                         }
                                                         ?>
                                                         <button type="submit" class="btn btn-success flex-grow-1" name="edit_user" value="edit_user">
@@ -410,7 +426,7 @@ and open the template in the editor.
                             <svg class="bi" width="20" height="20" fill="currentColor">
                             <use xlink:href="../Icons/bootstrap-icons.svg#arrow-left-short"/>
                             </svg>
-                            <a href="home.php" class="text-info"><small>Volver al inicio</small></a>
+                            <a href="home.php" class="text--o-dark"><small>Volver al inicio</small></a>
                         </div>
                     </div>
                 </div>

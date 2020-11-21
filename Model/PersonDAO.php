@@ -335,7 +335,7 @@ class PersonDAO {
         $json_string = json_encode($people);
 
         // Devuelvo los datos codificados
-        $json_string;
+        return $json_string;
     }
 
     // Método para insertar un nuevo registro
@@ -418,6 +418,10 @@ class PersonDAO {
         // Ejecuto y cierro la conexión
         $stmt->execute();
         GestionBDD::cerrarBDD();
+    }
+    
+    static function deleteRol($dniPersson){
+        
     }
 
     // Actualiza el perfil del usuario desde el propio perfil, sin modificar la imagen de perfil
