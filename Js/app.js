@@ -31,34 +31,98 @@ function previewImg(event) {
 }
 
 // Event listener para detectar el tipo de pregunta
-typeQuestionAdd.addEventListener('change', function () {
-    let valueType = typeQuestionAdd.value;
-    // Dependiendo del valor llamo a una funcion para el tipo de pregunta
-    switch (valueType) {
-        case 'option':
-            questionOptions();
-            break;
-        case 'writter':
-            questionWritter();
-            break;
-        case 'number':
-            questionNumber();
-            break;
-        default:
-            clearQuestionOptions();
-            break;
+document.addEventListener('change', function (e) {
+
+    if (e.target.id == 'typeQuestionAdd') {
+        let valueType = typeQuestionAdd.value;
+        // Dependiendo del valor llamo a una funcion para el tipo de pregunta
+        switch (valueType) {
+            case 'option':
+                questionOptions();
+                break;
+            case 'writter':
+                questionWritter();
+                break;
+            case 'number':
+                questionNumber();
+                break;
+            default:
+                clearQuestionOptions();
+                break;
+        }
+    }
+});
+
+// Event listener para añadir o quitar respuesta
+document.addEventListener('click', function (e) {
+    // Boton añadir
+    if (e.target.id == 'moreAnswers') {
+        e.preventDefault();
+        // Si ya tiene 4 hijos no añado mas
+        if (document.getElementsByClassName('answerCount').length < 4) {
+            newQuestionOptions();
+        }
+    }
+
+    if (e.target.id == 'minusAnswers') {
+        e.preventDefault();
+        if (document.getElementsByClassName('answerCount').length > 1) {
+            questionOptionAdd.removeChild(questionOptionAdd.lastChild);
+            questionOptionAdd.removeChild(questionOptionAdd.lastChild);
+        }
+
     }
 });
 
 // Funcion para mostrar las opciones de la pregunta tipo opciones
 function questionOptions() {
     clearQuestionOptions();
-    for (var i = 0, max = 4; i < max; i++) {
-        let element = document.createElement('div');
-        element.className = 'col-12 mb-2';
-        element.innerHTML = `<input type="Text" name="answerWritter" class="form-control" value="" placeholder="Respuesta ${i+1}">`;
-        questionOptionAdd.appendChild(element);
-    }
+    let element = document.createElement('div');
+    element.className = 'col-8 answerCount';
+    element.innerHTML = `<input type="text" name="answerOption" class="form-control" value="" placeholder="Respuesta">`;
+    questionOptionAdd.appendChild(element);
+
+    element = document.createElement('div');
+    element.className = 'col-2';
+    element.innerHTML = `<select class="custom-select" id="rolNewUser" name="rolNewUser" required>
+                            <option selected>Correcta</option>
+                            <option value="si">Si</option>
+                            <option value="no">No</option>
+                         </select>`;
+    questionOptionAdd.appendChild(element);
+
+    element = document.createElement('div');
+    element.className = 'col-2';
+    element.innerHTML = `<a href="#" class="more">
+                            <svg class="bi" width="32" height="32" fill="currentColor" id="moreAnswers">
+                                <use xlink:href="../Icons/bootstrap-icons.svg#plus-circle"/>
+                            </svg>
+                         </a>
+                         <a href="#">
+                            <svg class="bi" width="32" height="32 " fill="currentColor"  id="minusAnswers">
+                                <use xlink:href="../Icons/bootstrap-icons.svg#dash-circle"/>
+                            </svg>
+                         </a>`;
+    questionOptionAdd.appendChild(element);
+
+}
+
+// Funcion para mostrar las opciones de la pregunta tipo opciones
+function newQuestionOptions() {
+    let element = document.createElement('div');
+    element.className = 'col-8 mt-2 answerCount';
+    element.innerHTML = `<input type="text" name="answerOption" class="form-control" value="" placeholder="Respuesta">`;
+    questionOptionAdd.appendChild(element);
+
+    element = document.createElement('div');
+    element.className = 'col-2 mt-2';
+    element.innerHTML = `<select class="custom-select" id="rolNewUser" name="rolNewUser" required>
+                            <option selected>Correcta</option>
+                            <option value="si">Si</option>
+                            <option value="no">No</option>
+                         </select>`;
+    questionOptionAdd.appendChild(element);
+
 }
 
 // Funcion para mostrar las opciones de la pregunta tipo numero
@@ -76,7 +140,9 @@ function questionWritter() {
     for (var i = 0, max = 4; i < max; i++) {
         let element = document.createElement('div');
         element.className = 'col';
-        element.innerHTML = `<input type="Text" name="answerWritter" class="form-control" value="" placeholder="Palabra clave ${i+1}">`;
+        element.innerHTML = `<input type="Text" name="answerWritter" class="form-control" value="" placeholder="Palabra clave ${i + 1}">
+                            
+        `;
         questionOptionAdd.appendChild(element);
     }
 }
