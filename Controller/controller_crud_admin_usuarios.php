@@ -10,13 +10,13 @@ session_start();
 // Botón para añadir un usuario
 if(isset($_REQUEST['add_user'])){
     // Recupero los datos del formulario
-   $dni = strtolower($_REQUEST['dni']);
-   $name = strtolower($_REQUEST['name']);
-   $surname = strtolower($_REQUEST['surname']);
-   $email = $_REQUEST['email'];
-   $password = $_REQUEST['password'];
+   $dni = strtolower($_REQUEST['dniNewUser']);
+   $name = strtolower($_REQUEST['nameNewUser']);
+   $surname = strtolower($_REQUEST['surnameNewUser']);
+   $email = $_REQUEST['emailNewUser'];
+   $password = $_REQUEST['passwordNewUser'];
    $active = 0;
-   $opc_rol = $_REQUEST['rol'];
+   $opc_rol = $_REQUEST['rolNewUser'];
    if($opc_rol == 'usuario'){
        $rol = 0;
    } else if ($opc_rol == 'profesor'){
@@ -32,8 +32,9 @@ if(isset($_REQUEST['add_user'])){
        $_SESSION['feedback-add-user'] = 'Ya existe un usuario con dichos datos.';
        
    } else {
-       // Hago la insercción del usuario a la BDD
-       PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $profilePhoto, $rol, $active);
+       // Hago la insercción del usuario a la BDD con el password encriptado
+       $passwordE = password_hash($password, PASSWORD_DEFAULT);
+       PersonDAO::insertPerson($dni, $name, $surname, $email, $passwordE, $profilePhoto, $rol, $active);
        
        // Hago la insercción del rol en la BDD
        PersonDAO::insertRol($rol, $dni);
@@ -49,12 +50,12 @@ if(isset($_REQUEST['add_user'])){
 // Botón para editar un usuario
 if(isset($_REQUEST['edit_user'])){
     // Recupero los datos del formulario
-    $dni = strtolower($_REQUEST['dni']);
-    $name = strtolower($_REQUEST['name']);
-    $surname = strtolower($_REQUEST['surname']);
-    $email = strtolower($_REQUEST['email']);
-    $password = $_REQUEST['password'];
-    $opc_rol = $_REQUEST['rol'];
+    $dni = strtolower($_REQUEST['dniUpdateUser']);
+    $name = strtolower($_REQUEST['nameUpdateUser']);
+    $surname = strtolower($_REQUEST['surnameUpdateUser']);
+    $email = strtolower($_REQUEST['emailUpdateUser']);
+    $password = $_REQUEST['passwordUpdateUser'];
+    $opc_rol = $_REQUEST['rolUpdateUser'];
     if($opc_rol == 'usuario'){
         $rol = 0;
     } else if ($opc_rol == 'profesor'){
@@ -63,8 +64,13 @@ if(isset($_REQUEST['edit_user'])){
         $rol = 2;
     }
     
-    // Actualizo a la persona
-    PersonDAO::updatePersonNoImg($name, $surname, $email, $password, $dni);
+    // Evaluo si el password viene vacio
+    if($password == ''){
+        PersonDAO::updatePersonNoImgNoPass($name, $surname, $email, $dni);
+    } else {
+        $passwordE = password_hash($password, PASSWORD_DEFAULT);
+        PersonDAO::updatePersonNoImgYesPass($name, $surname, $email, $passwordE, $dni);
+    }
     
     // Actualizo el rol de la persona en la tabla personas
     PersonDAO::updateRolPerson($rol, $dni);
