@@ -28,19 +28,18 @@ if (isset($_REQUEST['login'])) {
         // Guardo en la sesion el correo del usuario
         $_SESSION['userEmail'] = $email;
 
-        if (PersonDAO::login($email, $password)) {
+        // Compruebo login correcto
+        if (PersonDAO::loginHash($email, $password)) {
 
             // Compruebo si el usuario esta inactivo
             $userDni = PersonDAO::getDni($email);
-            if (PersonDAO::activePersonDni($userDni) == 0) {
+            if (PersonDAO::isActivePersonDni($userDni) == 0) {
                 header('Location: ../View/usuario_inactivo.php');
             } else {
                 // Guardo el dni en la sesion
                 $_SESSION['userDni'] = $userDni;
                 // Guardo el rol en la sesion
                 $_SESSION['userRol'] = PersonDAO::getRol($userDni);
-                print($userDni);
-                print($_SESSION['userRol']);
                 header('Location: ../View/home.php');
             }
         } else {
@@ -75,6 +74,8 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         $surname = $_REQUEST['surname'];
         $email = $_REQUEST['email'];
         $password = $_REQUEST['password'];
+        // Encripto la contraseña
+        $passwordE = password_hash($password, PASSWORD_DEFAULT);
         $rol = 0;
         $active = 0;
         // Datos de la imagen
@@ -102,8 +103,8 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         if(PersonDAO::existsPersonEmail($email) == $email || PersonDAO::existsPersonDni($dni) == $dni) {
             header('Location: ../View/error_registro.php');
         } else {
-            // Hago la insercción a la BDD
-            PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
+            // Hago la insercción a la BDD con el passwordE encriptado
+            PersonDAO::insertPerson($dni, $name, $surname, $email, $passwordE, $img_name, $rol, $active);
 
             // Le doy el rol de usuario por defecto
             PersonDAO::insertRol(0, $dni);
@@ -129,8 +130,9 @@ if (isset($_REQUEST['forgot_password'])) {
     if (PersonDAO::existsPersonEmail($email)) {
         // Si existe creo una nueva
         $newPass = Person::newPass();
+        $passwordE = password_hash($newPass, PASSWORD_DEFAULT);
         // Modifico la nueva contraseña en la base de datos
-        PersonDAO::updatePassEmail($newPass, $email);
+        PersonDAO::updatePassEmail($passwordE, $email);
         SendEmail::newEmail($email, $newPass);
     }
     // Muestro existo tanto este registrado o no, por motivos de seguridad

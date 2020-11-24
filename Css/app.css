@@ -105,6 +105,19 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--g-medium);
 }
 
+.btn--g-light{
+    color: #FFFFFF;
+    background: var(--g-light);
+    border-color: var(--g-light);
+}
+
+.btn--g-light:hover {
+    color: #FFFFFF;
+    background: var(--g-medium);
+    border-color: var(--g-medium);
+}
+
+
 
 /* Estructura general del home y paginas derivadas */
 #dashboard {

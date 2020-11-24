@@ -72,7 +72,7 @@ and open the template in the editor.
 
                                 <!-- Correo -->
                                 <input type="email" class="form-control mb-1 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
-                                       minlength="5" maxlength="20" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
+                                       minlength="5" maxlength="40" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
                                 <div class="invalid-feedback text-left" id="emailError">
                                 </div>
                                 <!-- Password -->
