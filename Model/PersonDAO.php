@@ -54,23 +54,18 @@ class PersonDAO {
         $correcto = false;
 
         // Preparo la sentencia SQL
-        $query = 'SELECT email, password FROM ' . Constants::$PEOPLE . ' WHERE email = ?;';
+        $query = 'SELECT password FROM ' . Constants::$PEOPLE . ' WHERE email = ?;';
         $stmt = GestionBDD::$conexion->prepare($query);
-        $stmt->bind_param("s", $val1);
-
-        // Valores de la sentencia
-        $val1 = $email;
+        $stmt->bind_param("s", $email);
 
         // Ejecuto y guardo el resultado
         $stmt->execute();
-        $stmt->bind_result($email, $passwordE);
-        $row = $stmt->fetch();
+        $stmt->bind_result($passwordE);
 
         // Si hay resultados y es correcta la comprobación devuelvo true
-        if (!empty($row)) {
-            if (password_verify($password, $row['passwordE'])) {
-                $correcto = true;
-            }
+        // Si hay resultados y es correcta la comprobación devuelvo true
+        if ($stmt->fetch() && password_verify($password, $passwordE)) {
+            $correcto = true;
         }
 
         // Cierro la sentencia y la consulta
@@ -398,20 +393,20 @@ class PersonDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
+
     // Metodo para eliminar un usuario
-    static function deletePerson($dni){
+    static function deletePerson($dni) {
         // Abro la conexion
         GestionBDD::conectarBDD();
-        
+
         // Preparo la sentencia SQL
         $query = 'DELETE FROM ' . Constants::$PEOPLE . ' WHERE dni = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
-        
+
         // Valores de la sentencia
         $val1 = $dni;
-        
+
         // Ejecuto y cierro la conexion
         $stmt->execute();
         GestionBDD::cerrarBDD();
@@ -473,8 +468,8 @@ class PersonDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
-    static function updateRol($idRol, $dniPerson){
+
+    static function updateRol($idRol, $dniPerson) {
         // Abro la conexión
         GestionBDD::conectarBDD();
 
@@ -491,17 +486,17 @@ class PersonDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
+
     // Método para borrar el rol del usuario
-    static function deleteRol($dniPerson){
+    static function deleteRol($dniPerson) {
         // Abro la conexión
         GestionBDD::conectarBDD();
-        
+
         // Preparo la sentencia SQL
         $query = 'DELETE FROM ' . Constants::$PERSONROL . ' WHERE dniPerson = ?';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("s", $val1);
-        
+
         // Valores de la sentencia
         $val1 = $dniPerson;
 
@@ -510,8 +505,8 @@ class PersonDAO {
         GestionBDD::cerrarBDD();
     }
 
-    // Actualiza el perfil del usuario desde el propio perfil, sin modificar la imagen de perfil
-    static function updatePersonNoImg($name, $surname, $email, $password, $dni) {
+    // Actualiza el perfil del usuario desde el propio perfil, sin modificar la imagen de perfil y con cambio de pass
+    static function updatePersonNoImgYesPass($name, $surname, $email, $password, $dni) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
@@ -521,19 +516,40 @@ class PersonDAO {
         $stmt->bind_param("sssss", $val1, $val2, $val3, $val4, $val5);
 
         // Valores de la sentencia
-        $val1 = $name;
-        $val2 = $surname;
-        $val3 = $email;
+        $val1 = strtolower($name);
+        $val2 = strtolower($surname);
+        $val3 = strtolower($email);
         $val4 = $password;
-        $val5 = $dni;
+        $val5 = strtolower($dni);
 
         // Ejecuto y cierro la conexion
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
     
-    // Actualiza el perfil del usuario desde el propio perfil, modificando la imagen de perfil
-    static function updatePersonImg($name, $surname, $email, $password, $img_name, $dni) {
+        // Actualiza el perfil del usuario desde el propio perfil, sin modificar la imagen de perfil y sin cambiar pass
+    static function updatePersonNoImgNoPass($name, $surname, $email, $dni) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = "UPDATE " . Constants::$PEOPLE . " SET name = ?, surname = ?, email = ? WHERE dni = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("ssss", $val1, $val2, $val3, $val4);
+
+        // Valores de la sentencia
+        $val1 = strtolower($name);
+        $val2 = strtolower($surname);
+        $val3 = strtolower($email);
+        $val4 = strtolower($dni);
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
+    // Actualiza el perfil del usuario desde el propio perfil, modificando la imagen de perfil pero cambiando el pass
+    static function updatePersonImgYesPass($name, $surname, $email, $password, $img_name, $dni) {
         // Abro la conexion
         GestionBDD::conectarBDD();
 
@@ -543,12 +559,34 @@ class PersonDAO {
         $stmt->bind_param("ssssss", $val1, $val2, $val3, $val4, $val5, $val6);
 
         // Valores de la sentencia
-        $val1 = $name;
-        $val2 = $surname;
-        $val3 = $email;
+        $val1 = strtolower($name);
+        $val2 = strtolower($surname);
+        $val3 = strtolower($email);
         $val4 = $password;
         $val5 = $img_name;
-        $val6 = $dni;
+        $val6 = strtolower($dni);
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+    
+        // Actualiza el perfil del usuario desde el propio perfil, modificando la imagen de perfil sin pass
+    static function updatePersonImgNoPass($name, $surname, $email, $password, $img_name, $dni) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = "UPDATE " . Constants::$PEOPLE . " SET name = ?, surname = ?, email = ?, profilePhoto = ? WHERE dni = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("sssss", $val1, $val2, $val3, $val4, $val5);
+
+        // Valores de la sentencia
+        $val1 = strtolower($name);
+        $val2 = strtolower($surname);
+        $val3 = strtolower($email);
+        $val4 = $img_name;
+        $val5 = strtolower($dni);
 
         // Ejecuto y cierro la conexion
         $stmt->execute();

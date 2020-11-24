@@ -29,7 +29,7 @@ if (isset($_REQUEST['login'])) {
         $_SESSION['userEmail'] = $email;
 
         // Compruebo login correcto
-        if (PersonDAO::login($email, $password)) {
+        if (PersonDAO::loginHash($email, $password)) {
 
             // Compruebo si el usuario esta inactivo
             $userDni = PersonDAO::getDni($email);
@@ -103,8 +103,8 @@ if (isset($_REQUEST['register_user']) && isset($_POST['recaptchaResponse'])) {
         if(PersonDAO::existsPersonEmail($email) == $email || PersonDAO::existsPersonDni($dni) == $dni) {
             header('Location: ../View/error_registro.php');
         } else {
-            // Hago la insercción a la BDD
-            PersonDAO::insertPerson($dni, $name, $surname, $email, $password, $img_name, $rol, $active);
+            // Hago la insercción a la BDD con el passwordE encriptado
+            PersonDAO::insertPerson($dni, $name, $surname, $email, $passwordE, $img_name, $rol, $active);
 
             // Le doy el rol de usuario por defecto
             PersonDAO::insertRol(0, $dni);
