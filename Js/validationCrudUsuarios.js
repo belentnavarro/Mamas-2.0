@@ -1,19 +1,28 @@
-const error = document.getElementById('error-new-user');
+// Variables para añadir el usuario
+const errorNewUser = document.getElementById('errorNewUser');
 
-const dni = document.getElementById('dni-new-user');
-const dniError = document.getElementById('dniError');
+const dniNewUser = document.getElementById('dniNewUser');
 
-const name = document.getElementById('name-new-user');
-const nameError = document.getElementById('nameError');
+const nameNewUser = document.getElementById('nameNewUser');
 
-const surname = document.getElementById('surname-new-user');
-const surnameError = document.getElementById('surnameError');
+const surnameNewUser = document.getElementById('surnameNewUser');
 
-const email = document.getElementById('email-new-user');
-const emailError = document.getElementById('emailError');
+const emailNewUser = document.getElementById('emailNewUser');
 
-const password = document.getElementById('password-new-user');
-const passwordError = document.getElementById('passwordError');
+const passwordNewUser = document.getElementById('passwordNewUser');
+
+// Variables para modificar el usuario
+const errorAddUser = document.getElementById('errorAddUser');
+
+const dniAddUser = document.getElementById('dniAddUser');
+
+const nameAddUser = document.getElementById('nameAddUser');
+
+const surnameAddUser = document.getElementById('surnameAddUser');
+
+const emailAddUser = document.getElementById('emailAddUser');
+
+const passwordAddUser = document.getElementById('passwordAddUser');
 
 var errorFinal = '';
 
@@ -29,12 +38,12 @@ var errorFinal = '';
                 if (form.checkValidity() === false) {
                     event.stopPropagation();
                     event.preventDefault();
-                    showDniError();
-                    showNameError();
-                    showSurnameError();
-                    showEmailError();
-                    showPasswordError();
-                    showError();
+                    showDniErrorNewUser();
+                    showNameErrorNewUser();
+                    showSurnameErrorNewUser();
+                    showEmailErrorNewUser();
+                    showPasswordErrorNewUser();
+                    showErrorNewUser();
                 } 
                 form.classList.add('was-validated');
             }, false);
@@ -42,74 +51,96 @@ var errorFinal = '';
     }, false);
 })();
 
+// ERRORES EN NUEVO USUARIO
+
 // Función para mostrar los errores del DNI
-function showDniError() {
-    if (dni.validity.valueMissing) {
+function showDniErrorNewUser() {
+    if (dniNewUser.validity.valueMissing) {
         // Si el campo está vacío
-        errorFinal = errorFinal + 'Debe introducir un DNI válido.';
-    } else if (dni.validity.patternMismatch) {
+        errorFinal = errorFinal + '- Debe introducir un DNI válido.<br>';
+    } else if (dniNewUser.validity.patternMismatch) {
         // Si el DNI no sigue el patrón
-        errorFinal = errorFinal +'El DNI no es válido.';
-    } else if (dni.validity.tooShort) {
+        errorFinal = errorFinal +'- El DNI no es válido. ';
+    } else if (dniNewUser.validity.tooShort) {
         // Si los datos son demasiado cortos
-        errorFinal = errorFinal + 'El DNI debe tener 8 números y una letra.';
+        errorFinal = errorFinal + '- El DNI debe tener 8 números y una letra.<br>';
     }
 }
 
 // Función para mostrar los errores del nombre
-function showNameError() {
-    if (name.validity.valueMissing) {
+function showNameErrorNewUser() {
+    if (nameNewUser.validity.valueMissing) {
         // Si el campo está vacío
-        errorFinal = errorFinal +'Introduzca su nombre, por favor.';
-    } else if (name.validity.tooShort) {
+        errorFinal = errorFinal +'- Introduzca su nombre, por favor.<br>';
+    } else if (nameNewUser.validity.tooShort) {
         // Si los datos son demasiado cortos
-        errorFinal = errorFinal + 'El nombre es muy corto.';
+        errorFinal = errorFinal + '- El nombre es muy corto.<br>';
     }
 }
 
 // Función para mostrar los errores del apellido
-function showSurnameError() {
-    if (surname.validity.valueMissing) {
+function showSurnameErrorNewUser() {
+    if (surnameNewUser.validity.valueMissing) {
         // Si el campo está vacío
-        errorFinal = errorFinal + 'Introduzca su apellido, por favor.';
-    } else if (surname.validity.tooShort) {
+        errorFinal = errorFinal + '- Introduzca su apellido, por favor.<br>';
+    } else if (surnameNewUser.validity.tooShort) {
         // Si los datos son demasiado cortos
-        errorFinal = errorFinal + 'El apellido debe tener al menos ${surname.minLength} caracteres.';
+        errorFinal = errorFinal + '- El apellido debe tener al menos ${surname.minLength} caracteres.<br>';
     }
 }
 
 // Función para mostrar los errores del email
-function showEmailError() {
-    if (email.validity.valueMissing) {
+function showEmailErrorNewUser() {
+    if (emailNewUser.validity.valueMissing) {
         // Si el campo está vacío
-        errorFinal = errorFinal + 'Debe introducir una dirección de correo electrónico.';
-    } else if (email.validity.patternMismatch) {
+        errorFinal = errorFinal + '- Debe introducir una dirección de correo electrónico.<br>';
+    } else if (emailNewUser.validity.patternMismatch) {
         // Si el email no sigue el patrón
-        errorFinal = errorFinal + 'El valor introducido debe ser una dirección de correo electrónico.';
-    } else if (email.validity.tooShort) {
+        errorFinal = errorFinal + '- El valor introducido debe ser una dirección de correo electrónico. ';
+    } else if (emailNewUser.validity.tooShort) {
         // Si los datos son demasiado cortos
-        errorFinal = errorFinal + 'El correo electrónico debe tener al menos ${ email.minLength } caracteres; ha introducido ${ email.value.length }.';
+        errorFinal = errorFinal + '- El correo electrónico debe tener al menos ${ email.minLength } caracteres; ha introducido ${ email.value.length }.<br>';
     }
 }
 
 // Función para mostrar los errores del password
-function showPasswordError() {
-    if (password.validity.valueMissing) {
+function showPasswordErrorNewUser() {
+    if (passwordNewUser.validity.valueMissing) {
         // Si el campo está vacío
-        errorFinal = errorFinal + 'Debe introducir una contraseña.';
-    } else if (password.validity.tooShort) {
+        errorFinal = errorFinal + '- Debe introducir una contraseña.<br>';
+    } else if (passwordNewUser.validity.tooShort) {
         // Si el campo es demasiado corto
-        errorFinal = errorFinal + '8-10 cáracteres, un símbolo, una letra mayúscula y una minúscula.';
-    } else if (password.validity.patternMismatch) {
+        errorFinal = errorFinal + '- 8-10 cáracteres, un símbolo, una letra mayúscula y una minúscula.<br>';
+    } else if (passwordNewUser.validity.patternMismatch) {
         // Si el password no sigue el patrón
-        errorFinal = errorFinal + '8-10 cáracteres, un símbolo, una letra mayúscula y una minúscula.';
+        errorFinal = errorFinal + '- 8-10 cáracteres, un símbolo, una letra mayúscula y una minúscula.<br>';
     }
 }
 
-function showError(){
-    if(errorFinal != null){
-        error.textContent = errorFinal;
-    } else {
-        error.textContent = '';
+function showErrorNewUser(){
+    errorNewUser.innerHTML = errorFinal;
+    errorNewUser.style.display = 'block';
+    errorFinal = '';
+}
+
+/*
+// ERRORES EN LA MODIFICACION
+
+// Función para mostrar los errores del nombre
+function showNameErrorAddUser() {
+    if (nameAddUser.validity.valueMissing) {
+        // Si el campo está vacío
+        errorFinal = errorFinal +'- Introduzca su nombre, por favor.<br>';
+    } else if (nameAddUser.validity.tooShort) {
+        // Si los datos son demasiado cortos
+        errorFinal = errorFinal + '- El nombre es muy corto.<br>';
     }
 }
+
+function showErrorAddUser(){
+    errorAddUser.innerHTML = errorFinal;
+    errorAddUser.style.display = 'block';
+    errorFinal = '';
+}
+
+*/
