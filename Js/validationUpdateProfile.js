@@ -57,10 +57,7 @@ function showEmailError() {
 
 // Función para mostrar los errores del password
 function showPasswordError() {
-    if (password.validity.valueMissing) {
-        // Si el campo está vacío
-        passwordError.textContent = 'Debe introducir una contraseña.';
-    } else if (password.validity.tooShort) {
+    if (password.validity.tooShort) {
         // Si el campo no contiene una dirección de correo electrónico
         passwordError.textContent = '8-10 caracteres, un simbolo, una letra mayuscula y una minuscula.';
     } else if (password.validity.patternMismatch) {

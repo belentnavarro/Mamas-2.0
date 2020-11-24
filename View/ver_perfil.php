@@ -231,9 +231,9 @@ and open the template in the editor.
                                         </div>
 
                                         <!-- Password -->
-                                        <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Password" name="password" id="password" required aria-describedby="emailPassword"
+                                        <input type="password" class="form-control mb-1 mt-4 campo" placeholder="Nueva contraseña" name="passwordNew" id="password" aria-describedby="emailPassword"
                                                minlength="8" maxlength="10" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}"
-                                               value="<?= $usuario->getPassword() ?>">
+                                               value="">
                                         <div class="invalid-feedback mb-4 text-left"  id="passwordError">
                                         </div>
 
