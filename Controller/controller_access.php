@@ -130,8 +130,9 @@ if (isset($_REQUEST['forgot_password'])) {
     if (PersonDAO::existsPersonEmail($email)) {
         // Si existe creo una nueva
         $newPass = Person::newPass();
+        $passwordE = password_hash($newPass, PASSWORD_DEFAULT);
         // Modifico la nueva contraseña en la base de datos
-        PersonDAO::updatePassEmail($newPass, $email);
+        PersonDAO::updatePassEmail($passwordE, $email);
         SendEmail::newEmail($email, $newPass);
     }
     // Muestro existo tanto este registrado o no, por motivos de seguridad
