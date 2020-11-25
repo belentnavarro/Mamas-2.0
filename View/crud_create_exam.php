@@ -247,22 +247,22 @@ and open the template in the editor.
                                             Asignatura
                                         </div>
                                     </div> 
-                                    <form action="../Controller/controller_create_exam.php" method="POST" name="create_exam">
+                                    <form action="../Controller/controller_create_exam.php" method="POST" name="create_new_exam">
                                         <div class="row">
                                             <div class="col mb-2 align-items-start">
-                                                <input type="text" id="tittle" class="form-control" placeholder="Título" required>
+                                                <input type="text" id="tittle" name="tittle" class="form-control" placeholder="Título" required>
                                             </div>
                                             <div class="col mb-2 align-items-center">
-                                                <textarea id="description" rows="6" cols="10" class="form-control" placeholder="Descripción del examen" required></textarea>
+                                                <textarea id="description" name="description" rows="6" cols="10" class="form-control" placeholder="Descripción del examen" required></textarea>
                                             </div>
                                             <div class="col mb-2 align-items-start">
-                                                <input type="date" id="startsAt" class="form-control"/>
+                                                <input type="date" id="startsAt" name="startsAt" class="form-control"/>
                                             </div>
                                             <div class="col mb-2 align-items-start">
-                                                <input type="date" id="endsAt" class="form-control"/>
+                                                <input type="date" id="endsAt" name="endsAt" class="form-control"/>
                                             </div>
                                             <div class="col mb-2 align-items-start">
-                                                <input type="text" id="subject" class="form-control" placeholder="Asignatura" required>
+                                                <input type="text" id="subject" name="subject" class="form-control" placeholder="Asignatura" required>
                                             </div>
                                         </div>
                                         <div class="row">

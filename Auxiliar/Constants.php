@@ -19,4 +19,5 @@ class Constants {
     public static $PEOPLE = 'people'; // Tabla con todos los datos de los usuarios de la aplicación.
     public static $ROLS = 'rols'; // Tabla con todos los roles de la aplicación.
     public static $PERSONROL = 'personRol'; // Tabla con la asignación de roles de los usuarios.
+    public static $EXAM = 'exam'; // Tabla con todos los exámenes de la aplicación
 }
