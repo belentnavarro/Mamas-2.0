@@ -88,7 +88,7 @@ if(isset($_REQUEST['edit_user'])){
 // Botón para activar/inactivar un usuario
 if(isset($_REQUEST['active_user'])){
     // Recupero el DNI del usuario 
-    $dni = strtolower($_REQUEST['dni']);
+    $dni = strtolower($_REQUEST['dniUpdateUser']);
     
     //Recupero la opción del usuario
     $opc_active = $_REQUEST['active_user'];
@@ -117,7 +117,7 @@ if(isset($_REQUEST['active_user'])){
 // Botón para eliminar un usuario
 if(isset($_REQUEST['delete_user'])){
     // Recupero el DNI del usuario
-    $dni = strtolower($_REQUEST['dni']);
+    $dni = strtolower($_REQUEST['dniUpdateUser']);
     
     if(PersonDAO::existsPersonDni($dni)) {        
         // Borro el rol de la tabla de asignaciones

@@ -36,9 +36,8 @@ and open the template in the editor.
         //Includes
         require_once '../Model/PersonDAO.php';
         require_once '../Model/Question.php';
-        require_once '../Model/QuestionText.php';
-        require_once '../Model/QuestionNumber.php';
-        require_once '../Model/QuestionWritten.php';
+        require_once '../Model/AnswerNumber.php';
+        require_once '../Model/QuestionDAO.php';
         //require_once '../Model/QuestionTextDAO.php';
         //require_once '../Model/QuestionNumberDAO.php';
         //require_once '../Model/QuestionWrittenDAO.php';
@@ -218,7 +217,7 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                <!-- Administrar usuarios -->
+                <!-- Crear nueva pregunta -->
                 <div class="container-fluid mt-4">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-11">
@@ -231,7 +230,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="row align-items-center">
                                         <div class="col-4 mb-2">
-                                            <select class="custom-select" id="typeQuestionAdd" name="type" required>
+                                            <select class="custom-select" id="typeQuestionAdd" name="typeQuestionAdd" required>
                                                 <option selected value="default">Seleciona el tipo de pregunta</option>
                                                 <option value="option">Tipo opciones</option>
                                                 <option value="writter">Tipo explicación</option>
@@ -252,34 +251,73 @@ and open the template in the editor.
                                     <div class="card-body font-weight-bolder mb-4 pb-0">
                                         <div class="row px-3">
                                             <div class="col mb-2">
-                                                <input type="text" name="content" class="form-control" value="" placeholder="Introduce la pregunta">
+                                                <input type="text" name="contentQuestionAdd" class="form-control" value="" placeholder="Introduce la pregunta">
                                             </div>
                                             <div class="col-2 mb-2">
-                                                <input type="number" name="content" class="form-control" value="" placeholder="Puntuación">
+                                                <input type="number" name="scoreQuestionAdd" class="form-control" value="" placeholder="Puntuación">
                                             </div>
                                             <div class="col-2 mb-2">
-                                                <select class="custom-select" name="active" required>
+                                                <select class="custom-select" name="activeQuestionAdd" required>
                                                     <option selected>Activa</option>
                                                     <option value="0">No</option>
                                                     <option value="1">Si</option>
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="row px-3" id="questionOptionAdd"></div>
                                         <div class="row px-3" id="questionOptionAdd">
+                                            <div class="col">
+                                                <button class="btn btn--g-medium btn-block my-4" type="submit" name="addQuestion" value="login">Añadir pregunta</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+
+                    <!-- Listado de preguntas -->
                     <div class="row justify-content-center align-items-center mt-4">
                         <div class="col-11">
-                            <div class="card mb-0 shadow">
-                                <div class="card-header font-weight-bold text-white bg--o-light display-4 text-center">
-                                    Listado de preguntas
+                            <ul class="nav nav-tabs md-tabs" id="myTabMD" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#home-md" role="tab" aria-controls="home-md"
+                                       aria-selected="true">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab" aria-controls="profile-md"
+                                       aria-selected="false">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab-md" data-toggle="tab" href="#contact-md" role="tab" aria-controls="contact-md"
+                                       aria-selected="false">Contact</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content card pt-5" id="myTabContentMD">
+                                <div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
+                                    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua,
+                                        retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.
+                                        Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry
+                                        richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american
+                                        apparel, butcher voluptate nisi qui.</p>
                                 </div>
-                                <div class="card-body">
-
+                                <div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
+                                    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+                                        Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
+                                        farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip
+                                        jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna
+                                        delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan
+                                        fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry
+                                        richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus
+                                        tattooed echo park.</p>
+                                </div>
+                                <div class="tab-pane fade" id="contact-md" role="tabpanel" aria-labelledby="contact-tab-md">
+                                    <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo
+                                        retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer,
+                                        iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony.
+                                        Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles
+                                        pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of
+                                        them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
                                 </div>
                             </div>
                         </div>

@@ -11,7 +11,7 @@
  *
  * @author luis
  */
-abstract class Question {
+class Question {
     
     // Atributos de clase
     private $id;
@@ -19,14 +19,16 @@ abstract class Question {
     private $type;
     private $active;
     private $score;
+    private $content;
     
     // Método contructor
-    function __construct($id, $dniCreator, $type, $active, $score) {
+    function __construct($id, $dniCreator, $type, $active, $score, $content) {
         $this->id = $id;
         $this->dniCreator = $dniCreator;
         $this->type = $type;
         $this->active = $active;
         $this->score = $score;
+        $this->content = $content;
     }
 
     // Métodos getter
@@ -49,6 +51,10 @@ abstract class Question {
     function getScore() {
         return $this->score;
     }
+    
+    function getContent() {
+        return $this->content;
+    }
 
     // Métodos setter
     function setId($id): void {
@@ -70,6 +76,10 @@ abstract class Question {
     function setScore($score): void {
         $this->score = $score;
     }
+    
+    function setContent($content): void {
+        $this->content = $content;
+    }
 
     // toString
     public function __toString() {
@@ -77,7 +87,4 @@ abstract class Question {
             . ', Active: ' . $this->active . ', Score: ' . $this->score;
     }
 
-    // Métodos
-    abstract public function correctQuestion();
-    
 }

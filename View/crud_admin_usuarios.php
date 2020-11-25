@@ -221,7 +221,7 @@ and open the template in the editor.
                 <div class="container-fluid mt-4">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-11">
-                            <div class="card mb-0 shadow">
+                            <div class="card mb-0 shadow bo">
                                 <div class="card-header font-weight-bold text-white bg--o-light display-4 text-center">
                                     Crear un nuevo usuario
                                 </div>
