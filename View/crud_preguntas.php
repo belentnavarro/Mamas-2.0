@@ -36,11 +36,11 @@ and open the template in the editor.
         //Includes
         require_once '../Model/PersonDAO.php';
         require_once '../Model/Question.php';
-        require_once '../Model/AnswerNumber.php';
         require_once '../Model/QuestionDAO.php';
+        require_once '../Model/AnswerNumber.php';
         require_once '../Model/AnswerNumberDAO.php';
-        //require_once '../Model/QuestionTextDAO.php';
-        //require_once '../Model/QuestionNumberDAO.php';
+        require_once '../Model/AnswerTextDAO.php';
+        require_once '../Model/AnswerNumberDAO.php';
         //require_once '../Model/QuestionWrittenDAO.php';
         // Inicio sesión
         session_start();
@@ -299,6 +299,7 @@ and open the template in the editor.
                     </div>
 
                     <!-- Listado de preguntas -->
+                    <!-- Tabs superiores -->
                     <div class="row justify-content-center align-items-center mt-4">
                         <div class="col-11">
                             <div class="card mb-0 shadow">
@@ -318,28 +319,159 @@ and open the template in the editor.
                                         </li>
                                     </ul>
                                 </div>
+                                <!-- Preguntas -->
                                 <div class="card-body text--o-dark">
-                                    <div class="tab-content pt-5">
+                                    <div class="tab-content">
+                                        <!-- Preguntas tipo Opciones -->
                                         <div class="tab-pane fade show active" id="option-md" role="tabpanel" aria-labelledby="option-tab-md">
-                                            <?php
-                                            foreach ($questionO as $value) {
-                                                var_dump($value);
-                                            }
-                                            ?>
+                                            <!--Accordion wrapper-->
+                                            <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
+
+                                                <?php
+                                                foreach ($questionO as $value) {
+                                                    // Recupero las preguntas tipo opciones
+                                                    $answerTJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
+                                                    // Variable para guardar las preguntas
+                                                    $answerT = array();
+                                                    //Decodifico el JSON y saco los usuarios del array
+                                                    $objs = json_decode($answerTJSON, true);
+                                                    foreach ($objs as $o) {
+                                                        $answerT[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                    }
+                                                    ?>
+                                                    <!-- Accordion card -->
+                                                    <div class="card">
+
+                                                        <!-- Card header -->
+                                                        <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapse<?= $value->getId() ?>"
+                                                               aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                <h5 class="mb-0">
+                                                                    <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Card body -->
+                                                        <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                             data-parent="#accordionEx1">
+                                                            <div class="card-body">
+                                                                <?php
+                                                                foreach ($answerT as $a) {
+                                                                    ?>
+                                                                    <div class="col-8 mb-2">
+                                                                        <input type="text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>">
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                ?>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Accordion card -->
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <!-- Accordion wrapper -->
                                         </div>
+                                        <!-- Preguntas tipo writter -->
                                         <div class="tab-pane fade" id="writter-md" role="tabpanel" aria-labelledby="writter-tab-md">
-                                            <?php
-                                            foreach ($questionW as $value) {
-                                                var_dump($value);
-                                            }
-                                            ?>
+                                            <div class="accordion md-accordion" id="accordionEx2" role="tablist" aria-multiselectable="true">
+
+                                                <?php
+                                                foreach ($questionW as $value) {
+                                                    // Recupero las preguntas tipo redacopm
+                                                    $answerWJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
+                                                    // Variable para guardar las preguntas
+                                                    $answerW = array();
+                                                    //Decodifico el JSON y saco los usuarios del array
+                                                    $objs = json_decode($answerWJSON, true);
+                                                    foreach ($objs as $o) {
+                                                        $answerW[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                    }
+                                                    ?>
+                                                    <!-- Accordion card -->
+                                                    <div class="card">
+
+                                                        <!-- Card header -->
+                                                        <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx2" href="#collapse<?= $value->getId() ?>"
+                                                               aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                <h5 class="mb-0">
+                                                                    <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Card body -->
+                                                        <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                             data-parent="#accordionEx2">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <?php
+                                                                        foreach ($answerW as $a) {
+                                                                            ?>
+                                                                            <input type="Text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>">
+                                                                            <?php
+                                                                        }
+                                                                        ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Accordion card -->
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <!-- Accordion wrapper -->
                                         </div>
+                                        <!-- Preguntas tipo numericas -->
                                         <div class="tab-pane fade" id="number-md" role="tabpanel" aria-labelledby="number-tab-md">
-                                            <?php
-                                            foreach ($questionN as $value) {
-                                                var_dump($value);
-                                            }
-                                            ?>
+                                            <div class="accordion md-accordion" id="accordionEx3" role="tablist" aria-multiselectable="true">
+
+                                                <?php
+                                                foreach ($questionN as $value) {
+                                                    // Recupero su respuesta
+                                                    $datJSON = AnswerNumberDAO::getAnswerNJSON($value->getId());
+                                                    // Decodifico el JSON y saco el usuario del array
+                                                    $objs = json_decode($datJSON, true);
+                                                    $o = $objs[0];
+                                                    $answer = new AnswerNumber($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                    ?>
+                                                    <!-- Accordion card -->
+                                                    <div class="card">
+
+                                                        <!-- Card header -->
+                                                        <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx3" href="#collapse<?= $value->getId() ?>"
+                                                               aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                <h5 class="mb-0">
+                                                                    <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Card body -->
+                                                        <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                             data-parent="#accordionEx3">
+                                                            <div class="card-body">
+                                                                <div class="col">
+                                                                    <input type="number" name="answerNumber" class="form-control" value="<?= $answer->getContent() ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Accordion card -->
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <!-- Accordion wrapper -->
                                         </div>
                                     </div>  
                                 </div>

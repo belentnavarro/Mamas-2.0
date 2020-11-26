@@ -140,9 +140,7 @@ function questionWritter() {
     for (var i = 0, max = 4; i < max; i++) {
         let element = document.createElement('div');
         element.className = 'col';
-        element.innerHTML = `<input type="Text" name="answerOption[]" class="form-control" value="" placeholder="Palabra clave ${i + 1}">
-                            
-        `;
+        element.innerHTML = `<input type="Text" name="answerOption[]" class="form-control" value="" placeholder="Palabra clave ${i + 1}>`;
         questionOptionAdd.appendChild(element);
     }
 }
