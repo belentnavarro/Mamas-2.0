@@ -5,7 +5,6 @@
  *
  * @author luis
  */
-
 // Includes y requieres
 require_once 'GestionBDD.php';
 require_once 'Question.php';
@@ -33,9 +32,9 @@ class QuestionDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
+
     // Método para obtener el id de la pregunta que se acaba de insertar para relacionarla con las repuestas
-        // Método para recuperar el dni
+    // Método para recuperar el dni
     static function getIdQuestion($dniCreator, $content) {
         // Abro la conexion
         GestionBDD::conectarBDD();
@@ -70,9 +69,9 @@ class QuestionDAO {
         // Devuelvo el rol o null
         return $idQuestion;
     }
-    
+
     // Método para recuperar todas preguntas
-    static function getQuestionsNJSON() {
+    static function getQuestionsAllJSON() {
         // Abro la conexión
         GestionBDD::conectarBDD();
 
@@ -80,16 +79,16 @@ class QuestionDAO {
         $questions = array();
 
         // Preparo la consulta
-        $query = 'SELECT * FROM ' . Constants::$ANSWERS_NUMBERS;
+        $query = 'SELECT * FROM ' . Constants::$QUESTIONS . ';';
 
         //Ejecuto y guardo el resultado
         if ($result = GestionBDD::$conexion->query($query)) {
             while ($row = $result->fetch_array()) {
                 $question[] = array('id' => $row['id'],
-                                    'dniCreator' => $row['dniCreator'],
-                                    'type' => $row['active'],
-                                    'active' => $row['active'],
-                                    'content' => $row['conent']);
+                    'dniCreator' => $row['dniCreator'],
+                    'type' => $row['type'],
+                    'active' => $row['active'],
+                    'content' => $row['content']);
             }
 
             // Libero el resultado
@@ -104,4 +103,44 @@ class QuestionDAO {
         // Devuelvo los datos codificados
         return $json_string;
     }
+
+    // Método para recuperar todas preguntas
+    static function getQuestionsTypeJSON($typeQ) {
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT * FROM ' . Constants::$QUESTIONS . ' WHERE type = ?;';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+
+        // Valores de la sentencia
+        $val1 = $typeQ;
+
+        // Variable para devolver las personas
+        $questions = array();
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $questions[] = array('id' => $row['id'],
+                'dniCreator' => $row['dniCreator'],
+                'type' => $row['type'],
+                'active' => $row['active'],
+                'score' => $row['score'],
+                'content' => $row['content']);
+        }
+
+        GestionBDD::cerrarBDD();
+
+        // Codifico los datos en JSON
+        $json_string = json_encode($questions);
+
+        // Devuelvo los datos codificados
+        return $json_string;
+    }
+
 }

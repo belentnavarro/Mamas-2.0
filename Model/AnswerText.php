@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Description of Answer number
- * --------------------------------------------------------
+ * Description of AnswerText
+ * ---------------------------------------------------------
  * Se que las clases respuesta numero y texto son las mimas
  * pero he decidido trabajar asi, solo por escalabilidad,
  * igual en un futuro se deberia trabajar por ciertas razones
@@ -12,7 +12,7 @@
  */
 
 
-class AnswerNumber {
+class AnswerText {
 
     // Atributo
     private $id;
