@@ -36,15 +36,8 @@ and open the template in the editor.
         //Includes
         require_once '../Model/Person.php';
         require_once '../Model/PersonDAO.php';
-        require_once '../Model/Question.php';
-        //require_once '../Model/QuestionText.php';
-        //require_once '../Model/QuestionNumber.php';
-        //require_once '../Model/QuestionWritten.php';
-        //require_once '../Model/QuestionTextDAO.php';
-        //require_once '../Model/QuestionNumberDAO.php';
-        //require_once '../Model/QuestionWrittenDAO.php';
         require_once '../Model/Exam.php';
-        //require_once '../Model/ExamDAO.php';
+
         // Inicio sesión
         session_start();
 
@@ -58,15 +51,6 @@ and open the template in the editor.
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
-        // Recupero todos los usuarios
-        //$datJSON = PersonDAO::getAllJSON();
-        // Variable para guardar los usuarios
-        //$users = array();
-        // Decodifico el JSON y saco los usuarios del array
-        //$objs = json_decode($datJSON, true);
-        //foreach ($objs as $o) {
-        //$users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
-        //}
         ?>
 
         <div class="wrapper d-flex align-items-stretch">

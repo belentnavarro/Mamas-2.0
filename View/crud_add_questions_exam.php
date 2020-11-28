@@ -58,15 +58,39 @@ and open the template in the editor.
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
-        // Recupero todos los usuarios
-        //$datJSON = PersonDAO::getAllJSON();
-        // Variable para guardar los usuarios
-        //$users = array();
-        // Decodifico el JSON y saco los usuarios del array
-        //$objs = json_decode($datJSON, true);
-        //foreach ($objs as $o) {
-        //$users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
-        //}
+        
+        //Recupero el examen que estamos creando
+        $exam = $_SESSION['exam-created'];
+        
+        // Recupero las preguntas tipo numbero
+        $questionNJSON = QuestionDAO::getQuestionsTypeJSON('number');
+        // Variable para guardar las preguntas
+        $questionN = array();
+        //Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($questionNJSON, true);
+        foreach ($objs as $o) {
+            $questionN[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
+        }
+
+        // Recupero las preguntas tipo opciones
+        $questionOJSON = QuestionDAO::getQuestionsTypeJSON('option');
+        // Variable para guardar las preguntas
+        $questionO = array();
+        //Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($questionOJSON, true);
+        foreach ($objs as $o) {
+            $questionO[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
+        }
+
+        // Recupero las preguntas tipo redaccion
+        $questionWJSON = QuestionDAO::getQuestionsTypeJSON('writter');
+        // Variable para guardar las preguntas
+        $questionW = array();
+        //Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($questionWJSON, true);
+        foreach ($objs as $o) {
+            $questionW[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
@@ -215,7 +239,7 @@ and open the template in the editor.
                         <div class="row">
                             <div class="col-12">
                                 <h1 class="display-2 text-white">Crear examen</h1>
-                                <p class="text-white mt-0">Está página te crear un nuevo examen añadiendo las preguntas que desees.</p>
+                                <p class="text-white mt-0">Está página te permite crear un nuevo examen añadiendo las preguntas que desees.</p>
                             </div>
                         </div>
                     </div>
@@ -232,19 +256,16 @@ and open the template in the editor.
                                 <div class="card-body">
                                     <div class="row border-bottom font-weight-bolder mb-4 pb-0">
                                         <div class="col">
-                                            Título
+                                            Pregunta
                                         </div>
                                         <div class="col">
-                                            Descripción
+                                            Tipo
                                         </div>
                                         <div class="col">
-                                            Fecha de inicio
+                                            Puntuación
                                         </div>
                                         <div class="col">
-                                            Fecha fin
-                                        </div>
-                                        <div class="col">
-                                            Asignatura
+                                            Correcta
                                         </div>
                                         <div class="col">
                                             Acciones
@@ -263,9 +284,6 @@ and open the template in the editor.
                                             </div>
                                             <div class="col mb-2 align-items-start">
                                                 <input type="date" id="endsAt" name="endsAt" class="form-control"/>
-                                            </div>
-                                            <div class="col mb-2 align-items-start">
-                                                <input type="text" id="subject" name="subject" class="form-control" placeholder="Asignatura" required>
                                             </div>
                                             <div class="col">
                                                 Acciones
