@@ -5,6 +5,8 @@ require_once '../Model/Question.php';
 require_once '../Model/QuestionDAO.php';
 require_once '../Model/AnswerNumber.php';
 require_once '../Model/AnswerNumberDAO.php';
+require_once '../Model/AnswerText.php';
+require_once '../Model/AnswerTextDAO.php';
 
 // Inicio sesion
 session_start();
@@ -17,7 +19,7 @@ if (isset($_REQUEST['addQuestion'])) {
     $active = intval($_REQUEST['activeQuestionAdd']);
     $score = intval($_REQUEST['scoreQuestionAdd']);
     $content = $_REQUEST['contentQuestionAdd'];
-    
+
     // Recupero el dni del usuario
     $userDni = $_SESSION['userDni'];
 
@@ -28,10 +30,28 @@ if (isset($_REQUEST['addQuestion'])) {
 
     switch ($type) {
         case 'option':
-            print('option');
+            // Recupero los valores de las respuestas y si son correctas o no
+            $answerOption = $_REQUEST['answerOption'];
+            $answerCorrect = $_REQUEST['answerCorrect'];
+            // Guardo las respuestas en la tabla, pero filtro para introducir vacias
+            for ($i = 0; $i < count($answerOption); $i++) {
+                if (!empty($answerOption[$i])) {
+                    AnswerTextDAO::insertAnswer($idQuestion, intval($answerCorrect[$i]), $answerOption[$i]);
+                }
+            }
+            header('Location: ../View/crud_preguntas.php');
             break;
         case 'writter':
-            print('writter');
+            // Recupero los valores de las respuestas, en este caso las palabras definidas por el profesor son correctas
+            $answerOption = $_REQUEST['answerOption'];
+            $answerCorrect = 1;
+            // Guardo las respuestas en la tabla, pero filtro para introducir vacias
+            for ($i = 0; $i < count($answerOption); $i++) {
+                if (!empty($answerOption[$i])) {
+                    AnswerTextDAO::insertAnswer($idQuestion, intval($answerCorrect), $answerOption[$i]);
+                }
+            }
+            header('Location: ../View/crud_preguntas.php');
             break;
         case 'number':
             // Recupero los datos de la respuesta tipo numero

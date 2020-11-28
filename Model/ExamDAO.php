@@ -68,4 +68,86 @@ class ExamDAO {
         // Devuelvo si existe o no
         return $id;        
     }
+    
+    // Método para recuperar todos los exámenes
+    static function getAllJSON(){
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+        
+        // Variable para devolver los exámenes
+        $exams = array();
+        
+        // Preparo la consulta
+        $query = 'SELECT * FROM ' . Constants::$EXAM;
+        
+        // Ejecuto y guardo el resultado
+        if($result = GestionBDD::$conexion->query($query)){
+            while($row = $result->fetch_array()){
+                $exams[] = array('id' => $row['id'],
+                    'dniCreator' => $row['dniCreator'],
+                    'tittle' => $row['tittle'],
+                    'description' => $row['description'],
+                    'score' => $row['score'],
+                    'startsAt' => $row['startsAt'],
+                    'endsAt' => $row['endsAt'],
+                    'subject' => $row['subject']);
+            }
+        }
+        
+        // Libero el resultado
+        $result->free();
+        
+        // Cierro la conexión
+        GestionBDD::cerrarBDD();
+        
+        // Codifico los datos en JSON
+        $json_string = json_encode($exams);
+        
+        // Devuelvo los datos codificados
+        return $json_string;
+    }
+    
+    // Método para recuperar los exámenes según el DNI del creador
+    static function getAllJSONByDNICreator($dniCreator){
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+        
+        // Variable para devolver los exámenes
+        $exams = array();
+        
+        // Preparo la consulta
+        $query = 'SELECT * FROM ' . Constants::$EXAM . ' WHERE dniCreator = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+        
+        // Valores de la sentencia
+        $val1 = $dniCreator;
+        
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+        if($result = $stmt->get_result()){
+            while($row = $result->fetch_array()){
+                $exams[] = array('id' => $row['id'],
+                    'dniCreator' => $row['dniCreator'],
+                    'tittle' => $row['tittle'],
+                    'description' => $row['description'],
+                    'score' => $row['score'],
+                    'startsAt' => $row['startsAt'],
+                    'endsAt' => $row['endsAt'],
+                    'subject' => $row['subject']);
+            }
+        }
+        
+        // Libero el resultado
+        $result->free();
+        
+        // Cierro la conexión
+        GestionBDD::cerrarBDD();
+        
+        // Codifico los datos en JSON
+        $json_string = json_encode($exams);
+        
+        // Devuelvo los datos codificados
+        return $json_string;
+    }
 }

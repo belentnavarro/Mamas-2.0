@@ -79,15 +79,15 @@ function questionOptions() {
     clearQuestionOptions();
     let element = document.createElement('div');
     element.className = 'col-8 answerCount';
-    element.innerHTML = `<input type="text" name="answerOption" class="form-control" value="" placeholder="Respuesta">`;
+    element.innerHTML = `<input type="text" name="answerOption[]" class="form-control" value="" placeholder="Respuesta">`;
     questionOptionAdd.appendChild(element);
 
     element = document.createElement('div');
     element.className = 'col-2';
-    element.innerHTML = `<select class="custom-select" id="rolNewUser" name="rolNewUser" required>
+    element.innerHTML = `<select class="custom-select" id="answerCorrect" name="answerCorrect[]" required>
                             <option selected>Correcta</option>
-                            <option value="si">Si</option>
-                            <option value="no">No</option>
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
                          </select>`;
     questionOptionAdd.appendChild(element);
 
@@ -111,15 +111,15 @@ function questionOptions() {
 function newQuestionOptions() {
     let element = document.createElement('div');
     element.className = 'col-8 mt-2 answerCount';
-    element.innerHTML = `<input type="text" name="answerOption" class="form-control" value="" placeholder="Respuesta">`;
+    element.innerHTML = `<input type="text" name="answerOption[]" class="form-control" value="" placeholder="Respuesta">`;
     questionOptionAdd.appendChild(element);
 
     element = document.createElement('div');
     element.className = 'col-2 mt-2';
-    element.innerHTML = `<select class="custom-select" id="rolNewUser" name="rolNewUser" required>
+    element.innerHTML = `<select class="custom-select" id="answerCorrect" name="answerCorrect[]" required>
                             <option selected>Correcta</option>
-                            <option value="si">Si</option>
-                            <option value="no">No</option>
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
                          </select>`;
     questionOptionAdd.appendChild(element);
 
@@ -140,9 +140,7 @@ function questionWritter() {
     for (var i = 0, max = 4; i < max; i++) {
         let element = document.createElement('div');
         element.className = 'col';
-        element.innerHTML = `<input type="Text" name="answerWritter" class="form-control" value="" placeholder="Palabra clave ${i + 1}">
-                            
-        `;
+        element.innerHTML = `<input type="Text" name="answerOption[]" class="form-control" value="" placeholder="Palabra clave ${i + 1}>`;
         questionOptionAdd.appendChild(element);
     }
 }

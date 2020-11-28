@@ -29,7 +29,7 @@ and open the template in the editor.
         <!--Favicon-->
         <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
 
-        <title>Crear examen</title>
+        <title>Examen creado</title>
     </head>
     <body>
         <?php
@@ -214,8 +214,7 @@ and open the template in the editor.
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="display-2 text-white">Crear examen</h1>
-                                <p class="text-white mt-0">Está página te crear un nuevo examen añadiendo las preguntas que desees.</p>
+                                <h1 class="display-2 text-white">Examen creado</h1>
                             </div>
                         </div>
                     </div>
@@ -224,58 +223,31 @@ and open the template in the editor.
                 <!-- Administrar usuarios -->
                 <div class="container-fluid mt-4">
                     <div class="row justify-content-center align-items-center">
-                        <div class="col-11">
+                        <div class="col-lg-6 col-md-6 col-sm-8 offset-lg-3 offset-md-3 offset-sm-2">
                             <div class="card mb-0 shadow">
                                 <div class="card-header font-weight-bold text-white bg--o-light display-4 text-center">
-                                    Crear un examen
+                                    Examen creado con exíto
                                 </div>
                                 <div class="card-body">
-                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0">
-                                        <div class="col">
-                                            Título
-                                        </div>
-                                        <div class="col">
-                                            Descripción
-                                        </div>
-                                        <div class="col">
-                                            Fecha de inicio
-                                        </div>
-                                        <div class="col">
-                                            Fecha fin
-                                        </div>
-                                        <div class="col">
-                                            Asignatura
-                                        </div>
-                                    </div> 
-                                    <form action="../Controller/controller_create_exam.php" method="POST" name="create_new_exam">
-                                        <div class="row">
-                                            <div class="col mb-2 align-items-start">
-                                                <input type="text" id="tittle" name="tittle" class="form-control" placeholder="Título" required>
-                                            </div>
-                                            <div class="col mb-2 align-items-center">
-                                                <textarea id="description" name="description" rows="6" cols="10" class="form-control" placeholder="Descripción del examen" required></textarea>
-                                            </div>
-                                            <div class="col mb-2 align-items-start">
-                                                <input type="date" id="startsAt" name="startsAt" class="form-control" required/>
-                                            </div>
-                                            <div class="col mb-2 align-items-start">
-                                                <input type="date" id="endsAt" name="endsAt" class="form-control" required/>
-                                            </div>
-                                            <div class="col mb-2 align-items-start">
-                                                <input type="text" id="subject" name="subject" class="form-control" placeholder="Asignatura" required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 offset-4 mt-4">
-                                                <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold" name="create_exam" value="create_exam">
-                                                    Crear examen
-                                                    <svg class="bi ml-2" width="22" height="22" fill="currentColor">
-                                                    <use xlink:href="../Icons/bootstrap-icons.svg#plus-square-fill"/>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <p>Se ha creado con exito el nuevo examen, ya puedes encontrarlo dentro de la lista de exámenes para activarlo, desactivarlo o corregirlo.</p>
+                                    <div class="row align-items-center">
+                                        <a href="../View/crud_create_exam.php">
+                                            <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold col-5 w-100" name="create_exam" value="create_exam">
+                                                <svg class="bi ml-2" width="22" height="22" fill="currentColor">
+                                                <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-plus-fill"/>
+                                                </svg>
+                                                Crear nuevo examen
+                                            </button>
+                                            <a href="#">
+                                            <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold col-5 offset-1 w-100" name="create_exam" value="create_exam">
+                                                Listar exámenes
+                                                <svg class="bi ml-2" width="22" height="22" fill="currentColor">
+                                                <use xlink:href="../Icons/bootstrap-icons.svg#arrow-right-circle-fill"/>
+                                                </svg>
+                                            </button>
+                                        </a>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
