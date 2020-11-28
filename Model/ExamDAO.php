@@ -150,4 +150,48 @@ class ExamDAO {
         // Devuelvo los datos codificados
         return $json_string;
     }
+    
+    // Método para recuperar los exámenes según la asignatura
+    static function getAllJSONBySubject($subject){
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+        
+        // Variable para devolver los exámenes
+        $exams = array();
+        
+        // Preparo la consulta
+        $query = 'SELECT * FROM ' . Constants::$EXAM . ' WHERE subject = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("s", $val1);
+        
+        // Valores de la sentencia
+        $val1 = strtolower($subject);
+        
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+        if($result = $stmt->get_result()){
+            while($row = $result->fetch_array()){
+                $exams[] = array('id' => $row['id'],
+                    'dniCreator' => $row['dniCreator'],
+                    'tittle' => $row['tittle'],
+                    'description' => $row['description'],
+                    'score' => $row['score'],
+                    'startsAt' => $row['startsAt'],
+                    'endsAt' => $row['endsAt'],
+                    'subject' => $row['subject']);
+            }
+        }
+        
+        // Libero el resultado
+        $result->free();
+        
+        // Cierro la conexión
+        GestionBDD::cerrarBDD();
+        
+        // Codifico los datos en JSON
+        $json_string = json_encode($exams);
+        
+        // Devuelvo los datos codificados
+        return $json_string;
+    }
 }
