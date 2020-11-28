@@ -142,6 +142,19 @@ h1, h2, h3, h4, h5, h6 {
 #sidebar.active {
     margin-left: -280px;
 }
+/*
+#sidebar.active ul {
+position: absolute;
+    left: -85px;
+    z-index: 100;
+}
+
+
+#sidebarCollapse {
+    position: relative;
+    right: 85px;
+}
+*/
 
 #content {
     width: 100%;
@@ -174,4 +187,13 @@ h1, h2, h3, h4, h5, h6 {
     background-image: url(../Img/bg_001.jpg);
     background-size: cover; 
     background-position: center center;
+}
+
+/* Tarjetas para mostrar preguntas */
+.nav-tabs a {
+    color: white;
+}
+
+#accordionEx1 h5, #accordionEx2 h5, #accordionEx3 h5 {
+    color: var(--g-medium);
 }
