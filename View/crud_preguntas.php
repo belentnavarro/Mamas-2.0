@@ -280,18 +280,18 @@ and open the template in the editor.
                                             </div>
                                             <div class="col-2 mb-2">
                                                 <select class="custom-select" name="activeQuestionAdd" required>
-                                                    <option selected>Activa</option>
+                                                    <option selected>¿Activa?</option>
                                                     <option value="0">No</option>
                                                     <option value="1">Si</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row px-3" id="questionOptionAdd"></div>
-                                        <div class="row px-3" id="questionOptionAdd">
-                                            <div class="col">
-                                                <button class="btn btn--g-medium btn-block my-4" type="submit" name="addQuestion" value="login">Añadir pregunta</button>
-                                            </div>
+
+                                        <div class="col">
+                                            <button class="btn btn--g-medium btn-block my-4" type="submit" name="addQuestion" value="login">Añadir pregunta</button>
                                         </div>
+
                                     </div>
                                 </div>
                             </form>
@@ -394,7 +394,6 @@ and open the template in the editor.
                                                     ?>
                                                     <!-- Accordion card -->
                                                     <div class="card">
-
                                                         <!-- Card header -->
                                                         <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
                                                             <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx2" href="#collapse<?= $value->getId() ?>"
@@ -444,7 +443,7 @@ and open the template in the editor.
                                                     $answer = new AnswerNumber($o['id'], $o['questionId'], $o['correct'], $o['content']);
                                                     ?>
                                                     <!-- Accordion card -->
-                                                    <div class="card">
+                                                    <form class="card" name="updateQuestionNumber" method="GET" action="../Controller/controller_crud_questions.php">
 
                                                         <!-- Card header -->
                                                         <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
@@ -460,12 +459,47 @@ and open the template in the editor.
                                                         <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
                                                              data-parent="#accordionEx3">
                                                             <div class="card-body">
-                                                                <div class="col">
-                                                                    <input type="number" name="answerNumber" class="form-control" value="<?= $answer->getContent() ?>">
+                                                                <div class="row">
+                                                                    <div class="col mb-2">
+                                                                        <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                        <input type="text" name="contentQuestionNumber" class="form-control" value="<?= $value->getContent() ?>">
+                                                                    </div>
+                                                                    <div class="col-2 mb-2">
+                                                                        <input type="number" name="scoreQuestionNumber" class="form-control" value="<?= $value->getScore() ?>">
+                                                                    </div>
+                                                                    <div class="col-2 mb-2">
+                                                                        <select class="custom-select" name="activeQuestionNumber" required>
+                                                                            <?php
+                                                                            if ($value->getActive() == 1) {
+                                                                                ?>
+                                                                                <option value="1" selectec>Si</option>
+                                                                                <option value="0">No</option>
+                                                                                <?php
+                                                                            } else {
+                                                                                ?>
+                                                                                <option value="1">Si</option>
+                                                                                <option value="0" selected>No</option>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input type="number" name="idAnswer" class="form-control" value="<?= $answer->getId() ?>" style="display:none">
+                                                                        <input type="number" name="answerNumber" class="form-control" value="<?= $answer->getContent() ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col mr-0">
+                                                                        <button class="btn btn--o-dark mr-0" type="submit" name="deleteQuestionNumber" value="deleteQuestionNumber">Borrar pregunta</button>
+                                                                        <button class="btn btn--g-medium mr-0" type="submit" name="updateQuestionNumber" value="updateQuestionNumber">Modificar pregunta</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </form>
                                                     <!-- Accordion card -->
                                                     <?php
                                                 }

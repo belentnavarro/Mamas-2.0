@@ -71,4 +71,41 @@ class AnswerNumberDAO {
         return $json_string;
     }
 
+    // Método para modificar una respuesta
+    static function updateAnswer($idAnswer, $answerNumber) {
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'UPDATE ' . Constants::$ANSWERS_NUMBERS . ' SET content = ? WHERE id = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("ii", $val1, $val2);
+
+        // Valores de la sentencia
+        $val2 = $idAnswer;
+        $val1 = $answerNumber;
+
+        // Ejecuto y cierro la conexión
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
+    // Metodo para eliminar una respuesta
+    static function deleteAnswerNumber($id) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'DELETE FROM ' . Constants::$ANSWERS_NUMBERS . ' WHERE id = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
 }

@@ -117,6 +117,17 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--g-medium);
 }
 
+.btn--o-dark{
+    color: #FFFFFF;
+    background: var(--o-dark);
+    border-color: var(--o-dark);
+}
+
+.btn--o-dark:hover {
+    color: #FFFFFF;
+    background: var(--o-light);
+    border-color: var(--o-light);
+}
 
 
 /* Estructura general del home y paginas derivadas */
