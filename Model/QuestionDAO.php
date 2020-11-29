@@ -144,7 +144,7 @@ class QuestionDAO {
     }
 
     // Método para modificar una pregunta
-    static function updateQuestionNumber($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion) {
+    static function updateQuestion($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion) {
         // Abro la conexión
         GestionBDD::conectarBDD();
 
@@ -163,6 +163,7 @@ class QuestionDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
+    
 
     // Metodo para eliminar una pregunta
     static function deleteQuestion($id) {

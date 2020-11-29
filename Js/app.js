@@ -85,9 +85,8 @@ function questionOptions() {
     element = document.createElement('div');
     element.className = 'col-2';
     element.innerHTML = `<select class="custom-select" id="answerCorrect" name="answerCorrect[]" required>
-                            <option selected>Correcta</option>
-                            <option value="1">Si</option>
-                            <option value="0">No</option>
+                            <option value="1" selecto>Correcta</option>
+                            <option value="0">Incorrecta</option>
                          </select>`;
     questionOptionAdd.appendChild(element);
 

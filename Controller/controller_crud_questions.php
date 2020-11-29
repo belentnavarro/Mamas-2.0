@@ -65,7 +65,7 @@ if (isset($_REQUEST['addQuestion'])) {
     }
 }
 
-// Boton modificar
+// Boton modificar pregunta tipo numero
 if (isset($_REQUEST['updateQuestionNumber'])) {
     // Recuperos datos de la pregunta
     $activeQuestion = intval($_REQUEST['activeQuestionNumber']);
@@ -73,7 +73,7 @@ if (isset($_REQUEST['updateQuestionNumber'])) {
     $contentQuestion = $_REQUEST['contentQuestionNumber'];
     $idQuestion = intval($_REQUEST['idQuestion']);
     // Modifico la pregunta
-    QuestionDAO::updateQuestionNumber($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion);
+    QuestionDAO::updateQuestion($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion);
 
     // Recupero la respuesta
     $idAnswer = intval($_REQUEST['idAnswer']);
@@ -84,7 +84,7 @@ if (isset($_REQUEST['updateQuestionNumber'])) {
     header('Location: ../View/crud_preguntas.php');
 }
 
-// Boton modificar
+// Boton borrar pregunta tipo numero
 if (isset($_REQUEST['deleteQuestionNumber'])) {
     // Recupero el Id de la pregunta y de la respuesta a borrar
     $idQuestion = intval($_REQUEST['idQuestion']);
@@ -93,6 +93,33 @@ if (isset($_REQUEST['deleteQuestionNumber'])) {
     // Borro la pregunta y la respuesta
     AnswerNumberDAO::deleteAnswerNumber($idAnswer);
     QuestionDAO::deleteQuestion($idQuestion);
-    
+
+    header('Location: ../View/crud_preguntas.php');
+}
+
+// Modificar pregunta tipo opciones
+if (isset($_REQUEST['updateQuestionOption'])) {
+    // Recuperos datos de la pregunta
+    $activeQuestion = intval($_REQUEST['activeQuestionOption']);
+    $scoreQuestion = intval($_REQUEST['scoreQuestionOption']);
+    $contentQuestion = $_REQUEST['contentQuestionOption'];
+    $idQuestion = intval($_REQUEST['idQuestion']);
+    // Modifico la pregunta
+    QuestionDAO::updateQuestion($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion);
+
+    // Borro las resputas por la id de pregunta para añadir las nuevas
+    AnswerTextDAO::deleteAnswers($idQuestion);
+
+    // Guado las nuevas respuestas en la bdd
+    $answerOption = $_REQUEST['answerOption'];
+    $answerCorrect = $_REQUEST['answerCorrect'];
+    // Guardo las respuestas en la tabla, pero filtro para introducir vacias
+    for ($i = 0; $i < count($answerOption); $i++) {
+        if (!empty($answerOption[$i])) {
+            AnswerTextDAO::insertAnswer($idQuestion, intval($answerCorrect[$i]), $answerOption[$i]);
+        }
+    }
+    header('Location: ../View/crud_preguntas.php');
+
     header('Location: ../View/crud_preguntas.php');
 }
