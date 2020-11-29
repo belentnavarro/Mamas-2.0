@@ -87,6 +87,13 @@ and open the template in the editor.
         foreach ($objs as $o) {
             $questionW[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
         }
+
+        // Recupero las preguntas del examen de la sesión si existen
+        if (isset($_SESSION['examQuestions'])) {
+            $examQuestions = $_SESSION['examQuestions'];
+        } else {
+            $examQuestions = array();
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
@@ -289,6 +296,12 @@ and open the template in the editor.
                                                 <textarea id="description" name="description" rows="3" cols="10" class="form-control" placeholder="Descripción del examen" required></textarea>
                                             </div>
                                         </div>
+                                        <!-- Evaluo si las preguntas del examen estan vacias o no para mostrarlas -->
+                                        <?php
+                                        if (!empty($examQuestions)) {
+                                            print_r($examQuestions);
+                                        }
+                                        ?>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 offset-4 mt-4">
                                                 <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold" name="create_exam" value="create_exam">
@@ -340,68 +353,71 @@ and open the template in the editor.
                                                     // Evaluar si esta activa la pregunta para poder incluirla en el examen
                                                     if ($value->getActive() == 1) {
 
-                                                        // Recupero las preguntas tipo opciones
-                                                        $answerTJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
-                                                        // Variable para guardar las preguntas
-                                                        $answerT = array();
-                                                        //Decodifico el JSON y saco los usuarios del array
-                                                        $objs = json_decode($answerTJSON, true);
-                                                        foreach ($objs as $o) {
-                                                            $answerT[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
-                                                        }
-                                                        ?>
-                                                        <!-- Accordion card -->
-                                                        <form class="card" name="addQuestionExam" method="POST" action="../Controller/controller_crud_questions.php">
-                                                            <!-- Campo para controlar el id de pregunta -->
-                                                            <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
-                                                            <!-- Card header -->
-                                                            <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
-                                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapse<?= $value->getId() ?>"
-                                                                   aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
-                                                                    <h5 class="mb-0">
-                                                                        <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
-                                                                    </h5>
-                                                                </a>
-                                                            </div>
+                                                        // Filtro las preguntas que ya estan en el examen para que no aparezcan
+                                                        if (!in_array($value->getId(), $examQuestions)) {
+                                                            // Recupero las preguntas tipo opciones
+                                                            $answerTJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
+                                                            // Variable para guardar las preguntas
+                                                            $answerT = array();
+                                                            //Decodifico el JSON y saco los usuarios del array
+                                                            $objs = json_decode($answerTJSON, true);
+                                                            foreach ($objs as $o) {
+                                                                $answerT[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                            }
+                                                            ?>
+                                                            <!-- Accordion card -->
+                                                            <form class="card" name="addQuestionExam" method="POST" action="../Controller/controller_create_exam.php">
+                                                                <!-- Campo para controlar el id de pregunta -->
+                                                                <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                <!-- Card header -->
+                                                                <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapse<?= $value->getId() ?>"
+                                                                       aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                        <h5 class="mb-0">
+                                                                            <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                        </h5>
+                                                                    </a>
+                                                                </div>
 
-                                                            <!-- Card body -->
-                                                            <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
-                                                                 data-parent="#accordionEx1">
-                                                                <div class="card-body bg--g-light">
-                                                                    <?php
-                                                                    foreach ($answerT as $a) {
+                                                                <!-- Card body -->
+                                                                <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                                     data-parent="#accordionEx1">
+                                                                    <div class="card-body bg--g-light">
+                                                                        <?php
+                                                                        foreach ($answerT as $a) {
+                                                                            ?>
+                                                                            <div class="row">
+                                                                                <div class="col-10 mb-2">
+                                                                                    <input type="text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>" disabled>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <?php
+                                                                                    if ($a->getCorrect() == 1) {
+                                                                                        ?>
+                                                                                        <input type="text" class="form-control" value="Correcta" disabled/>
+                                                                                        <?php
+                                                                                    } else {
+                                                                                        ?>
+                                                                                        <input type="text" class="form-control" value="Incorrecta" disabled/>
+                                                                                        <?php
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                        }
                                                                         ?>
                                                                         <div class="row">
-                                                                            <div class="col-10 mb-2">
-                                                                                <input type="text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>" disabled>
+                                                                            <div class="col mr-0">
+                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestion" value="addQuestion">Añadir pregunta</button>
                                                                             </div>
-                                                                            <div class="col-2">
-                                                                                <?php
-                                                                                if ($a->getCorrect() == 1) {
-                                                                                    ?>
-                                                                                    <input type="text" class="form-control" value="Correcta" disabled/>
-                                                                                    <?php
-                                                                                } else {
-                                                                                    ?>
-                                                                                    <input type="text" class="form-control" value="Incorrecta" disabled/>
-                                                                                    <?php
-                                                                                }
-                                                                                ?>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-                                                                    <div class="row">
-                                                                        <div class="col mr-0">
-                                                                            <button class="btn btn--g-medium mr-0" type="submit" name="addQuestionOption" value="addQuestionOption">Añadir pregunta</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </form>
-                                                        <!-- Accordion card -->
-                                                        <?php
+                                                            </form>
+                                                            <!-- Accordion card -->
+                                                            <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -419,55 +435,58 @@ and open the template in the editor.
                                                     // Evaluo si la pregunta esta activa
                                                     if ($value->getActive() == 1) {
 
-                                                        // Recupero las preguntas tipo redacopm
-                                                        $answerWJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
-                                                        // Variable para guardar las preguntas
-                                                        $answerW = array();
-                                                        //Decodifico el JSON y saco los usuarios del array
-                                                        $objs = json_decode($answerWJSON, true);
-                                                        foreach ($objs as $o) {
-                                                            $answerW[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
-                                                        }
-                                                        ?>
-                                                        <!-- Accordion card -->
-                                                        <form class="card" name="updateQuestionWritter" method="POST" action="../Controller/controller_crud_questions.php">
-                                                            <!-- Campo para controlar el id de pregunta -->
-                                                            <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
-                                                            <!-- Card header -->
-                                                            <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
-                                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx2" href="#collapse<?= $value->getId() ?>"
-                                                                   aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
-                                                                    <h5 class="mb-0">
-                                                                        <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
-                                                                    </h5>
-                                                                </a>
-                                                            </div>
+                                                        // Filtro las preguntas que ya estan en el examen para que no aparezcan
+                                                        if (!in_array($value->getId(), $examQuestions)) {
+                                                            // Recupero las preguntas tipo redacopm
+                                                            $answerWJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
+                                                            // Variable para guardar las preguntas
+                                                            $answerW = array();
+                                                            //Decodifico el JSON y saco los usuarios del array
+                                                            $objs = json_decode($answerWJSON, true);
+                                                            foreach ($objs as $o) {
+                                                                $answerW[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                            }
+                                                            ?>
+                                                            <!-- Accordion card -->
+                                                            <form class="card" name="updateQuestionWritter" method="POST" action="../Controller/controller_create_exam.php">
+                                                                <!-- Campo para controlar el id de pregunta -->
+                                                                <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                <!-- Card header -->
+                                                                <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx2" href="#collapse<?= $value->getId() ?>"
+                                                                       aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                        <h5 class="mb-0">
+                                                                            <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                        </h5>
+                                                                    </a>
+                                                                </div>
 
-                                                            <!-- Card body -->
-                                                            <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
-                                                                 data-parent="#accordionEx2">
-                                                                <div class="card-body bg--g-light">
-                                                                    <div class="row">
-                                                                        <?php
-                                                                        foreach ($answerW as $a) {
-                                                                            ?>
-                                                                            <div class="col mb-2">
-                                                                                <input type="Text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>" disabled>
-                                                                            </div>
+                                                                <!-- Card body -->
+                                                                <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                                     data-parent="#accordionEx2">
+                                                                    <div class="card-body bg--g-light">
+                                                                        <div class="row">
                                                                             <?php
-                                                                        }
-                                                                        ?>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col mr-0">
-                                                                            <button class="btn btn--g-medium mr-0" type="submit" name="addQuestionWritter" value="addQuestionWritter">Añadir pregunta</button>
+                                                                            foreach ($answerW as $a) {
+                                                                                ?>
+                                                                                <div class="col mb-2">
+                                                                                    <input type="Text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>" disabled>
+                                                                                </div>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col mr-0">
+                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestion" value="addQuestion">Añadir pregunta</button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </form>
-                                                        <!-- Accordion card -->
-                                                        <?php
+                                                            </form>
+                                                            <!-- Accordion card -->
+                                                            <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -484,46 +503,50 @@ and open the template in the editor.
 
                                                     // Evaluo si la pregunta esta activa
                                                     if ($value->getActive() == 1) {
-                                                        // Recupero su respuesta
-                                                        $datJSON = AnswerNumberDAO::getAnswerNJSON($value->getId());
-                                                        // Decodifico el JSON y saco el usuario del array
-                                                        $objs = json_decode($datJSON, true);
-                                                        $o = $objs[0];
-                                                        $answer = new AnswerNumber($o['id'], $o['questionId'], $o['correct'], $o['content']);
-                                                        ?>
-                                                        <!-- Accordion card -->
-                                                        <form class="card" name="updateQuestionNumber" method="POST" action="../Controller/controller_crud_questions.php">
-                                                            <!-- Campo para controlar el id de pregunta -->
-                                                            <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
-                                                            <!-- Card header -->
-                                                            <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
-                                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx3" href="#collapse<?= $value->getId() ?>"
-                                                                   aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
-                                                                    <h5 class="mb-0">
-                                                                        <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
-                                                                    </h5>
-                                                                </a>
-                                                            </div>
 
-                                                            <!-- Card body -->
-                                                            <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
-                                                                 data-parent="#accordionEx3">
-                                                                <div class="card-body bg--g-light">
-                                                                    <div class="row">
-                                                                        <div class="col">
-                                                                            <input type="text" name="answerNumber" class="form-control" value="<?= $answer->getContent() ?>" disabled>
+                                                        // Filtro las preguntas que ya estan en el examen para que no aparezcan
+                                                        if (!in_array($value->getId(), $examQuestions)) {
+                                                            // Recupero su respuesta
+                                                            $datJSON = AnswerNumberDAO::getAnswerNJSON($value->getId());
+                                                            // Decodifico el JSON y saco el usuario del array
+                                                            $objs = json_decode($datJSON, true);
+                                                            $o = $objs[0];
+                                                            $answer = new AnswerNumber($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                            ?>
+                                                            <!-- Accordion card -->
+                                                            <form class="card" name="updateQuestionNumber" method="POST" action="../Controller/controller_create_exam.php">
+                                                                <!-- Campo para controlar el id de pregunta -->
+                                                                <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                <!-- Card header -->
+                                                                <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx3" href="#collapse<?= $value->getId() ?>"
+                                                                       aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                        <h5 class="mb-0">
+                                                                            <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                        </h5>
+                                                                    </a>
+                                                                </div>
+
+                                                                <!-- Card body -->
+                                                                <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                                     data-parent="#accordionEx3">
+                                                                    <div class="card-body bg--g-light">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                <input type="text" name="answerNumber" class="form-control" value="<?= $answer->getContent() ?>" disabled>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col mr-0">
-                                                                            <button class="btn btn--g-medium mr-0" type="submit" name="addQuestionNumber" value="addQuestionNumber">Añadir pregunta</button>
+                                                                        <div class="row">
+                                                                            <div class="col mr-0">
+                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestion" value="addQuestion">Añadir pregunta</button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </form>
-                                                        <!-- Accordion card -->
-                                                        <?php
+                                                            </form>
+                                                            <!-- Accordion card -->
+                                                            <?php
+                                                        }
                                                     }
                                                 }
                                                 ?>
