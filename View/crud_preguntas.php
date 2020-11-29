@@ -413,16 +413,16 @@ and open the template in the editor.
                                                                         <div class="col-2">
                                                                             <select class="custom-select" id="answerCorrect" name="answerCorrect[]" required>
                                                                                 <?php
-                                                                                if($a->getCorrect() == 1){
+                                                                                if ($a->getCorrect() == 1) {
                                                                                     ?>
-                                                                                <option value="1" selected>Correcta</option>
-                                                                                <option value="0">Incorrecta</option>
-                                                                                <?php
-                                                                                }else {
-                                                                                   ?>
-                                                                                <option value="1">Correcta</option>
-                                                                                <option value="0" selected>Incorrecta</option>
-                                                                                <?php 
+                                                                                    <option value="1" selected>Correcta</option>
+                                                                                    <option value="0">Incorrecta</option>
+                                                                                    <?php
+                                                                                } else {
+                                                                                    ?>
+                                                                                    <option value="1">Correcta</option>
+                                                                                    <option value="0" selected>Incorrecta</option>
+                                                                                    <?php
                                                                                 }
                                                                                 ?>
                                                                             </select>
@@ -496,7 +496,7 @@ and open the template in the editor.
                                                     }
                                                     ?>
                                                     <!-- Accordion card -->
-                                                    <div class="card">
+                                                    <form class="card" name="updateQuestionWritter" method="POST" action="../Controller/controller_crud_questions.php">
                                                         <!-- Card header -->
                                                         <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
                                                             <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx2" href="#collapse<?= $value->getId() ?>"
@@ -512,19 +512,88 @@ and open the template in the editor.
                                                              data-parent="#accordionEx2">
                                                             <div class="card-body bg--g-light">
                                                                 <div class="row font-weight-bold text--g-dark">
-                                                                    <div class="col-4">
-                                                                        <?php
-                                                                        foreach ($answerW as $a) {
-                                                                            ?>
-                                                                            <input type="Text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>">
+                                                                    <div class="col mb-2 border-bottom">
+                                                                        <p>Pregunta</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Puntuacion</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Activa</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col mb-2">
+                                                                        <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                        <input type="text" name="contentQuestionWritter" class="form-control" value="<?= $value->getContent() ?>">
+                                                                    </div>
+                                                                    <div class="col-2 mb-2">
+                                                                        <input type="number" name="scoreQuestionWritter" class="form-control" value="<?= $value->getScore() ?>">
+                                                                    </div>
+                                                                    <div class="col-2 mb-2">
+                                                                        <select class="custom-select" name="activeQuestionWritter" required>
                                                                             <?php
-                                                                        }
-                                                                        ?>
+                                                                            if ($value->getActive() == 1) {
+                                                                                ?>
+                                                                                <option value="1" selectec>Si</option>
+                                                                                <option value="0">No</option>
+                                                                                <?php
+                                                                            } else {
+                                                                                ?>
+                                                                                <option value="1">Si</option>
+                                                                                <option value="0" selected>No</option>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <?php
+                                                                foreach ($answerW as $a) {
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-8 mb-2">
+                                                                            <input type="Text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>">
+                                                                        </div>
+                                                                        <div class="col-1 mb-2">
+                                                                            <a href="#">
+                                                                                <svg class="bi" width="28" height="28 " fill="currentColor"  id="updateOption">
+                                                                                <use xlink:href="../Icons/bootstrap-icons.svg#trash"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                // compruebo el numero de respuestas y creo hasta 4 para dar todas las opciones al usuario.
+                                                                $a = count($answerW);
+                                                                while ($a < 4) {
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-8 mb-2">
+                                                                            <input type="text" name="answerOption[]" class="form-control" value="" placeholder="Nueva respuesta">
+                                                                        </div>
+                                                                        <div class="col-1">
+                                                                            <a href="#">
+                                                                                <svg class="bi" width="28" height="28 " fill="currentColor"  id="updateOption">
+                                                                                <use xlink:href="../Icons/bootstrap-icons.svg#trash"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                    $a++;
+                                                                }
+                                                                ?>
+                                                                <div class="row">
+                                                                    <div class="col mr-0">
+                                                                        <button class="btn btn--o-dark mr-0" type="submit" name="deleteQuestionWritter" value="deleteQuestionWritter">Borrar pregunta</button>
+                                                                        <button class="btn btn--g-medium mr-0" type="submit" name="updateQuestionWritter" value="updateQuestionWritter">Modificar pregunta</button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </form>
                                                     <!-- Accordion card -->
                                                     <?php
                                                 }

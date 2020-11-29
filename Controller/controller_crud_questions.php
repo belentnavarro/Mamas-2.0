@@ -121,5 +121,54 @@ if (isset($_REQUEST['updateQuestionOption'])) {
     }
     header('Location: ../View/crud_preguntas.php');
 
+}
+
+// Boton borrar pregunta tipo opciones
+if (isset($_REQUEST['deleteQuestionOption'])) {
+    // Recupero el Id de la pregunta y de la respuesta a borrar
+    $idQuestion = intval($_REQUEST['idQuestion']);
+
+    // Borro la pregunta y la respuesta
+    AnswerTextDAO::deleteAnswers($idQuestion);
+    QuestionDAO::deleteQuestion($idQuestion);
+
+    header('Location: ../View/crud_preguntas.php');
+}
+
+// Modificar pregunta tipo opciones
+if (isset($_REQUEST['updateQuestionWritter'])) {
+    // Recuperos datos de la pregunta
+    $activeQuestion = intval($_REQUEST['activeQuestionWritter']);
+    $scoreQuestion = intval($_REQUEST['scoreQuestionWritter']);
+    $contentQuestion = $_REQUEST['contentQuestionWritter'];
+    $idQuestion = intval($_REQUEST['idQuestion']);
+    // Modifico la pregunta
+    QuestionDAO::updateQuestion($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion);
+
+    // Borro las resputas por la id de pregunta para añadir las nuevas
+    AnswerTextDAO::deleteAnswers($idQuestion);
+
+    // Guado las nuevas respuestas en la bdd
+    $answerOption = $_REQUEST['answerOption'];
+    $answerCorrect = 1;
+    // Guardo las respuestas en la tabla, pero filtro para introducir vacias
+    for ($i = 0; $i < count($answerOption); $i++) {
+        if (!empty($answerOption[$i])) {
+            AnswerTextDAO::insertAnswer($idQuestion, intval($answerCorrect[$i]), $answerOption[$i]);
+        }
+    }
+    header('Location: ../View/crud_preguntas.php');
+
+}
+
+// Boton borrar pregunta tipo writter
+if (isset($_REQUEST['deleteQuestionWritter'])) {
+    // Recupero el Id de la pregunta y de la respuesta a borrar
+    $idQuestion = intval($_REQUEST['idQuestion']);
+
+    // Borro la pregunta y la respuesta
+    AnswerTextDAO::deleteAnswers($idQuestion);
+    QuestionDAO::deleteQuestion($idQuestion);
+
     header('Location: ../View/crud_preguntas.php');
 }
