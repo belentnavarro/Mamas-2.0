@@ -143,4 +143,43 @@ class QuestionDAO {
         return $json_string;
     }
 
+    // Método para modificar una pregunta
+    static function updateQuestionNumber($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion) {
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'UPDATE ' . Constants::$QUESTIONS . ' SET active = ?, score = ?, content = ? WHERE id = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("iisi", $val1, $val2, $val3, $val4);
+
+        // Valores de la sentencia
+        $val1 = $activeQuestion;
+        $val2 = $scoreQuestion;
+        $val3 = $contentQuestion;
+        $val4 = $idQuestion;
+
+        // Ejecuto y cierro la conexión
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
+    // Metodo para eliminar una pregunta
+    static function deleteQuestion($id) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'DELETE FROM ' . Constants::$QUESTIONS . ' WHERE id = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+
 }

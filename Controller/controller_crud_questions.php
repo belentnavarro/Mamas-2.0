@@ -64,3 +64,35 @@ if (isset($_REQUEST['addQuestion'])) {
             break;
     }
 }
+
+// Boton modificar
+if (isset($_REQUEST['updateQuestionNumber'])) {
+    // Recuperos datos de la pregunta
+    $activeQuestion = intval($_REQUEST['activeQuestionNumber']);
+    $scoreQuestion = intval($_REQUEST['scoreQuestionNumber']);
+    $contentQuestion = $_REQUEST['contentQuestionNumber'];
+    $idQuestion = intval($_REQUEST['idQuestion']);
+    // Modifico la pregunta
+    QuestionDAO::updateQuestionNumber($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion);
+
+    // Recupero la respuesta
+    $idAnswer = intval($_REQUEST['idAnswer']);
+    $answerNumber = intval($_REQUEST['answerNumber']);
+    // Modifico la respuesta
+    AnswerNumberDAO::updateAnswer($idAnswer, $answerNumber);
+
+    header('Location: ../View/crud_preguntas.php');
+}
+
+// Boton modificar
+if (isset($_REQUEST['deleteQuestionNumber'])) {
+    // Recupero el Id de la pregunta y de la respuesta a borrar
+    $idQuestion = intval($_REQUEST['idQuestion']);
+    $idAnswer = intval($_REQUEST['idAnswer']);
+
+    // Borro la pregunta y la respuesta
+    AnswerNumberDAO::deleteAnswerNumber($idAnswer);
+    QuestionDAO::deleteQuestion($idQuestion);
+    
+    header('Location: ../View/crud_preguntas.php');
+}
