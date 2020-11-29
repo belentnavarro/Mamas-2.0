@@ -31,7 +31,7 @@ class AnswerTextDAO {
         GestionBDD::cerrarBDD();
     }
 
-// Método para recuperar todas preguntas
+    // Método para recuperar todas respuestas
     static function getAllAnswerTJSON($questionId) {
         // Abro la conexión
         GestionBDD::conectarBDD();
@@ -66,6 +66,24 @@ class AnswerTextDAO {
 
         // Devuelvo los datos codificados
         return $json_string;
+    }
+
+    // Metodo para eliminar respuestas por el id de la pregunta
+    static function deleteAnswers($questionId) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'DELETE FROM ' . Constants::$ANSWERS_TEXT . ' WHERE questionId = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $questionId;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
     }
 
 }
