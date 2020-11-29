@@ -208,3 +208,11 @@ position: absolute;
 #accordionEx1 h5, #accordionEx2 h5, #accordionEx3 h5 {
     color: var(--g-medium);
 }
+
+/* SVG botones los posiciono arriba en el z-index */
+#moreAnswers, #minusAnswers, #updateOption {
+    display: inline-block;
+    position: relative;
+    z-index: 20;
+    color: var(--o-dark);
+}
