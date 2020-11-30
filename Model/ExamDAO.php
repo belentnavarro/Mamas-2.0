@@ -18,7 +18,7 @@ class ExamDAO {
         GestionBDD::conectarBDD();
         
         // Preparo la sentencia SQL
-        $query = 'INSERT INTO ' . Constants::$EXAM . ' (dniCreator, tittle, startsAt, endsAt, description, subject) VALUES (?, ?, ?, ?, ?, ?)';
+        $query = 'INSERT INTO ' . Constants::$EXAMS . ' (dniCreator, tittle, startsAt, endsAt, description, subject) VALUES (?, ?, ?, ?, ?, ?)';
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param('ssssss', $val1, $val2, $val3, $val4, $val5, $val6);
         
@@ -44,7 +44,7 @@ class ExamDAO {
         $idExam;
         
         // Preparo la sentencia SQL
-        $query = "SELECT id FROM " . Constants::$EXAM . " WHERE id = (SELECT MAX(id) FROM " . Constants::$EXAM . ") AND dniCreator = ? AND tittle = ?";
+        $query = "SELECT id FROM " . Constants::$EXAMS . " WHERE id = (SELECT MAX(id) FROM " . Constants::$EXAMS  . ") AND dniCreator = ? AND tittle = ?";
         $stmt = GestionBDD::$conexion->prepare($query);
         $stmt->bind_param("ss", $val1, $val2);
         

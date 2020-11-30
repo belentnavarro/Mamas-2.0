@@ -94,6 +94,13 @@ and open the template in the editor.
         } else {
             $examQuestions = array();
         }
+
+        // Recupero el valor total de examen
+        if (isset($_SESSION['scoreExam'])) {
+            $scoreExam = $_SESSION['scoreExam'];
+        } else {
+            $scoreExam = 0;
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
@@ -271,7 +278,7 @@ and open the template in the editor.
                                             Asignatura
                                         </div>
                                     </div> 
-                                    <form action="../Controller/controller_create_exam.php" method="POST" name="create_new_exam">
+                                    <form action="../Controller/controller_create_exam.php" method="POST" name="create_new_exam" novalidate>
                                         <div class="row">
                                             <div class="col mb-2 align-items-start">
                                                 <input type="text" id="tittle" name="tittle" class="form-control" placeholder="Título" required>
@@ -283,7 +290,12 @@ and open the template in the editor.
                                                 <input type="date" id="endsAt" name="endsAt" class="form-control" required/>
                                             </div>
                                             <div class="col mb-2 align-items-start">
-                                                <input type="text" id="subject" name="subject" class="form-control" placeholder="Asignatura" required>
+                                                <select class="custom-select" id="subject" name="subject" required>
+                                                    <option value="daw" selected>DAW</option>
+                                                    <option value="dwec">DWEC</option>
+                                                    <option value="dwes">DWES</option>
+                                                    <option value="diw">DIW</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row border-bottom font-weight-bolder mb-4 pb-0">
@@ -296,18 +308,73 @@ and open the template in the editor.
                                                 <textarea id="description" name="description" rows="3" cols="10" class="form-control" placeholder="Descripción del examen" required></textarea>
                                             </div>
                                         </div>
+
                                         <!-- Evaluo si las preguntas del examen estan vacias o no para mostrarlas -->
                                         <?php
                                         if (!empty($examQuestions)) {
-                                            print_r($examQuestions);
+                                            ?>
+                                            <div class="container-fluid">
+                                                <div class="row border-bottom border-top mt-3 pt-3 bg--g-light">
+                                                    <div class="col-9 text--g-dark font-weight-bold">
+                                                        <p>Preguntas del examen</p>
+                                                    </div>
+                                                    <div class="col-2 text--g-dark font-weight-bold">
+                                                        <p>Puntuación</p> 
+                                                    </div>
+                                                    <div class="col-1 text--g-dark font-weight-bold">
+                                                        <p>Eliminar</p> 
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                // Muestro las preguntas del examen
+                                                foreach ($examQuestions as $question) {
+                                                    //Recupero los datos del usuario
+                                                    $datJSON = QuestionDAO::getContentScoreQuestionsJSON($question);
+                                                    // Decodifico el JSON y saco el usuario del array
+                                                    $objs = json_decode($datJSON, true);
+                                                    $o = $objs[0];
+                                                    ?>
+                                                    <div class="row border-bottom">
+                                                        <div class="col-9 py-2">
+                                                            <!-- Input para controla el id de la pregunta -->
+                                                            <input type="text" name="deleteIdQuestion" value="<?= $question ?>" style="display:none">
+                                                            <?= ucfirst($o['content']) ?>
+                                                        </div>
+                                                        <div class="col-2 py-2">
+                                                            <?= ucfirst($o['score']) ?>
+                                                        </div>
+                                                        <div class="col-1 py-2">
+                                                            <button type="submit" class="btn btn--g-medium p-0 pr-2 " name="deleteQuestion" value="deleteQuestion">
+                                                                <svg class="bi ml-2" width="22" height="22" fill="currentColor">
+                                                                <use xlink:href="../Icons/bootstrap-icons.svg#dash"/>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <div class="row justify-content-end border-bottom">
+                                                    <div class="col-3 text-white font-weight-bold my-2  bg--o-dark py-2">
+                                                        Total Exámen: <?= $scoreExam ?> / 10
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php
                                         }
                                         ?>
                                         <div class="row">
-                                            <div class="col-lg-4 col-md-4 offset-4 mt-4">
-                                                <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold" name="create_exam" value="create_exam">
+                                            <div class="col-lg-4 col-md-4 mt-4 offset-4">
+                                                <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold" name="createExam" value="createExam">
                                                     Crear examen
                                                     <svg class="bi ml-2" width="22" height="22" fill="currentColor">
                                                     <use xlink:href="../Icons/bootstrap-icons.svg#plus-square-fill"/>
+                                                    </svg>
+                                                </button>
+                                                <button type="submit" class="btn btn--o-dark w-100 mt-0 font-weight-bold" name="deleteExam" value="deleteExam">
+                                                    Descartar examen
+                                                    <svg class="bi ml-2" width="22" height="22" fill="currentColor">
+                                                    <use xlink:href="../Icons/bootstrap-icons.svg#dash-square-fill"/>
                                                     </svg>
                                                 </button>
                                             </div>
