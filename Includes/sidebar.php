@@ -43,11 +43,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="view_exams.php">
                             <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                            <use xlink:href="../Icons/bootstrap-icons.svg#journal-check"/>
+                            <use xlink:href="../Icons/bootstrap-icons.svg#journal-bookmark"/>
                             </svg>
-                            Corregir examen
+                            Ver examenes
                         </a>
                     </li>
                     <li>
@@ -113,7 +113,8 @@
         </ul>
 
         <div class="footer">
-            Footer
+            <p>Belen Trujillo</p>
+            <p>Luis Quesada</p>
         </div>
 
     </div>
