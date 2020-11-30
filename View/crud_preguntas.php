@@ -125,7 +125,7 @@ and open the template in the editor.
                             </a>
                             <ul class="collapse list-unstyled ml-4" id="examSubmenu">
                                 <li>
-                                    <a href="crud_exam.php">
+                                    <a href="crud_create_exam.php">
                                         <svg class="bi mr-2" width="20" height="20" fill="currentColor">
                                         <use xlink:href="../Icons/bootstrap-icons.svg#journal-plus"/>
                                         </svg>

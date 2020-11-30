@@ -34,7 +34,6 @@ class QuestionDAO {
     }
 
     // Método para obtener el id de la pregunta que se acaba de insertar para relacionarla con las repuestas
-    // Método para recuperar el dni
     static function getIdQuestion($dniCreator, $content) {
         // Abro la conexion
         GestionBDD::conectarBDD();
@@ -68,6 +67,40 @@ class QuestionDAO {
 
         // Devuelvo el rol o null
         return $idQuestion;
+    }
+
+    // Método para obtener el valor de la pregunta
+    static function getScoreQuestion($idQuestion) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Variable para devolver el rol
+        $scoreQuestion = null;
+
+        // Preparo la sentencia SQL
+        $query = "SELECT score FROM  " . Constants::$QUESTIONS . " WHERE id = ?";
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $idQuestion;
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        // Vincular las variables de resultados
+        $stmt->bind_result($score);
+
+        // Devuelvo null o el valor de la consulta
+        if ($stmt->fetch()) {
+            $scoreQuestion = $score;
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        GestionBDD::cerrarBDD();
+
+        // Devuelvo el rol o null
+        return $scoreQuestion;
     }
 
     // Método para recuperar todas preguntas
@@ -143,6 +176,41 @@ class QuestionDAO {
         return $json_string;
     }
 
+    // Método para recuperar todas preguntas
+    static function getContentScoreQuestionsJSON($id) {
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT content, score FROM ' . Constants::$QUESTIONS . ' WHERE id = ?;';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Variable para devolver las personas
+        $questions = array();
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $questions[] = array('content' => $row['content'],
+                'score' => $row['score']);
+        }
+
+        GestionBDD::cerrarBDD();
+
+        // Codifico los datos en JSON
+        $json_string = json_encode($questions);
+
+        // Devuelvo los datos codificados
+        return $json_string;
+    }
+
     // Método para modificar una pregunta
     static function updateQuestion($idQuestion, $activeQuestion, $contentQuestion, $scoreQuestion) {
         // Abro la conexión
@@ -163,7 +231,6 @@ class QuestionDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
-    
 
     // Metodo para eliminar una pregunta
     static function deleteQuestion($id) {

@@ -23,4 +23,5 @@ class Constants {
     public static $QUESTIONS = 'questions'; // Tabla para las preuntas
     public static $ANSWERS_NUMBERS = 'answers_numbers'; // Tabla para las preguntas tipo number
     public static $ANSWERS_TEXT = 'answers_texts'; // Tabla para las preguntas tipo text
+    public static $EXAM_QUESTIONS = 'exam_questions'; // Tabla para guardar las preguntas de un examen
 }
