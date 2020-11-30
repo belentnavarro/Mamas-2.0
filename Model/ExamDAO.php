@@ -142,7 +142,7 @@ class ExamDAO {
         // Devuelvo los datos codificados
         return $json_string;
     }
-    
+
     // Método para recuperar todos los exámenes
     static function getAllNoActiveJSON() {
         // Abro la conexión
@@ -266,6 +266,24 @@ class ExamDAO {
 
         // Devuelvo los datos codificados
         return $json_string;
+    }
+
+    // Metodo para eliminar un examen
+    static function deleteExam($id) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'DELETE FROM ' . Constants::$EXAMS . ' WHERE id = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
     }
 
 }

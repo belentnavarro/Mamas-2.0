@@ -24,4 +24,23 @@ class ExamQuestionsDAO {
         $stmt->execute();
         GestionBDD::cerrarBDD();
     }
+    
+    // Metodo para eliminar las preguntas de un examen
+    static function deleteQuestionsExam($id) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'DELETE FROM ' . Constants::$EXAM_QUESTIONS . ' WHERE idExam = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Ejecuto y cierro la conexion
+        $stmt->execute();
+        GestionBDD::cerrarBDD();
+    }
+    
 }

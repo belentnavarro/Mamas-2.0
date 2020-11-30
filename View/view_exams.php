@@ -149,25 +149,27 @@ and open the template in the editor.
                                             <?php
                                             foreach ($examsActive as $exam) {
                                                 ?>
-                                                <div class="card-header row border">
-                                                    <div class="col-8 pt-2">
+                                                <form class="card-header row border" action="../Controller/controller_create_exam.php" method="POST" name="updateExam" novalidate>
+                                                    <div class="col-6 pt-3">
+                                                        <!-- Input para controlar el id del examen -->
+                                                        <input type="number" name="idExman" style="display:none" value="<?=$exam->getId()?>">
                                                         <?= ucfirst($exam->getTittle()) ?>
                                                     </div>
-                                                    <div class="col-4">
-                                                        <button type="submit" class="btn btn--g-medium p-1 pr-2 " name="deleteQuestion" value="deleteQuestion">
+                                                    <div class="col-6 text-right">
+                                                        <button type="submit" class="btn btn--g-medium p-2 pr-2 " name="updateExamPage" value="updateExamPage">
                                                             Modificar
                                                             <svg class="bi ml-2" width="22" height="22" fill="currentColor">
                                                             <use xlink:href="../Icons/bootstrap-icons.svg#plus"/>
                                                             </svg>
                                                         </button>
-                                                        <button type="submit" class="btn btn--o-dark p-1 pr-2 " name="deleteQuestion" value="deleteQuestion">
+                                                        <button type="submit" class="btn btn--o-dark p-2 pr-2 " name="deleteExamFull" value="deleteExamFull">
                                                             Eliminar
                                                             <svg class="bi ml-2" width="22" height="22" fill="currentColor">
                                                             <use xlink:href="../Icons/bootstrap-icons.svg#dash"/>
                                                             </svg>
                                                         </button>
                                                     </div>
-                                                </div>
+                                                </form>
                                                 <?php
                                             }
                                             ?>
@@ -182,19 +184,21 @@ and open the template in the editor.
                                             <?php
                                             foreach ($examsNoActive as $exam) {
                                                 ?>
-                                                <div class=" card-header row border-bottom">
-                                                    <div class="col-10 pt-2">
+                                                <form class=" card-header row border" action="../Controller/controller_create_exam.php" method="POST" name="correctExam" novalidate>
+                                                    <div class="col-10 pt-3">
+                                                        <!-- Input para controlar el id del examen -->
+                                                        <input type="number" name="idExman" style="display:none" value="<?=$exam->getId()?>">
                                                         <?= ucfirst($exam->getTittle()) ?>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <button type="submit" class="btn btn--g-medium p-1 pr-2 " name="deleteQuestion" value="deleteQuestion">
+                                                    <div class="col-2 text-right">
+                                                        <button type="submit" class="btn btn--g-medium p-2 pr-2 " name="correctExam" value="correctExam">
                                                             Corregir
                                                             <svg class="bi ml-2" width="22" height="22" fill="currentColor">
                                                             <use xlink:href="../Icons/bootstrap-icons.svg#plus"/>
                                                             </svg>
                                                         </button>
                                                     </div>
-                                                </div>
+                                                </form>
                                                 <?php
                                             }
                                             ?>

@@ -52,7 +52,7 @@ if(isset($_REQUEST['createExam'])){
     $_SESSION['examQuestions'] = $examQuestions;
     
     // Envío a la página para añadir preguntas al examen
-    header('Location: ../View/crud_create_exam.php');
+    header('Location: ../View/view_exams.php');
 }
 
 // Botón para añadir una nueva pregunta al examen
@@ -100,4 +100,22 @@ if(isset($_REQUEST['deleteExam'])){
     $_SESSION['scoreExam'] = $scoreExam;
     $_SESSION['examQuestions'] = $examQuestions;
     header('Location: ../View/crud_create_exam.php');
+}
+
+// Boton para ir la pagina de modificar un examen
+if(isset($_REQUEST['updateExamPage'])){
+    $idExam = $_REQUEST['idExman'];
+    print($idExam);
+}
+
+// Boton para ir la pagina de modificar un examen
+if(isset($_REQUEST['deleteExamFull'])){
+    $idExam = intval($_REQUEST['idExman']);
+    // Borro preguntas del examen
+    ExamQuestionsDAO::deleteQuestionsExam($idExam) ;
+    
+    // Borro examen
+    ExamDAO::deleteExam($idExam);
+    
+    header('Location: ../View/view_exams.php');
 }
