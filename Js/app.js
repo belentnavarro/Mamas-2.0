@@ -149,9 +149,11 @@ function clearQuestionOptions() {
 }
 
 
+
+// Funcion para controlar el boton top scroll
 $(document).ready(function(){
 
-    //Check to see if the window is top if not then display button
+    //Controlo que el boton no se muestre si no hay scroll
     $(window).scroll(function(){
         if ($(this).scrollTop() > 100) {
             $('#topScroll').fadeIn(200);
@@ -160,7 +162,7 @@ $(document).ready(function(){
         }
     });
 
-    //Click event to scroll to top
+    // Evento para hacer el scroll a la parte superior de la web
     $('#topScroll').click(function(){
         $('html, body').animate({scrollTop : 0},800);
         return false;
