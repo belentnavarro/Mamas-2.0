@@ -222,7 +222,7 @@ position: absolute;
     width: 50px; 
     height: 50px;
     padding: 10px; 
-    border: 1px solid #fff;
+    background: var(--o-dark);
     border-radius: 5px;
     text-align: center; 
     font-weight: bold;
@@ -231,7 +231,8 @@ position: absolute;
     position: fixed;
     bottom: 30px;
     display: none;
-    left: 30px;
+    right: 30px;
+    z-index: 1000;
 }
 
 #topScroll svg {
@@ -239,10 +240,6 @@ position: absolute;
 }
 
 #topScroll:hover{
-    background-color: #fff;
-    text-decoration:none;
-}
-
-#topScroll:hover svg{
-    color: var(--o-dark);
+    background-color: var(--o-light);
+    text-decoration: none;
 }

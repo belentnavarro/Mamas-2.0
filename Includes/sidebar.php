@@ -1,4 +1,4 @@
-<nav id="sidebar" class="bg--o-dark text-white">
+<nav id="sidebar" class="bg--o-dark text-white active">
     <div class="p-4 pt-5">
         <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt"class="profile logo rounded-circle mb-5" width="150"/>
         <ul class="list-unstyled components mb-5">
