@@ -147,3 +147,23 @@ function questionWritter() {
 function clearQuestionOptions() {
     questionOptionAdd.textContent = '';
 }
+
+
+$(document).ready(function(){
+
+    //Check to see if the window is top if not then display button
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+            $('#topScroll').fadeIn(200);
+        } else {
+            $('#topScroll').fadeOut(200);
+        }
+    });
+
+    //Click event to scroll to top
+    $('#topScroll').click(function(){
+        $('html, body').animate({scrollTop : 0},800);
+        return false;
+    });
+
+});
