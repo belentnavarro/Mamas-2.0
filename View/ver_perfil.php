@@ -91,7 +91,7 @@ and open the template in the editor.
                 <!-- Perfil -->
                 <div class="container-fluid mt-4">
                     <div class="row justify-content-center align-items-center">
-                        <div class="col-10">
+                        <div class="col-lg-8 col-md-10">
                             <div class="card mb-0 shadow">
                                 <div class="card-header bg--o-light text-center">
                                     <h2 class="text-white font-weight-bolder">Editar perfil</h2>

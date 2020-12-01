@@ -147,7 +147,7 @@ and open the template in the editor.
                                     Crear un examen
                                 </div>
                                 <div class="card-body">
-                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0">
+                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0 d-none d-lg-flex">
                                         <div class="col">
                                             Título
                                         </div>
@@ -163,16 +163,16 @@ and open the template in the editor.
                                     </div> 
                                     <form action="../Controller/controller_create_exam.php" method="POST" name="create_new_exam" novalidate>
                                         <div class="row">
-                                            <div class="col mb-2 align-items-start">
+                                            <div class="col-lg col-md-12 mb-2 align-items-start">
                                                 <input type="text" id="tittle" name="tittle" class="form-control" placeholder="Título" required>
                                             </div>
-                                            <div class="col mb-2 align-items-start">
+                                            <div class="col-lg col-md-12 mb-2 align-items-start">
                                                 <input type="date" id="startsAt" name="startsAt" class="form-control" required/>
                                             </div>
-                                            <div class="col mb-2 align-items-start">
+                                            <div class="col-lg col-md-12 mb-2 align-items-start">
                                                 <input type="date" id="endsAt" name="endsAt" class="form-control" required/>
                                             </div>
-                                            <div class="col mb-2 align-items-start">
+                                            <div class="col-lg col-md-12 mb-2 align-items-start">
                                                 <select class="custom-select" id="subject" name="subject" required>
                                                     <option value="daw" selected>DAW</option>
                                                     <option value="dwec">DWEC</option>
@@ -181,7 +181,7 @@ and open the template in the editor.
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row border-bottom font-weight-bolder mb-4 pb-0">
+                                        <div class="row border-bottom font-weight-bolder mb-4 pb-0 d-none d-lg-flex">
                                             <div class="col">
                                                 Descripción
                                             </div>

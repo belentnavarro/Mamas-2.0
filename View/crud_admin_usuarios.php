@@ -109,7 +109,7 @@ and open the template in the editor.
                                     Crear un nuevo usuario
                                 </div>
                                 <div class="card-body">
-                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0">
+                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0 d-none d-lg-flex">
                                         <div class="col">
                                             <p>DNI  </p>
                                         </div>
@@ -135,23 +135,23 @@ and open the template in the editor.
 
                                     <form action="../Controller/controller_crud_admin_usuarios.php" method="POST" name="add_user" class="needs-validation" novalidate>
                                         <div class="row align-items-center">
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="dniNewUser" name="dniNewUser" class="form-control mb-1" placeholder="DNI" pattern="[0-9]{8}[A-Za-z]{1}" required aria-describedby="error"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="nameNewUser" name="nameNewUser" class="form-control mb-1" placeholder="Nombre" minlength="3" maxlength="20" required aria-describedby="error"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="surnameNewUser" name="surnameNewUser" class="form-control mb-1" placeholder="Apellido" minlength="3" maxlength="20" required aria-describedby="surnameError"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="emailNewUser" name="emailNewUser" class="form-control mb-1" placeholder="Correo" 
                                                        pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" minlength="5" maxlength="60" required aria-describedby="emailError"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="passwordNewUser" name="passwordNewUser" class="form-control mb-1" placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}" minlength="8" maxlength="10" required aria-describedby="emailPassword"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <select class="custom-select" id="rolNewUser" name="rolNewUser" required>
                                                     <option value="usuario" selected>Alumno</option>
                                                     <option value="profesor">Profesor</option>
@@ -213,7 +213,7 @@ and open the template in the editor.
                                     }
                                     unset($_SESSION['feedback-delete-user']);
                                     ?>
-                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0">
+                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0 d-none d-lg-flex">
                                         <div class="col">
                                             <p>DNI  </p>
                                         </div>
@@ -244,24 +244,24 @@ and open the template in the editor.
                                             ?>
                                             <form action="../Controller/controller_crud_admin_usuarios.php" class="" method="POST" name="crud_admin_usuario" novalidate>
                                                 <div class="row align-items-center">
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input readonly type="text" id="dniUpdateUser" name="dniUpdateUser" class="form-control" value="<?php echo strtoupper($user->getDni()); ?>">
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="nameUpdateUser" name="nameUpdateUser" class="form-control mb-1" value="<?php echo ucfirst($user->getName()); ?>" minlength="3" maxlength="20" required aria-describedby="nameError"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="surnameUpdateUser" name="surnameUpdateUser" class="form-control mb-1" value="<?php echo ucfirst($user->getSurname()); ?>" minlength="3" maxlength="20" required aria-describedby="surnameError"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="emailUpdateUser" name="emailUpdateUser" class="form-control mb-1" value="<?php echo $user->getEmail(); ?>" 
                                                                pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" minlength="5" maxlength="60" required aria-describedby="emailError"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="passwordUpdateUser" name="passwordUpdateUser" class="form-control mb-1" value="" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}" 
                                                                minlength="8" maxlength="10" aria-describedby="emailPassword" placeholder="Nueva contraseña"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <select class="custom-select" id="rolUpdateUser" name="rolUpdateUser" required>
                                                             <?php
                                                             if ($user->getRol() == 0) {
@@ -287,7 +287,7 @@ and open the template in the editor.
                                                             ?>
                                                         </select>
                                                     </div> 
-                                                    <div class="col-lg-3 col-md-3 col-sm mb-2 align-items-center">
+                                                    <div class="col-lg-3 col-md-12 col-sm mb-2 align-items-center">
                                                         <?php
                                                         if ($user->getActive() == 0) {
                                                             ?>

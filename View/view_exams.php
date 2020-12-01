@@ -150,12 +150,12 @@ and open the template in the editor.
                                             foreach ($examsActive as $exam) {
                                                 ?>
                                                 <form class="card-header row border" action="../Controller/controller_create_exam.php" method="POST" name="updateExam" novalidate>
-                                                    <div class="col-6 pt-3">
+                                                    <div class="col-lg-6 col-md-12 pt-3">
                                                         <!-- Input para controlar el id del examen -->
                                                         <input type="number" name="idExman" style="display:none" value="<?=$exam->getId()?>">
                                                         <?= ucfirst($exam->getTittle()) ?>
                                                     </div>
-                                                    <div class="col-6 text-right">
+                                                    <div class="col-lg-6 col-md-12 text-left text-md-right">
                                                         <button type="submit" class="btn btn--g-medium p-2 pr-2 " name="updateExamPage" value="updateExamPage">
                                                             Modificar
                                                             <svg class="bi ml-2" width="22" height="22" fill="currentColor">
@@ -185,12 +185,12 @@ and open the template in the editor.
                                             foreach ($examsNoActive as $exam) {
                                                 ?>
                                                 <form class=" card-header row border" action="../Controller/controller_create_exam.php" method="POST" name="correctExam" novalidate>
-                                                    <div class="col-10 pt-3">
+                                                    <div class="col-lg-10 col-md-12 pt-3">
                                                         <!-- Input para controlar el id del examen -->
                                                         <input type="number" name="idExman" style="display:none" value="<?=$exam->getId()?>">
                                                         <?= ucfirst($exam->getTittle()) ?>
                                                     </div>
-                                                    <div class="col-2 text-right">
+                                                    <div class="col-lg-2 col-md-12 text-left text-md-right">
                                                         <button type="submit" class="btn btn--g-medium p-2 pr-2 " name="correctExam" value="correctExam">
                                                             Corregir
                                                             <svg class="bi ml-2" width="22" height="22" fill="currentColor">

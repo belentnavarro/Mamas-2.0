@@ -154,7 +154,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="collapse row" id="collapseExample">
                                     <div class="card-body mb-4 pb-0">
-                                        <div class="row px-3 font-weight-bold text--g-dark">
+                                        <div class="row px-3 font-weight-bold text--g-dark d-none d-lg-flex">
                                             <div class="col mb-2 border-bottom">
                                                 <p>Pregunta</p>
                                             </div>
@@ -166,13 +166,13 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <div class="row px-3">
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" name="contentQuestionAdd" class="form-control" value="" placeholder="Introduce la pregunta">
                                             </div>
-                                            <div class="col-2 mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="number" name="scoreQuestionAdd" class="form-control" value="1">
                                             </div>
-                                            <div class="col-2 mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <select class="custom-select" name="activeQuestionAdd" required>
                                                     <option value="0" selectec>No</option>
                                                     <option value="1">Si</option>
@@ -249,7 +249,7 @@ and open the template in the editor.
                                                         <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
                                                              data-parent="#accordionEx1">
                                                             <div class="card-body bg--g-light">
-                                                                <div class="row font-weight-bold text--g-dark">
+                                                                <div class="row font-weight-bold text--g-dark d-none d-lg-flex">
                                                                     <div class="col mb-2 border-bottom">
                                                                         <p>Pregunta</p>
                                                                     </div>
@@ -261,14 +261,14 @@ and open the template in the editor.
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col mb-2">
+                                                                    <div class="col-lg col-md-12 mb-2">
                                                                         <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
                                                                         <input type="text" name="contentQuestionOption" class="form-control" value="<?= $value->getContent() ?>">
                                                                     </div>
-                                                                    <div class="col-2 mb-2">
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
                                                                         <input type="number" name="scoreQuestionOption" class="form-control" value="<?= $value->getScore() ?>">
                                                                     </div>
-                                                                    <div class="col-2 mb-2">
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
                                                                         <select class="custom-select" name="activeQuestionOption" required>
                                                                             <?php
                                                                             if ($value->getActive() == 1) {
@@ -394,7 +394,7 @@ and open the template in the editor.
                                                         <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
                                                              data-parent="#accordionEx2">
                                                             <div class="card-body bg--g-light">
-                                                                <div class="row font-weight-bold text--g-dark">
+                                                                <div class="row font-weight-bold text--g-dark d-none d-lg-flex">
                                                                     <div class="col mb-2 border-bottom">
                                                                         <p>Pregunta</p>
                                                                     </div>
@@ -406,14 +406,14 @@ and open the template in the editor.
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col mb-2">
+                                                                    <div class="col-lg col-md-12 mb-2">
                                                                         <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
                                                                         <input type="text" name="contentQuestionWritter" class="form-control" value="<?= $value->getContent() ?>">
                                                                     </div>
-                                                                    <div class="col-2 mb-2">
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
                                                                         <input type="number" name="scoreQuestionWritter" class="form-control" value="<?= $value->getScore() ?>">
                                                                     </div>
-                                                                    <div class="col-2 mb-2">
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
                                                                         <select class="custom-select" name="activeQuestionWritter" required>
                                                                             <?php
                                                                             if ($value->getActive() == 1) {
@@ -514,7 +514,7 @@ and open the template in the editor.
                                                         <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
                                                              data-parent="#accordionEx3">
                                                             <div class="card-body bg--g-light">
-                                                                <div class="row font-weight-bold text--g-dark">
+                                                                <div class="row font-weight-bold text--g-dark d-none d-lg-flex">
                                                                     <div class="col mb-2 border-bottom">
                                                                         <p>Pregunta</p>
                                                                     </div>
