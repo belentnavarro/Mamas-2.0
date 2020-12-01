@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -171,6 +172,45 @@ class QuestionDAO {
 
         // Codifico los datos en JSON
         $json_string = json_encode($questions);
+
+        // Devuelvo los datos codificados
+        return $json_string;
+    }
+    
+    // Método para recuperar todas preguntas
+    static function getQuestionsJSON($id) {
+        // Abro la conexión
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT * FROM ' . Constants::$QUESTIONS . ' WHERE id = ?;';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Variable para devolver las personas
+        $question = array();
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+            $question[] = array('id' => $row['id'],
+                'dniCreator' => $row['dniCreator'],
+                'type' => $row['type'],
+                'active' => $row['active'],
+                'score' => $row['score'],
+                'content' => $row['content']);
+        }
+
+        GestionBDD::cerrarBDD();
+
+        // Codifico los datos en JSON
+        $json_string = json_encode($question);
 
         // Devuelvo los datos codificados
         return $json_string;

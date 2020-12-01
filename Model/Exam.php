@@ -11,7 +11,6 @@ class Exam {
     private $endsAt;
     private $description;
     private $subject;
-    private $questions;
 
     // Método constructor
     function __construct($id, $dniCreator, $tittle, $score, $startsAt, $endsAt, $description, $subject) {
@@ -23,7 +22,6 @@ class Exam {
         $this->endsAt = $endsAt;
         $this->description = $description;
         $this->subject = $subject;
-        $this->questions = array();
     }
 
     // Métodos getter
@@ -86,7 +84,7 @@ class Exam {
 
     // Método para mostrar el examen
     public function __toString() {
-        return 'Examen [ID: ' . $this->id . ', dniCreator = ' . $this->dniCreator . ', Tittle = ' . $this->tittle . ', StartsAt: ' . $this->startsAt . ', EndsAt: ' . $this->endsAt . ' Description = ' . $this->description . ', Subject= ' . $subject . ']';
+        return 'Examen [ID: ' . $this->id . ', dniCreator = ' . $this->dniCreator . ', Tittle = ' . $this->tittle . ', StartsAt: ' . $this->startsAt . ', EndsAt: ' . $this->endsAt . ' Description = ' . $this->description . ', Subject= ' . $this->subject . ']';
     }
     
     // Métodos públicos de examen
