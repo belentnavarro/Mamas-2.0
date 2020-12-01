@@ -29,7 +29,7 @@ and open the template in the editor.
         <!--Favicon-->
         <link rel="icon" type="image/png" href="../Img/logo/favicon-birrete.png">
 
-        <title>Crear examen</title>
+        <title>Modificar examen</title>
     </head>
     <body>
         <?php
@@ -37,6 +37,9 @@ and open the template in the editor.
         require_once '../Model/Person.php';
         require_once '../Model/PersonDAO.php';
         require_once '../Model/Exam.php';
+        require_once '../Model/ExamDAO.php';
+        require_once '../Model/ExamQuestions.php';
+        require_once '../Model/ExamQuestionsDAO.php';
         require_once '../Model/Question.php';
         require_once '../Model/QuestionDAO.php';
         require_once '../Model/AnswerNumber.php';
@@ -58,7 +61,7 @@ and open the template in the editor.
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
 
-        // Recupero las preguntas tipo numbero
+        // Recupero las preguntas tipo numero
         $questionNJSON = QuestionDAO::getQuestionsTypeJSON('number');
         // Variable para guardar las preguntas
         $questionN = array();
@@ -88,23 +91,33 @@ and open the template in the editor.
             $questionW[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
         }
 
-        // Recupero las preguntas del examen de la sesión si existen
-        if (isset($_SESSION['examQuestions'])) {
-            $examQuestions = $_SESSION['examQuestions'];
-        } else {
-            $examQuestions = array();
-        }
+        // Recupero los datos del examen que necesito recuperar
+        $idExamUpdate = $_SESSION['idExamUpdate'];
+        $examUpdateJSON = ExamDAO::getExamJSON($idExamUpdate);
+        // Decodifico el JSON y saco el usuario del array
+        $objs = json_decode($examUpdateJSON, true);
+        $o = $objs[0];
+        $examUdate = new Exam($o['id'], $o['dniCreator'], $o['tittle'], $o['score'], $o['startsAt'], $o['endsAt'], $o['description'], $o['subject']);
 
-        // Recupero el valor total de examen
-        if (isset($_SESSION['scoreExam'])) {
-            $scoreExam = $_SESSION['scoreExam'];
+
+        // Recupero las preguntas del examen a modificar
+        if (isset($_SESSION['examQuestionsUpdate'])) {
+            $examQuestionsUpdate = $_SESSION['examQuestionsUpdate'];
         } else {
-            $scoreExam = 0;
+            $questionExamJSON = ExamQuestionsDAO::getAllQuestionExam(intval($idExamUpdate));
+            // Variable para guardar las preguntas
+            $questionExam = array();
+            //Decodifico el JSON y saco los usuarios del array
+            $objs = json_decode($questionExamJSON, true);
+            foreach ($objs as $o) {
+                $questionExam[] = new ExamQuestions($o['idExam'], $o['idQuestion']);
+            }
+            $_SESSION['examQuestionsUpdate'] = $questionExam;
         }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
-            
+
             <!-- Sidebar -->
             <?php include("../Includes/sidebar.php"); ?>
 
@@ -131,8 +144,8 @@ and open the template in the editor.
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h1 class="display-2 text-white">Crear examen</h1>
-                                <p class="text-white mt-0">Está página te crear un nuevo examen añadiendo las preguntas que desees.</p>
+                                <h1 class="display-2 text-white">Modificar examen</h1>
+                                <p class="text-white mt-0">Está página te permite modificar un examen.</p>
                             </div>
                         </div>
                     </div>
@@ -161,16 +174,16 @@ and open the template in the editor.
                                             Asignatura
                                         </div>
                                     </div> 
-                                    <form action="../Controller/controller_create_exam.php" method="POST" name="create_new_exam" novalidate>
+                                    <form action="../Controller/controller_create_exam.php" method="POST" name="updateExam" novalidate>
                                         <div class="row">
                                             <div class="col mb-2 align-items-start">
-                                                <input type="text" id="tittle" name="tittle" class="form-control" placeholder="Título" required>
+                                                <input type="text" id="tittle" name="tittle" class="form-control" value="<?= ucfirst($examUdate->getTittle()) ?>" required>
                                             </div>
                                             <div class="col mb-2 align-items-start">
-                                                <input type="date" id="startsAt" name="startsAt" class="form-control" required/>
+                                                <input type="date" id="startsAt" name="startsAt" class="form-control" required value="<?= date('Y-m-d', strtotime($examUdate->getStartsAt())) ?>"/>
                                             </div>
                                             <div class="col mb-2 align-items-start">
-                                                <input type="date" id="endsAt" name="endsAt" class="form-control" required/>
+                                                <input type="date" id="endsAt" name="endsAt" class="form-control" required value="<?= date('Y-m-d', strtotime($examUdate->getEndsAt())) ?>"/>
                                             </div>
                                             <div class="col mb-2 align-items-start">
                                                 <select class="custom-select" id="subject" name="subject" required>
@@ -193,62 +206,70 @@ and open the template in the editor.
                                         </div>
 
                                         <!-- Evaluo si las preguntas del examen estan vacias o no para mostrarlas -->
-                                        <?php
-                                        if (!empty($examQuestions)) {
-                                            ?>
-                                            <div class="container-fluid">
-                                                <div class="row border-bottom border-top mt-3 pt-3 bg--g-light">
-                                                    <div class="col-9 text--g-dark font-weight-bold">
-                                                        <p>Preguntas del examen</p>
-                                                    </div>
-                                                    <div class="col-2 text--g-dark font-weight-bold">
-                                                        <p>Puntuación</p> 
-                                                    </div>
-                                                    <div class="col-1 text--g-dark font-weight-bold">
-                                                        <p>Eliminar</p> 
-                                                    </div>
+
+                                        <div class="container-fluid">
+                                            <div class="row border-bottom border-top mt-3 pt-3 bg--g-light">
+                                                <div class="col-9 text--g-dark font-weight-bold">
+                                                    <p>Preguntas del examen</p>
                                                 </div>
-                                                <?php
-                                                // Muestro las preguntas del examen
-                                                foreach ($examQuestions as $question) {
-                                                    //Recupero los datos del usuario
-                                                    $datJSON = QuestionDAO::getContentScoreQuestionsJSON($question);
-                                                    // Decodifico el JSON y saco el usuario del array
-                                                    $objs = json_decode($datJSON, true);
-                                                    $o = $objs[0];
-                                                    ?>
-                                                    <div class="row border-bottom">
-                                                        <div class="col-9 py-2">
-                                                            <!-- Input para controla el id de la pregunta -->
-                                                            <input type="text" name="deleteIdQuestion" value="<?= $question ?>" style="display:none">
-                                                            <?= ucfirst($o['content']) ?>
-                                                        </div>
-                                                        <div class="col-2 py-2">
-                                                            <?= ucfirst($o['score']) ?>
-                                                        </div>
-                                                        <div class="col-1 py-2">
-                                                            <button type="submit" class="btn btn--g-medium p-0 pr-2 " name="deleteQuestion" value="deleteQuestion">
-                                                                <svg class="bi ml-2" width="22" height="22" fill="currentColor">
-                                                                <use xlink:href="../Icons/bootstrap-icons.svg#dash"/>
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <?php
-                                                }
-                                                ?>
-                                                <div class="row justify-content-end border-bottom">
-                                                    <div class="col-3 text-white font-weight-bold my-2  bg--o-dark py-2">
-                                                        Total Exámen: <?= $scoreExam ?> / 10
-                                                    </div>
+                                                <div class="col-2 text--g-dark font-weight-bold">
+                                                    <p>Puntuación</p> 
+                                                </div>
+                                                <div class="col-1 text--g-dark font-weight-bold">
+                                                    <p>Eliminar</p> 
                                                 </div>
                                             </div>
                                             <?php
-                                        }
-                                        ?>
+                                            $examQuestionsUpdate = $_SESSION['examQuestionsUpdate'];
+                                            // Variables para controlar que preguntas mostrar y la puntauacion del examen
+                                            $scoreExamUpdate = 0;
+                                            $examQU = array();
+
+                                            // Muestro las preguntas del examen
+                                            foreach ($examQuestionsUpdate as $ea) {
+                                                $idQuestion = intval($ea->getIdQuestion());
+                                                //Recupero los datos de la pregunta
+                                                $datJSON = QuestionDAO::getQuestionsJSON($idQuestion);
+                                                // Decodifico el JSON y saco el usuario del array
+                                                $qs = json_decode($datJSON, true);
+                                                $q = $qs[0];
+                                                // Controlo la puntuacion del examen
+                                                $scoreExamUpdate += $q['score'];
+
+                                                // Controlo los id en un array para mostrarlas o no en la seccion añadir
+                                                $examQU[] = $q['id'];
+                                                ?>
+                                                <div class="row border-bottom">
+                                                    <div class="col-9 py-2">
+                                                        <!-- Input para controla el id de la pregunta -->
+                                                        <input type="text" name="deleteIdQuestion" style="display:none" value="<?= $q['id'] ?>">
+                                                        <?= ucfirst($q['content']) ?>
+                                                    </div>
+                                                    <div class="col-2 py-2">
+                                                        <?= ucfirst($q['score']) ?>
+                                                    </div>
+                                                    <div class="col-1 py-2">
+                                                        <button type="submit" class="btn btn--g-medium p-0 pr-2 " name="deleteQuestionUpdate" value="deleteQuestionUpdate">
+                                                            <svg class="bi ml-2" width="22" height="22" fill="currentColor">
+                                                            <use xlink:href="../Icons/bootstrap-icons.svg#dash"/>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                $_SESSION['$examQU'] = $examQU;
+                                            }
+                                            ?>
+                                            <div class="row justify-content-end border-bottom">
+                                                <div class="col-3 text-white font-weight-bold my-2  bg--o-dark py-2">
+                                                    Total Exámen: <?= $scoreExamUpdate ?> / 10
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 mt-4 offset-4">
-                                                <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold" name="createExam" value="createExam">
+                                                <button type="submit" class="btn btn--g-medium w-100 mt-0 font-weight-bold" name="updateExam" value="updateExam">
                                                     Crear examen
                                                     <svg class="bi ml-2" width="22" height="22" fill="currentColor">
                                                     <use xlink:href="../Icons/bootstrap-icons.svg#plus-square-fill"/>
@@ -304,7 +325,7 @@ and open the template in the editor.
                                                     if ($value->getActive() == 1) {
 
                                                         // Filtro las preguntas que ya estan en el examen para que no aparezcan
-                                                        if (!in_array($value->getId(), $examQuestions)) {
+                                                        if (!in_array($value->getId(), $examQU)) {
                                                             // Recupero las preguntas tipo opciones
                                                             $answerTJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
                                                             // Variable para guardar las preguntas
@@ -359,7 +380,7 @@ and open the template in the editor.
                                                                         ?>
                                                                         <div class="row">
                                                                             <div class="col mr-0">
-                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestion" value="addQuestion">Añadir pregunta</button>
+                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestionUpdate" value="addQuestionUpdate">Añadir pregunta</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -386,7 +407,7 @@ and open the template in the editor.
                                                     if ($value->getActive() == 1) {
 
                                                         // Filtro las preguntas que ya estan en el examen para que no aparezcan
-                                                        if (!in_array($value->getId(), $examQuestions)) {
+                                                        if (!in_array($value->getId(), $examQU)) {
                                                             // Recupero las preguntas tipo redacopm
                                                             $answerWJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
                                                             // Variable para guardar las preguntas
@@ -428,7 +449,7 @@ and open the template in the editor.
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mr-0">
-                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestion" value="addQuestion">Añadir pregunta</button>
+                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestionUpdate" value="addQuestionUpdate">Añadir pregunta</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -455,7 +476,7 @@ and open the template in the editor.
                                                     if ($value->getActive() == 1) {
 
                                                         // Filtro las preguntas que ya estan en el examen para que no aparezcan
-                                                        if (!in_array($value->getId(), $examQuestions)) {
+                                                        if (!in_array($value->getId(), $examQU)) {
                                                             // Recupero su respuesta
                                                             $datJSON = AnswerNumberDAO::getAnswerNJSON($value->getId());
                                                             // Decodifico el JSON y saco el usuario del array
@@ -488,7 +509,7 @@ and open the template in the editor.
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col mr-0">
-                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestion" value="addQuestion">Añadir pregunta</button>
+                                                                                <button class="btn btn--g-medium mr-0" type="submit" name="addQuestionUpdate" value="addQuestionUpdate">Añadir pregunta</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>

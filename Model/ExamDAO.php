@@ -286,4 +286,48 @@ class ExamDAO {
         GestionBDD::cerrarBDD();
     }
 
+    // Método para un examen por el id
+    static function getExamJSON($id) {
+        // Abro la conexion
+        GestionBDD::conectarBDD();
+
+        // Preparo la sentencia SQL
+        $query = 'SELECT * FROM ' . Constants::$EXAMS . ' WHERE id = ?';
+        $stmt = GestionBDD::$conexion->prepare($query);
+        $stmt->bind_param("i", $val1);
+
+        // Valores de la sentencia
+        $val1 = $id;
+
+        // Creo una persona para devolver lo que venga en la consulta
+        $exam = array();
+
+        // Ejecuto y guardo el resultado
+        $stmt->execute();
+
+        // Vincular las variables de resultados
+        $stmt->bind_result($id, $dniCreator, $tittle, $score, $startsAt, $endsAt, $descripcion, $subject);
+
+        if ($stmt->fetch()) {
+            $exam[0] = array(
+                'id' => $id,
+                'dniCreator' => $dniCreator,
+                'tittle' => $tittle,
+                'score' => $score,
+                'startsAt' => $startsAt,
+                'endsAt' => $endsAt,
+                'description' => $descripcion,
+                'subject' => $subject
+            );
+        }
+
+        // Cierro la sentencia y la consulta
+        $stmt->close();
+        GestionBDD::cerrarBDD();
+
+        // Devuelvo la persona o null y codifico en JSON 
+        $json_string = json_encode($exam);
+        return $json_string;
+    }
+
 }
