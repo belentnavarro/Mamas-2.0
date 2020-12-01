@@ -6,17 +6,17 @@
 /*** Definicion de variables ***/
 :root {
     /* Colores */
-  --g-dark: #16594A;
-  --g-medium: #12928E;
-  --g-light: #97CECC;
-  --o-dark: #C4421A;
-  --o-light: #F98f45;
-  
-  /* Tipografía para titulares */
-  --font-family-poppins: Poppins, Roboto, Arial, sans-serif;
-  
-  /* Tipografía texto */
-  --font-family-raleway: Raleway, Roboto, Arial, sans-serif;
+    --g-dark: #16594A;
+    --g-medium: #12928E;
+    --g-light: #97CECC;
+    --o-dark: #C4421A;
+    --o-light: #F98f45;
+
+    /* Tipografía para titulares */
+    --font-family-poppins: Poppins, Roboto, Arial, sans-serif;
+
+    /* Tipografía texto */
+    --font-family-raleway: Raleway, Roboto, Arial, sans-serif;
 }
 
 /* Colores de Fondo*/
@@ -117,6 +117,17 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--g-medium);
 }
 
+.btn--o-dark{
+    color: #FFFFFF;
+    background: var(--o-dark);
+    border-color: var(--o-dark);
+}
+
+.btn--o-dark:hover {
+    color: #FFFFFF;
+    background: var(--o-light);
+    border-color: var(--o-light);
+}
 
 
 /* Estructura general del home y paginas derivadas */
@@ -142,6 +153,19 @@ h1, h2, h3, h4, h5, h6 {
 #sidebar.active {
     margin-left: -280px;
 }
+/*
+#sidebar.active ul {
+position: absolute;
+    left: -85px;
+    z-index: 100;
+}
+
+
+#sidebarCollapse {
+    position: relative;
+    right: 85px;
+}
+*/
 
 #content {
     width: 100%;
@@ -174,4 +198,48 @@ h1, h2, h3, h4, h5, h6 {
     background-image: url(../Img/bg_001.jpg);
     background-size: cover; 
     background-position: center center;
+}
+
+/* Tarjetas para mostrar preguntas */
+.nav-tabs a {
+    color: white;
+}
+
+#accordionEx1 h5, #accordionEx2 h5, #accordionEx3 h5 {
+    color: var(--g-medium);
+}
+
+/* SVG botones los posiciono arriba en el z-index */
+#moreAnswers, #minusAnswers, #updateOption {
+    display: inline-block;
+    position: relative;
+    z-index: 20;
+    color: var(--o-dark);
+}
+
+/* Boton para hacer scroll al inicio de la pagina */
+#topScroll{
+    width: 50px; 
+    height: 50px;
+    padding: 10px; 
+    background: var(--o-dark);
+    border-radius: 5px;
+    text-align: center; 
+    font-weight: bold;
+    color: #444;
+    text-decoration: none;
+    position: fixed;
+    bottom: 30px;
+    display: none;
+    right: 30px;
+    z-index: 1000;
+}
+
+#topScroll svg {
+    margin-left: 0 !important; /* He tenido que usar el important, era imposible acceder por especificidad */
+}
+
+#topScroll:hover{
+    background-color: var(--o-light);
+    text-decoration: none;
 }

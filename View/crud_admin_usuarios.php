@@ -66,126 +66,9 @@ and open the template in the editor.
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
-            <nav id="sidebar" class="bg--o-dark text-white">
-                <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt" class="profile logo rounded-circle mb-5" width="150"/>
-                    <ul class="list-unstyled components mb-5">
-                        <li class="border-bottom">
-                            <a href="home.php">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#house"/>
-                                </svg>
-                                Home
-                            </a>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="ver_perfil.php">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
-                                </svg>
-                                Mi perfil
-                            </a>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="crud_admin_usuarios.php">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#people"/>
-                                </svg>
-                                Usuarios
-                            </a>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="#examSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#journal-bookmark"/>
-                                </svg>
-                                Examenes
-                            </a>
-                            <ul class="collapse list-unstyled ml-4" id="examSubmenu">
-                                <li>
-                                    <a href="crud_exam.php">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#journal-plus"/>
-                                        </svg>
-                                        Crear examen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#journal-check"/>
-                                        </svg>
-                                        Corregir examen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="crud_preguntas.php">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#question-square"/>
-                                        </svg>
-                                        BDD Preguntas
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="#studentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-text"/>
-                                </svg>
-                                Curso
-                            </a>
-                            <ul class="collapse list-unstyled ml-4" id="studentSubmenu">
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-plus"/>
-                                        </svg>
-                                        Realizar exámen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-richtext"/>
-                                        </svg>
-                                        Exámenes activos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-check"/>
-                                        </svg>
-                                        Examenes realizados
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#book"/>
-                                        </svg>
-                                        Notas
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="../Controller/controller_home.php?cerrar=1">
-                                <svg class="bi mr-2" width="22" height="22" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#arrow-right-circle"/>
-                                </svg>
-                                Cerrar sesión
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div class="footer">
-                        Footer
-                    </div>
-
-                </div>
-            </nav>
+            
+            <!-- Sidebar -->
+            <?php include("../Includes/sidebar.php"); ?>
 
             <!-- Contenido página  -->
             <div id="content">
@@ -226,7 +109,7 @@ and open the template in the editor.
                                     Crear un nuevo usuario
                                 </div>
                                 <div class="card-body">
-                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0">
+                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0 d-none d-lg-flex">
                                         <div class="col">
                                             <p>DNI  </p>
                                         </div>
@@ -252,23 +135,23 @@ and open the template in the editor.
 
                                     <form action="../Controller/controller_crud_admin_usuarios.php" method="POST" name="add_user" class="needs-validation" novalidate>
                                         <div class="row align-items-center">
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="dniNewUser" name="dniNewUser" class="form-control mb-1" placeholder="DNI" pattern="[0-9]{8}[A-Za-z]{1}" required aria-describedby="error"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="nameNewUser" name="nameNewUser" class="form-control mb-1" placeholder="Nombre" minlength="3" maxlength="20" required aria-describedby="error"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="surnameNewUser" name="surnameNewUser" class="form-control mb-1" placeholder="Apellido" minlength="3" maxlength="20" required aria-describedby="surnameError"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="emailNewUser" name="emailNewUser" class="form-control mb-1" placeholder="Correo" 
                                                        pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" minlength="5" maxlength="60" required aria-describedby="emailError"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <input type="text" id="passwordNewUser" name="passwordNewUser" class="form-control mb-1" placeholder="Contraseña" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}" minlength="8" maxlength="10" required aria-describedby="emailPassword"/>
                                             </div>
-                                            <div class="col mb-2">
+                                            <div class="col-lg col-md-12 mb-2">
                                                 <select class="custom-select" id="rolNewUser" name="rolNewUser" required>
                                                     <option value="usuario" selected>Alumno</option>
                                                     <option value="profesor">Profesor</option>
@@ -330,7 +213,7 @@ and open the template in the editor.
                                     }
                                     unset($_SESSION['feedback-delete-user']);
                                     ?>
-                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0">
+                                    <div class="row border-bottom font-weight-bolder mb-4 pb-0 d-none d-lg-flex">
                                         <div class="col">
                                             <p>DNI  </p>
                                         </div>
@@ -361,24 +244,24 @@ and open the template in the editor.
                                             ?>
                                             <form action="../Controller/controller_crud_admin_usuarios.php" class="" method="POST" name="crud_admin_usuario" novalidate>
                                                 <div class="row align-items-center">
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input readonly type="text" id="dniUpdateUser" name="dniUpdateUser" class="form-control" value="<?php echo strtoupper($user->getDni()); ?>">
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="nameUpdateUser" name="nameUpdateUser" class="form-control mb-1" value="<?php echo ucfirst($user->getName()); ?>" minlength="3" maxlength="20" required aria-describedby="nameError"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="surnameUpdateUser" name="surnameUpdateUser" class="form-control mb-1" value="<?php echo ucfirst($user->getSurname()); ?>" minlength="3" maxlength="20" required aria-describedby="surnameError"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="emailUpdateUser" name="emailUpdateUser" class="form-control mb-1" value="<?php echo $user->getEmail(); ?>" 
                                                                pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*" minlength="5" maxlength="60" required aria-describedby="emailError"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <input type="text" id="passwordUpdateUser" name="passwordUpdateUser" class="form-control mb-1" value="" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}" 
                                                                minlength="8" maxlength="10" aria-describedby="emailPassword" placeholder="Nueva contraseña"/>
                                                     </div>
-                                                    <div class="col mb-2">
+                                                    <div class="col-lg col-md-12 mb-2">
                                                         <select class="custom-select" id="rolUpdateUser" name="rolUpdateUser" required>
                                                             <?php
                                                             if ($user->getRol() == 0) {
@@ -404,7 +287,7 @@ and open the template in the editor.
                                                             ?>
                                                         </select>
                                                     </div> 
-                                                    <div class="col-lg-3 col-md-3 col-sm mb-2 align-items-center">
+                                                    <div class="col-lg-3 col-md-12 col-sm mb-2 align-items-center">
                                                         <?php
                                                         if ($user->getActive() == 0) {
                                                             ?>

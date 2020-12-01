@@ -36,7 +36,7 @@ and open the template in the editor.
         <!-- Cabecera -->
         <div class="container header-body text-center my-5">
             <div class="row justify-content-center">
-                <div class="col-7 px-5">
+                <div class="col-lg-7 col-md-10 px-5">
                     <h1 class="display-3 font-weight-bolder text--o-dark">mamas 2.0</h1>
                 </div>
             </div>
@@ -45,7 +45,7 @@ and open the template in the editor.
         <!-- Recuperar contraseña -->
         <div class="container">
             <div class="row justify-content-center align-items-center">
-                <div class="col-7">
+                <div class="col-lg-7 col-md-10">
                     <div class="card mb-0 shadow">
                         <!-- Cabecera con el logo -->
                         <div class="card-header bg--g-medium text-center">
@@ -57,7 +57,7 @@ and open the template in the editor.
                                 <p class="h4 mb-4">Recuperar contraseña</p>
                                 <!-- Correo -->
                                 <input type="email" class="form-control mb-1 campo" placeholder="E-mail" name="email" id="email" required aria-describedby="emailError"
-                                       minlength="5" maxlength="20" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
+                                       minlength="5" maxlength="60" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*">
                                 <div class="invalid-feedback text-left" id="emailError">
                                     Mensaje de error
                                 </div>

@@ -36,11 +36,11 @@ and open the template in the editor.
         //Includes
         require_once '../Model/PersonDAO.php';
         require_once '../Model/Question.php';
-        require_once '../Model/QuestionText.php';
-        require_once '../Model/QuestionNumber.php';
-        require_once '../Model/QuestionWritten.php';
-        //require_once '../Model/QuestionTextDAO.php';
-        //require_once '../Model/QuestionNumberDAO.php';
+        require_once '../Model/QuestionDAO.php';
+        require_once '../Model/AnswerNumber.php';
+        require_once '../Model/AnswerNumberDAO.php';
+        require_once '../Model/AnswerTextDAO.php';
+        require_once '../Model/AnswerNumberDAO.php';
         //require_once '../Model/QuestionWrittenDAO.php';
         // Inicio sesión
         session_start();
@@ -55,138 +55,42 @@ and open the template in the editor.
         $objs = json_decode($datJSON, true);
         $o = $objs[0];
         $usuario = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
-        // Recupero todos los usuarios
-        //$datJSON = PersonDAO::getAllJSON();
-        // Variable para guardar los usuarios
-        //$users = array();
-        // Decodifico el JSON y saco los usuarios del array
-        //$objs = json_decode($datJSON, true);
-        //foreach ($objs as $o) {
-        //$users[] = new Person($o['dni'], $o['name'], $o['surname'], $o['email'], $o['password'], $o['profilePhoto'], $o['rol'], $o['active']);
-        //}
+
+        // Recupero las preguntas tipo numbero
+        $questionNJSON = QuestionDAO::getQuestionsTypeJSON('number');
+        // Variable para guardar las preguntas
+        $questionN = array();
+        //Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($questionNJSON, true);
+        foreach ($objs as $o) {
+            $questionN[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
+        }
+
+        // Recupero las preguntas tipo opciones
+        $questionOJSON = QuestionDAO::getQuestionsTypeJSON('option');
+        // Variable para guardar las preguntas
+        $questionO = array();
+        //Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($questionOJSON, true);
+        foreach ($objs as $o) {
+            $questionO[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
+        }
+
+        // Recupero las preguntas tipo redaccion
+        $questionWJSON = QuestionDAO::getQuestionsTypeJSON('writter');
+        // Variable para guardar las preguntas
+        $questionW = array();
+        //Decodifico el JSON y saco los usuarios del array
+        $objs = json_decode($questionWJSON, true);
+        foreach ($objs as $o) {
+            $questionW[] = new Question($o['id'], $o['dniCreator'], $o['type'], $o['active'], $o['score'], $o['content']);
+        }
         ?>
 
         <div class="wrapper d-flex align-items-stretch">
-            <nav id="sidebar" class="bg--o-dark text-white">
-                <div class="p-4 pt-5">
-                    <img src="../Img/img_profile_users/<?= $usuario->getProfilePhoto() ?>" alt="alt" class="profile logo rounded-circle mb-5" width="150"/>
-                    <ul class="list-unstyled components mb-5">
-                        <li class="border-bottom">
-                            <a href="home.php">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#house"/>
-                                </svg>
-                                Home
-                            </a>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="ver_perfil.php">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#person"/>
-                                </svg>
-                                Mi perfil
-                            </a>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="crud_admin_usuarios.php">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#people"/>
-                                </svg>
-                                Usuarios
-                            </a>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="#examSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#journal-bookmark"/>
-                                </svg>
-                                Examenes
-                            </a>
-                            <ul class="collapse list-unstyled ml-4" id="examSubmenu">
-                                <li>
-                                    <a href="crud_exam.php">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#journal-plus"/>
-                                        </svg>
-                                        Crear examen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#journal-check"/>
-                                        </svg>
-                                        Corregir examen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="crud_preguntas.php">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#question-square"/>
-                                        </svg>
-                                        BDD Preguntas
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="#studentSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-text"/>
-                                </svg>
-                                Curso
-                            </a>
-                            <ul class="collapse list-unstyled ml-4" id="studentSubmenu">
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-plus"/>
-                                        </svg>
-                                        Realizar exámen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-richtext"/>
-                                        </svg>
-                                        Exámenes activos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#file-earmark-check"/>
-                                        </svg>
-                                        Examenes realizados
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg class="bi mr-2" width="20" height="20" fill="currentColor">
-                                        <use xlink:href="../Icons/bootstrap-icons.svg#book"/>
-                                        </svg>
-                                        Notas
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="border-bottom">
-                            <a href="../Controller/controller_home.php?cerrar=1">
-                                <svg class="bi mr-2" width="22" height="22" fill="currentColor">
-                                <use xlink:href="../Icons/bootstrap-icons.svg#arrow-right-circle"/>
-                                </svg>
-                                Cerrar sesión
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div class="footer">
-                        Footer
-                    </div>
-
-                </div>
-            </nav>
+            
+            <!-- Sidebar -->
+            <?php include("../Includes/sidebar.php"); ?>
 
             <!-- Contenido página  -->
             <div id="content">
@@ -218,11 +122,11 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                <!-- Administrar usuarios -->
+                <!-- Crear nueva pregunta -->
                 <div class="container-fluid mt-4">
                     <div class="row justify-content-center align-items-center">
                         <div class="col-11">
-                            <form class="card mb-0 shadow" action="../Controller/controller_crud_questions.php" method="POST" name="add_question">
+                            <form class="card mb-0 shadow bg--g-light" action="../Controller/controller_crud_questions.php" method="POST" name="add_question">
                                 <div class="card-header font-weight-bold text-white bg--o-light display-5">
                                     <div class="row align-items-center">
                                         <div class="col mb-2">
@@ -231,7 +135,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="row align-items-center">
                                         <div class="col-4 mb-2">
-                                            <select class="custom-select" id="typeQuestionAdd" name="type" required>
+                                            <select class="custom-select" id="typeQuestionAdd" name="typeQuestionAdd" required>
                                                 <option selected value="default">Seleciona el tipo de pregunta</option>
                                                 <option value="option">Tipo opciones</option>
                                                 <option value="writter">Tipo explicación</option>
@@ -249,37 +153,427 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="collapse row" id="collapseExample">
-                                    <div class="card-body font-weight-bolder mb-4 pb-0">
+                                    <div class="card-body mb-4 pb-0">
+                                        <div class="row px-3 font-weight-bold text--g-dark d-none d-lg-flex">
+                                            <div class="col mb-2 border-bottom">
+                                                <p>Pregunta</p>
+                                            </div>
+                                            <div class="col-2 mb-2 border-bottom">
+                                                <p>Puntuacion</p>
+                                            </div>
+                                            <div class="col-2 mb-2 border-bottom">
+                                                <p>Activa</p>
+                                            </div>
+                                        </div>
                                         <div class="row px-3">
-                                            <div class="col mb-2">
-                                                <input type="text" name="content" class="form-control" value="" placeholder="Introduce la pregunta">
+                                            <div class="col-lg col-md-12 mb-2">
+                                                <input type="text" name="contentQuestionAdd" class="form-control" value="" placeholder="Introduce la pregunta">
                                             </div>
-                                            <div class="col-2 mb-2">
-                                                <input type="number" name="content" class="form-control" value="" placeholder="Puntuación">
+                                            <div class="col-lg col-md-12 mb-2">
+                                                <input type="number" name="scoreQuestionAdd" class="form-control" value="1">
                                             </div>
-                                            <div class="col-2 mb-2">
-                                                <select class="custom-select" name="active" required>
-                                                    <option selected>Activa</option>
-                                                    <option value="0">No</option>
+                                            <div class="col-lg col-md-12 mb-2">
+                                                <select class="custom-select" name="activeQuestionAdd" required>
+                                                    <option value="0" selectec>No</option>
                                                     <option value="1">Si</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row px-3" id="questionOptionAdd">
+                                        <div class="row px-3" id="questionOptionAdd"></div>
+
+                                        <div class="col">
+                                            <button class="btn btn--g-medium btn-block my-4" type="submit" name="addQuestion" value="login">Añadir pregunta</button>
                                         </div>
+
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+
+                    <!-- Listado de preguntas -->
+                    <!-- Tabs superiores -->
                     <div class="row justify-content-center align-items-center mt-4">
                         <div class="col-11">
                             <div class="card mb-0 shadow">
-                                <div class="card-header font-weight-bold text-white bg--o-light display-4 text-center">
-                                    Listado de preguntas
+                                <div class="card-header font-weight-bold bg--o-light display-5 text-center border-bottom-0 mb-0 pb-0">
+                                    <ul class="nav nav-tabs md-tabs border-bottom-0" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="option-tab-md" data-toggle="tab" href="#option-md" role="tab" aria-controls="option-md"
+                                               aria-selected="false">Opciones</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="writter-tab-md" data-toggle="tab" href="#writter-md" role="tab" aria-controls="writter-md"
+                                               aria-selected="false">Redacion</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="number-tab-md" data-toggle="tab" href="#number-md" role="tab" aria-controls="number-md"
+                                               aria-selected="false">Numericas</a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="card-body">
+                                <!-- Preguntas -->
+                                <div class="card-body text--o-dark">
+                                    <div class="tab-content">
+                                        <!-- Preguntas tipo Opciones -->
+                                        <div class="tab-pane fade show active" id="option-md" role="tabpanel" aria-labelledby="option-tab-md">
+                                            <!--Accordion wrapper-->
+                                            <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
 
+                                                <?php
+                                                foreach ($questionO as $value) {
+                                                    // Recupero las preguntas tipo opciones
+                                                    $answerTJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
+                                                    // Variable para guardar las preguntas
+                                                    $answerT = array();
+                                                    //Decodifico el JSON y saco los usuarios del array
+                                                    $objs = json_decode($answerTJSON, true);
+                                                    foreach ($objs as $o) {
+                                                        $answerT[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                    }
+                                                    ?>
+                                                    <!-- Accordion card -->
+                                                    <form class="card" name="updateQuestionOption" method="POST" action="../Controller/controller_crud_questions.php">
+
+                                                        <!-- Card header -->
+                                                        <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapse<?= $value->getId() ?>"
+                                                               aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                <h5 class="mb-0">
+                                                                    <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Card body -->
+                                                        <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                             data-parent="#accordionEx1">
+                                                            <div class="card-body bg--g-light">
+                                                                <div class="row font-weight-bold text--g-dark d-none d-lg-flex">
+                                                                    <div class="col mb-2 border-bottom">
+                                                                        <p>Pregunta</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Puntuacion</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Activa</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg col-md-12 mb-2">
+                                                                        <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                        <input type="text" name="contentQuestionOption" class="form-control" value="<?= $value->getContent() ?>">
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
+                                                                        <input type="number" name="scoreQuestionOption" class="form-control" value="<?= $value->getScore() ?>">
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
+                                                                        <select class="custom-select" name="activeQuestionOption" required>
+                                                                            <?php
+                                                                            if ($value->getActive() == 1) {
+                                                                                ?>
+                                                                                <option value="1" selectec>Si</option>
+                                                                                <option value="0">No</option>
+                                                                                <?php
+                                                                            } else {
+                                                                                ?>
+                                                                                <option value="1">Si</option>
+                                                                                <option value="0" selected>No</option>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <?php
+                                                                foreach ($answerT as $a) {
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-8 mb-2">
+                                                                            <input type="text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>">
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <select class="custom-select" id="answerCorrect" name="answerCorrect[]" required>
+                                                                                <?php
+                                                                                if ($a->getCorrect() == 1) {
+                                                                                    ?>
+                                                                                    <option value="1" selected>Correcta</option>
+                                                                                    <option value="0">Incorrecta</option>
+                                                                                    <?php
+                                                                                } else {
+                                                                                    ?>
+                                                                                    <option value="1">Correcta</option>
+                                                                                    <option value="0" selected>Incorrecta</option>
+                                                                                    <?php
+                                                                                }
+                                                                                ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-1">
+                                                                            <a href="#">
+                                                                                <svg class="bi" width="28" height="28 " fill="currentColor"  id="updateOption">
+                                                                                <use xlink:href="../Icons/bootstrap-icons.svg#trash"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                // compruebo el numero de respuestas y creo hasta 4 para dar todas las opciones al usuario.
+                                                                $a = count($answerT);
+                                                                while ($a < 4) {
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-8 mb-2">
+                                                                            <input type="text" name="answerOption[]" class="form-control"value="" placeholder="Nueva respuesta">
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <select class="custom-select" id="answerCorrect" name="answerCorrect[]" required>
+                                                                                <option value="1" selected="">Correcta</option>
+                                                                                <option value="0">Incorrecta</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-1">
+                                                                            <a href="#">
+                                                                                <svg class="bi" width="28" height="28 " fill="currentColor"  id="updateOption">
+                                                                                <use xlink:href="../Icons/bootstrap-icons.svg#trash"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                    $a++;
+                                                                }
+                                                                ?>
+                                                                <div class="row">
+                                                                    <div class="col mr-0">
+                                                                        <button class="btn btn--o-dark mr-0" type="submit" name="deleteQuestionOption" value="deleteQuestionOption">Borrar pregunta</button>
+                                                                        <button class="btn btn--g-medium mr-0" type="submit" name="updateQuestionOption" value="updateQuestionOption">Modificar pregunta</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- Accordion card -->
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <!-- Accordion wrapper -->
+                                        </div>
+                                        <!-- Preguntas tipo writter -->
+                                        <div class="tab-pane fade" id="writter-md" role="tabpanel" aria-labelledby="writter-tab-md">
+                                            <div class="accordion md-accordion" id="accordionEx2" role="tablist" aria-multiselectable="true">
+
+                                                <?php
+                                                foreach ($questionW as $value) {
+                                                    // Recupero las preguntas tipo redacopm
+                                                    $answerWJSON = AnswerTextDAO::getAllAnswerTJSON($value->getId());
+                                                    // Variable para guardar las preguntas
+                                                    $answerW = array();
+                                                    //Decodifico el JSON y saco los usuarios del array
+                                                    $objs = json_decode($answerWJSON, true);
+                                                    foreach ($objs as $o) {
+                                                        $answerW[] = new AnswerText($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                    }
+                                                    ?>
+                                                    <!-- Accordion card -->
+                                                    <form class="card" name="updateQuestionWritter" method="POST" action="../Controller/controller_crud_questions.php">
+                                                        <!-- Card header -->
+                                                        <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx2" href="#collapse<?= $value->getId() ?>"
+                                                               aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                <h5 class="mb-0">
+                                                                    <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Card body -->
+                                                        <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                             data-parent="#accordionEx2">
+                                                            <div class="card-body bg--g-light">
+                                                                <div class="row font-weight-bold text--g-dark d-none d-lg-flex">
+                                                                    <div class="col mb-2 border-bottom">
+                                                                        <p>Pregunta</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Puntuacion</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Activa</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg col-md-12 mb-2">
+                                                                        <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                        <input type="text" name="contentQuestionWritter" class="form-control" value="<?= $value->getContent() ?>">
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
+                                                                        <input type="number" name="scoreQuestionWritter" class="form-control" value="<?= $value->getScore() ?>">
+                                                                    </div>
+                                                                    <div class="col-lg-2 col-md-12 mb-2">
+                                                                        <select class="custom-select" name="activeQuestionWritter" required>
+                                                                            <?php
+                                                                            if ($value->getActive() == 1) {
+                                                                                ?>
+                                                                                <option value="1" selectec>Si</option>
+                                                                                <option value="0">No</option>
+                                                                                <?php
+                                                                            } else {
+                                                                                ?>
+                                                                                <option value="1">Si</option>
+                                                                                <option value="0" selected>No</option>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <?php
+                                                                foreach ($answerW as $a) {
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-8 mb-2">
+                                                                            <input type="Text" name="answerOption[]" class="form-control" value="<?= $a->getContent() ?>">
+                                                                        </div>
+                                                                        <div class="col-1 mb-2">
+                                                                            <a href="#">
+                                                                                <svg class="bi" width="28" height="28 " fill="currentColor"  id="updateOption">
+                                                                                <use xlink:href="../Icons/bootstrap-icons.svg#trash"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                                // compruebo el numero de respuestas y creo hasta 4 para dar todas las opciones al usuario.
+                                                                $a = count($answerW);
+                                                                while ($a < 4) {
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-8 mb-2">
+                                                                            <input type="text" name="answerOption[]" class="form-control" value="" placeholder="Nueva respuesta">
+                                                                        </div>
+                                                                        <div class="col-1">
+                                                                            <a href="#">
+                                                                                <svg class="bi" width="28" height="28 " fill="currentColor"  id="updateOption">
+                                                                                <use xlink:href="../Icons/bootstrap-icons.svg#trash"/>
+                                                                                </svg>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                    $a++;
+                                                                }
+                                                                ?>
+                                                                <div class="row">
+                                                                    <div class="col mr-0">
+                                                                        <button class="btn btn--o-dark mr-0" type="submit" name="deleteQuestionWritter" value="deleteQuestionWritter">Borrar pregunta</button>
+                                                                        <button class="btn btn--g-medium mr-0" type="submit" name="updateQuestionWritter" value="updateQuestionWritter">Modificar pregunta</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- Accordion card -->
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <!-- Accordion wrapper -->
+                                        </div>
+                                        <!-- Preguntas tipo numericas -->
+                                        <div class="tab-pane fade" id="number-md" role="tabpanel" aria-labelledby="number-tab-md">
+                                            <div class="accordion md-accordion" id="accordionEx3" role="tablist" aria-multiselectable="true">
+
+                                                <?php
+                                                foreach ($questionN as $value) {
+                                                    // Recupero su respuesta
+                                                    $datJSON = AnswerNumberDAO::getAnswerNJSON($value->getId());
+                                                    // Decodifico el JSON y saco el usuario del array
+                                                    $objs = json_decode($datJSON, true);
+                                                    $o = $objs[0];
+                                                    $answer = new AnswerNumber($o['id'], $o['questionId'], $o['correct'], $o['content']);
+                                                    ?>
+                                                    <!-- Accordion card -->
+                                                    <form class="card" name="updateQuestionNumber" method="POST" action="../Controller/controller_crud_questions.php">
+
+                                                        <!-- Card header -->
+                                                        <div class="card-header" role="tab" id="heading<?= $value->getId() ?>">
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx3" href="#collapse<?= $value->getId() ?>"
+                                                               aria-expanded="false" aria-controls="collapse<?= $value->getId() ?>">
+                                                                <h5 class="mb-0">
+                                                                    <?= strtoupper($value->getContent()) ?> <i class="fas fa-angle-down rotate-icon"></i>
+                                                                </h5>
+                                                            </a>
+                                                        </div>
+
+                                                        <!-- Card body -->
+                                                        <div id="collapse<?= $value->getId() ?>" class="collapse" role="tabpanel" aria-labelledby="heading<?= $value->getId() ?>"
+                                                             data-parent="#accordionEx3">
+                                                            <div class="card-body bg--g-light">
+                                                                <div class="row font-weight-bold text--g-dark d-none d-lg-flex">
+                                                                    <div class="col mb-2 border-bottom">
+                                                                        <p>Pregunta</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Puntuacion</p>
+                                                                    </div>
+                                                                    <div class="col-2 mb-2 border-bottom">
+                                                                        <p>Activa</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col mb-2">
+                                                                        <input type="number" name="idQuestion" class="form-control" value="<?= $value->getId() ?>" style="display:none">
+                                                                        <input type="text" name="contentQuestionNumber" class="form-control" value="<?= $value->getContent() ?>">
+                                                                    </div>
+                                                                    <div class="col-2 mb-2">
+                                                                        <input type="number" name="scoreQuestionNumber" class="form-control" value="<?= $value->getScore() ?>">
+                                                                    </div>
+                                                                    <div class="col-2 mb-2">
+                                                                        <select class="custom-select" name="activeQuestionNumber" required>
+                                                                            <?php
+                                                                            if ($value->getActive() == 1) {
+                                                                                ?>
+                                                                                <option value="1" selectec>Si</option>
+                                                                                <option value="0">No</option>
+                                                                                <?php
+                                                                            } else {
+                                                                                ?>
+                                                                                <option value="1">Si</option>
+                                                                                <option value="0" selected>No</option>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <input type="number" name="idAnswer" class="form-control" value="<?= $answer->getId() ?>" style="display:none">
+                                                                        <input type="number" name="answerNumber" class="form-control" value="<?= $answer->getContent() ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col mr-0">
+                                                                        <button class="btn btn--o-dark mr-0" type="submit" name="deleteQuestionNumber" value="deleteQuestionNumber">Borrar pregunta</button>
+                                                                        <button class="btn btn--g-medium mr-0" type="submit" name="updateQuestionNumber" value="updateQuestionNumber">Modificar pregunta</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- Accordion card -->
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <!-- Accordion wrapper -->
+                                        </div>
+                                    </div>  
                                 </div>
                             </div>
                         </div>
@@ -310,6 +604,8 @@ and open the template in the editor.
 
         <!-- APP JS -->
         <script type="text/javascript" src="../Js/app.js"></script>
+        <script type="text/javascript" src="../Js/crudQuestion.js"></script>
+
     </body>
 </html>
 
